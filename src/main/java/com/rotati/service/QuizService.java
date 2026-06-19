@@ -46,6 +46,10 @@ public class QuizService {
         return perguntaRepository.findAllByOrderByIdAsc();
     }
 
+    public long totalPerguntas() {
+        return perguntaRepository.count();
+    }
+
     public boolean todasPerguntasRespondidas(QuizSubmission submission) {
         List<Pergunta> perguntas = listarPerguntas();
         if (submission.getRespostas() == null) {
