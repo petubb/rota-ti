@@ -3,53 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rota TI</title>
+    <meta name="description" content="Descubra quais areas de tecnologia combinam com o seu perfil e encontre uma rota para comecar.">
+    <title>Rota TI | Encontre seu caminho na tecnologia</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
-<header class="site-header">
-    <a class="brand" th:href="@{/}">Rota TI</a>
-    <nav>
+<body class="home-page">
+<header class="site-header home-header">
+    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
+        <span class="brand-mark" aria-hidden="true">RT</span>
+        <span>Rota TI<small>Orientacao profissional</small></span>
+    </a>
+    <nav aria-label="Navegacao principal">
         <a th:href="@{/sobre}">Sobre</a>
-        <a th:href="@{/areas}">Areas</a>
+        <a th:href="@{/areas}">&Aacute;reas</a>
         <a th:href="@{/dashboard}">Dashboard</a>
+        <a class="button primary header-cta" th:href="@{/quiz}">
+            <span class="cta-full">Fazer o teste</span>
+            <span class="cta-short">Teste</span>
+        </a>
     </nav>
 </header>
 
 <main>
-    <section class="hero">
-        <div class="hero-copy">
-            <p class="eyebrow">Orientacao tecnologica para estudantes</p>
-            <h1>Descubra qual caminho de TI combina com voce.</h1>
-            <p>
-                Responda um questionario rapido e receba uma recomendacao de area,
-                trilha de estudos, habilidades e proximos passos.
+    <section class="home-hero" aria-labelledby="home-title">
+        <div class="home-hero-inner">
+            <p class="home-kicker"><span aria-hidden="true"></span> Seu futuro em tecnologia come&ccedil;a aqui</p>
+            <h1 id="home-title">Rota TI <span>Encontre o caminho que combina com voc&ecirc;.</span></h1>
+            <p class="home-hero-copy">
+                Transforme seus interesses em possibilidades reais. Um question&aacute;rio direto mostra as
+                &aacute;reas de TI mais alinhadas ao seu perfil e os primeiros passos para explorar cada uma.
             </p>
-            <div class="actions">
-                <a class="button primary" th:href="@{/quiz}">Iniciar questionario</a>
-                <a class="button secondary" th:href="@{/areas}">Explorar areas</a>
+            <div class="actions home-hero-actions">
+                <a class="button primary button-large" th:href="@{/quiz}">Descobrir minha rota <span aria-hidden="true">&rarr;</span></a>
+                <a class="text-link" th:href="@{/areas}">Conhecer as &aacute;reas</a>
             </div>
-        </div>
-        <div class="hero-panel">
-            <span>ODS 4</span>
-            <strong>Educacao de Qualidade</strong>
-            <p>Informacao profissional acessivel para jovens do ensino medio.</p>
+            <ul class="hero-facts" aria-label="Informacoes do questionario">
+                <li><strong>8</strong><span>&aacute;reas mapeadas</span></li>
+                <li><strong>15</strong><span>perguntas objetivas</span></li>
+                <li><strong>1</strong><span>rota personalizada</span></li>
+            </ul>
         </div>
     </section>
 
-    <section class="section">
-        <div class="section-heading">
-            <p class="eyebrow">Areas cobertas</p>
-            <h2>Oito possibilidades dentro da tecnologia</h2>
+    <section class="home-process" aria-labelledby="process-title">
+        <div class="home-container">
+            <div class="home-section-heading">
+                <div>
+                    <p class="eyebrow">Como funciona</p>
+                    <h2 id="process-title">Clareza para dar o primeiro passo</h2>
+                </div>
+                <p>N&atilde;o existe uma &uacute;nica porta de entrada para tecnologia. A gente ajuda voc&ecirc; a encontrar a sua.</p>
+            </div>
+            <ol class="process-list">
+                <li>
+                    <span>01</span>
+                    <h3>Conte sobre voc&ecirc;</h3>
+                    <p>Responda sobre seus interesses, jeito de pensar e atividades que mais despertam sua curiosidade.</p>
+                </li>
+                <li>
+                    <span>02</span>
+                    <h3>Veja seu resultado</h3>
+                    <p>Receba um ranking com as &aacute;reas mais compat&iacute;veis e entenda por que elas combinam com seu perfil.</p>
+                </li>
+                <li>
+                    <span>03</span>
+                    <h3>Siga uma rota</h3>
+                    <p>Explore habilidades, estudos e pr&oacute;ximos passos para transformar afinidade em aprendizado.</p>
+                </li>
+            </ol>
         </div>
-        <div class="grid cards">
-            <article class="card" th:each="area : ${areas}">
-                <h3 th:text="${area.titulo}">Area</h3>
-                <p th:text="${area.perfil}">Perfil</p>
-                <a th:href="@{/area/{slug}(slug=${area.slug})}">Ver rota</a>
-            </article>
+    </section>
+
+    <section class="home-areas" aria-labelledby="areas-title">
+        <div class="home-container">
+            <div class="home-section-heading areas-heading">
+                <div>
+                    <p class="eyebrow">Explore possibilidades</p>
+                    <h2 id="areas-title">Tecnologia vai muito al&eacute;m de programar</h2>
+                </div>
+                <a class="text-link" th:href="@{/areas}">Ver todas as &aacute;reas <span aria-hidden="true">&rarr;</span></a>
+            </div>
+            <div class="area-showcase">
+                <article class="area-card" th:each="area, areaStat : ${areas}">
+                    <div class="area-card-top">
+                        <span class="area-number" th:text="${areaStat.count < 10 ? '0' + areaStat.count : areaStat.count}">01</span>
+                        <span class="area-arrow" aria-hidden="true">&nearr;</span>
+                    </div>
+                    <h3 th:text="${area.titulo}">&Aacute;rea</h3>
+                    <p th:text="${area.perfil}">Perfil</p>
+                    <a th:href="@{/area/{slug}(slug=${area.slug})}" th:aria-label="|Conhecer a area ${area.titulo}|">Conhecer rota</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-impact" aria-labelledby="impact-title">
+        <div class="home-container impact-layout">
+            <div>
+                <p class="eyebrow">Educa&ccedil;&atilde;o que abre caminhos</p>
+                <h2 id="impact-title">Escolhas profissionais come&ccedil;am com acesso &agrave; informa&ccedil;&atilde;o.</h2>
+            </div>
+            <div class="impact-copy">
+                <p>
+                    A Rota TI aproxima estudantes do ensino m&eacute;dio das oportunidades do setor de tecnologia,
+                    com linguagem acess&iacute;vel e orienta&ccedil;&atilde;o pr&aacute;tica.
+                </p>
+                <div class="ods-label">
+                    <strong>ODS 4</strong>
+                    <span>Educa&ccedil;&atilde;o de qualidade</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-final-cta" aria-labelledby="cta-title">
+        <div class="home-container">
+            <p class="eyebrow">Sua pr&oacute;xima descoberta</p>
+            <h2 id="cta-title">Qual &aacute;rea de TI tem mais a ver com voc&ecirc;?</h2>
+            <a class="button primary button-large" th:href="@{/quiz}">Come&ccedil;ar agora <span aria-hidden="true">&rarr;</span></a>
         </div>
     </section>
 </main>
+
+<footer class="site-footer">
+    <div class="home-container">
+        <a class="brand" th:href="@{/}">Rota TI</a>
+        <p>Orienta&ccedil;&atilde;o para quem quer descobrir seu lugar na tecnologia.</p>
+    </div>
+</footer>
 </body>
 </html>
