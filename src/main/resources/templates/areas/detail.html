@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${area.titulo} + ' | Rota TI'">Area | Rota TI</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" th:href="@{/}">Rota TI</a>
+    <nav>
+        <a th:href="@{/areas}">Areas</a>
+        <a th:href="@{/quiz}">Quiz</a>
+        <a th:href="@{/dashboard}">Dashboard</a>
+    </nav>
+</header>
+
+<main class="page">
+    <section class="area-hero">
+        <p class="eyebrow" th:text="${area.perfil}">Perfil</p>
+        <h1 th:text="${area.titulo}">Area</h1>
+        <p th:text="${area.descricao}">Descricao</p>
+    </section>
+
+    <section class="section split">
+        <article>
+            <h2>Habilidades importantes</h2>
+            <ul class="clean-list">
+                <li th:each="habilidade : ${area.habilidades}" th:text="${habilidade}">Habilidade</li>
+            </ul>
+        </article>
+        <article>
+            <h2>Faixa salarial</h2>
+            <p th:text="${area.salario}">Salario</p>
+            <h2>Rotina profissional</h2>
+            <p th:text="${area.rotina}">Rotina</p>
+        </article>
+    </section>
+
+    <section class="section split">
+        <article>
+            <h2>Cursos recomendados</h2>
+            <ul class="clean-list">
+                <li th:each="curso : ${area.cursos}" th:text="${curso}">Curso</li>
+            </ul>
+        </article>
+        <article>
+            <h2>Mapa de evolucao</h2>
+            <ol class="timeline">
+                <li th:each="passo : ${area.roadmap}" th:text="${passo}">Passo</li>
+            </ol>
+        </article>
+    </section>
+
+    <section class="section narrow">
+        <h2>Referencias da area</h2>
+        <div class="tags">
+            <span th:each="referencia : ${area.referencias}" th:text="${referencia}">Referencia</span>
+        </div>
+    </section>
+</main>
+</body>
+</html>

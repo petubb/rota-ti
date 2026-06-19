@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado | Rota TI</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" th:href="@{/}">Rota TI</a>
+    <nav>
+        <a th:href="@{/quiz}">Refazer quiz</a>
+        <a th:href="@{/areas}">Areas</a>
+        <a th:href="@{/dashboard}">Dashboard</a>
+    </nav>
+</header>
+
+<main class="page">
+    <p class="flash" th:if="${mensagem}" th:text="${mensagem}">Mensagem</p>
+
+    <section class="result-hero">
+        <p class="eyebrow">Area principal recomendada</p>
+        <h1 th:text="${resultadoView.principal.area.titulo}">Seguranca Cibernetica</h1>
+        <p th:text="${resultadoView.principal.area.descricao}">Descricao</p>
+        <strong th:text="${#numbers.formatDecimal(resultadoView.principal.compatibilidade, 1, 0)} + '% de compatibilidade'">
+            82% de compatibilidade
+        </strong>
+        <a class="button primary" th:href="@{/area/{slug}(slug=${resultadoView.principal.area.slug})}">Ver roadmap completo</a>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <p class="eyebrow">Ranking</p>
+            <h2>Areas complementares</h2>
+        </div>
+        <div class="ranking">
+            <article class="ranking-row" th:each="item, status : ${resultadoView.ranking}">
+                <span th:text="${status.count}">1</span>
+                <div>
+                    <h3 th:text="${item.area.titulo}">Area</h3>
+                    <p th:text="${item.area.perfil}">Perfil</p>
+                </div>
+                <strong th:text="${#numbers.formatDecimal(item.compatibilidade, 1, 0)} + '%'">75%</strong>
+            </article>
+        </div>
+    </section>
+
+    <section class="section split">
+        <article>
+            <h2>Mapa de evolucao</h2>
+            <ol class="timeline">
+                <li>Ensino Medio</li>
+                <li>Curso tecnico ou graduacao</li>
+                <li>Projetos pessoais e portfolio</li>
+                <li>Estagio</li>
+                <li>Primeira vaga junior</li>
+                <li>Especializacao</li>
+            </ol>
+        </article>
+        <article>
+            <h2>Feedback</h2>
+            <p>O resultado fez sentido para voce?</p>
+            <form class="feedback" th:action="@{/resultado/{id}/satisfacao(id=${resultadoView.resultado.id})}" method="post">
+                <button type="submit" name="satisfacao" value="1">1</button>
+                <button type="submit" name="satisfacao" value="2">2</button>
+                <button type="submit" name="satisfacao" value="3">3</button>
+                <button type="submit" name="satisfacao" value="4">4</button>
+                <button type="submit" name="satisfacao" value="5">5</button>
+            </form>
+        </article>
+    </section>
+</main>
+</body>
+</html>

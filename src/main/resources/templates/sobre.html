@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre | Rota TI</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" th:href="@{/}">Rota TI</a>
+    <nav>
+        <a th:href="@{/quiz}">Quiz</a>
+        <a th:href="@{/areas}">Areas</a>
+        <a th:href="@{/dashboard}">Dashboard</a>
+    </nav>
+</header>
+
+<main class="page">
+    <section class="section narrow">
+        <p class="eyebrow">Sobre o projeto</p>
+        <h1>Uma plataforma para ampliar a orientacao profissional em tecnologia.</h1>
+        <p>
+            Muitos estudantes associam TI apenas a programacao. O Rota TI mostra que existem
+            caminhos diferentes, como dados, seguranca, design, infraestrutura, jogos, IA e gestao.
+        </p>
+        <p>
+            A proposta atende ao ODS 4 ao facilitar o acesso a informacao de qualidade para
+            estudantes do ensino medio, especialmente em contextos onde a orientacao de carreira
+            nem sempre chega cedo.
+        </p>
+    </section>
+
+    <section class="section split">
+        <article>
+            <h2>Problema</h2>
+            <p>
+                Falta de orientacao clara sobre carreiras de TI, o que pode afastar jovens da area
+                ou levar a escolhas sem informacao suficiente.
+            </p>
+        </article>
+        <article>
+            <h2>Solucao</h2>
+            <p>
+                Um questionario simples que gera recomendacao personalizada, roadmap, habilidades
+                e cursos gratuitos para comecar.
+            </p>
+        </article>
+    </section>
+</main>
+</body>
+</html>

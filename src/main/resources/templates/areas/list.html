@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Areas | Rota TI</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" th:href="@{/}">Rota TI</a>
+    <nav>
+        <a th:href="@{/sobre}">Sobre</a>
+        <a th:href="@{/quiz}">Quiz</a>
+        <a th:href="@{/dashboard}">Dashboard</a>
+    </nav>
+</header>
+
+<main class="page">
+    <section class="section narrow">
+        <p class="eyebrow">Explorar areas</p>
+        <h1>Conheca caminhos possiveis dentro da tecnologia.</h1>
+        <p>Use esta pagina para navegar pelas areas antes ou depois do questionario.</p>
+    </section>
+
+    <section class="grid cards">
+        <article class="card" th:each="area : ${areas}">
+            <h2 th:text="${area.titulo}">Area</h2>
+            <p th:text="${area.descricao}">Descricao</p>
+            <span th:text="${area.perfil}">Perfil</span>
+            <a th:href="@{/area/{slug}(slug=${area.slug})}">Abrir area</a>
+        </article>
+    </section>
+</main>
+</body>
+</html>

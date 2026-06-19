@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rota TI</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" th:href="@{/}">Rota TI</a>
+    <nav>
+        <a th:href="@{/sobre}">Sobre</a>
+        <a th:href="@{/areas}">Areas</a>
+        <a th:href="@{/dashboard}">Dashboard</a>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="hero-copy">
+            <p class="eyebrow">Orientacao tecnologica para estudantes</p>
+            <h1>Descubra qual caminho de TI combina com voce.</h1>
+            <p>
+                Responda um questionario rapido e receba uma recomendacao de area,
+                trilha de estudos, habilidades e proximos passos.
+            </p>
+            <div class="actions">
+                <a class="button primary" th:href="@{/quiz}">Iniciar questionario</a>
+                <a class="button secondary" th:href="@{/areas}">Explorar areas</a>
+            </div>
+        </div>
+        <div class="hero-panel">
+            <span>ODS 4</span>
+            <strong>Educacao de Qualidade</strong>
+            <p>Informacao profissional acessivel para jovens do ensino medio.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <p class="eyebrow">Areas cobertas</p>
+            <h2>Oito possibilidades dentro da tecnologia</h2>
+        </div>
+        <div class="grid cards">
+            <article class="card" th:each="area : ${areas}">
+                <h3 th:text="${area.titulo}">Area</h3>
+                <p th:text="${area.perfil}">Perfil</p>
+                <a th:href="@{/area/{slug}(slug=${area.slug})}">Ver rota</a>
+            </article>
+        </div>
+    </section>
+</main>
+</body>
+</html>

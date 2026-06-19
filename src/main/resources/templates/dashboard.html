@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Rota TI</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" th:href="@{/}">Rota TI</a>
+    <nav>
+        <a th:href="@{/quiz}">Quiz</a>
+        <a th:href="@{/areas}">Areas</a>
+        <a th:href="@{/sobre}">Sobre</a>
+    </nav>
+</header>
+
+<main class="page">
+    <section class="section narrow">
+        <p class="eyebrow">Metricas internas</p>
+        <h1>Impacto do questionario</h1>
+        <p>Primeira versao do painel para apresentar dados de uso na banca.</p>
+    </section>
+
+    <section class="metrics">
+        <article>
+            <span>Total de alunos</span>
+            <strong th:text="${metricas.totalUsuarios}">0</strong>
+        </article>
+        <article>
+            <span>Resultados gerados</span>
+            <strong th:text="${metricas.totalResultados}">0</strong>
+        </article>
+        <article>
+            <span>Media de satisfacao</span>
+            <strong th:text="${#numbers.formatDecimal(metricas.mediaSatisfacao, 1, 1)}">0.0</strong>
+        </article>
+    </section>
+
+    <section class="section">
+        <h2>Distribuicao por area recomendada</h2>
+        <div class="ranking">
+            <article class="ranking-row" th:each="item : ${metricas.distribuicaoAreas}">
+                <div>
+                    <h3 th:text="${item.key}">Area</h3>
+                    <p>Quantidade de indicacoes</p>
+                </div>
+                <strong th:text="${item.value}">0</strong>
+            </article>
+        </div>
+    </section>
+</main>
+</body>
+</html>

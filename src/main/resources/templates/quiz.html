@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionario | Rota TI</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script defer th:src="@{/js/quiz.js}"></script>
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" th:href="@{/}">Rota TI</a>
+    <nav>
+        <a th:href="@{/sobre}">Sobre</a>
+        <a th:href="@{/areas}">Areas</a>
+        <a th:href="@{/dashboard}">Dashboard</a>
+    </nav>
+</header>
+
+<main class="page">
+    <section class="section narrow">
+        <p class="eyebrow">Questionario</p>
+        <h1>Responda pensando no que combina com voce hoje.</h1>
+        <p>Use a escala: discordo, neutro ou concordo.</p>
+    </section>
+
+    <form class="quiz-form" th:action="@{/quiz}" th:object="${submission}" method="post">
+        <div class="form-grid">
+            <label>
+                Idade
+                <input type="number" th:field="*{idade}" min="12" max="25" placeholder="Ex: 16">
+                <span class="error" th:if="${#fields.hasErrors('idade')}" th:errors="*{idade}"></span>
+            </label>
+
+            <label>
+                Escola
+                <input type="text" th:field="*{escola}" placeholder="Nome da sua escola">
+                <span class="error" th:if="${#fields.hasErrors('escola')}" th:errors="*{escola}"></span>
+            </label>
+        </div>
+
+        <p class="error block" th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}">
+            Responda todas as perguntas.
+        </p>
+
+        <div class="question-list">
+            <fieldset class="question" th:each="pergunta, status : ${perguntas}">
+                <legend>
+                    <span th:text="${status.count}">1</span>.
+                    <span th:text="${pergunta.texto}">Pergunta</span>
+                </legend>
+                <div class="scale">
+                    <label>
+                        <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="-1" required>
+                        Discordo
+                    </label>
+                    <label>
+                        <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="0" required>
+                        Neutro
+                    </label>
+                    <label>
+                        <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="1" required>
+                        Concordo
+                    </label>
+                </div>
+            </fieldset>
+        </div>
+
+        <button class="button primary full" type="submit">Ver meu resultado</button>
+    </form>
+</main>
+</body>
+</html>
