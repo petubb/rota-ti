@@ -3,70 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questionario | Rota TI</title>
+    <meta name="description" content="Questionario de orientacao para descobrir as areas de tecnologia mais alinhadas ao seu perfil.">
+    <title>Question&aacute;rio | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <script defer th:src="@{/js/quiz.js}"></script>
 </head>
-<body>
-<header class="site-header">
-    <a class="brand" th:href="@{/}">Rota TI</a>
-    <nav>
-        <a th:href="@{/sobre}">Sobre</a>
-        <a th:href="@{/areas}">Areas</a>
-        <a th:href="@{/dashboard}">Dashboard</a>
-    </nav>
+<body class="quiz-page">
+<header class="site-header quiz-header">
+    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
+        <span class="brand-mark" aria-hidden="true">RT</span>
+        <span>Rota TI<small>Orienta&ccedil;&atilde;o profissional</small></span>
+    </a>
+    <a class="quiz-exit" th:href="@{/}">Sair do teste</a>
 </header>
 
-<main class="page">
-    <section class="section narrow">
-        <p class="eyebrow">Questionario</p>
-        <h1>Responda pensando no que combina com voce hoje.</h1>
-        <p>Use a escala: discordo, neutro ou concordo.</p>
+<main class="quiz-main">
+    <section class="quiz-intro" aria-labelledby="quiz-title">
+        <p class="eyebrow">Descubra sua rota</p>
+        <h1 id="quiz-title">Um passo de cada vez.</h1>
+        <p>N&atilde;o existem respostas certas. Escolha o que mais combina com voc&ecirc; hoje.</p>
     </section>
 
-    <form class="quiz-form" th:action="@{/quiz}" th:object="${submission}" method="post">
-        <div class="form-grid">
-            <label>
-                Idade
-                <input type="number" th:field="*{idade}" min="12" max="25" placeholder="Ex: 16">
-                <span class="error" th:if="${#fields.hasErrors('idade')}" th:errors="*{idade}"></span>
-            </label>
-
-            <label>
-                Escola
-                <input type="text" th:field="*{escola}" placeholder="Nome da sua escola">
-                <span class="error" th:if="${#fields.hasErrors('escola')}" th:errors="*{escola}"></span>
-            </label>
+    <form class="quiz-form quiz-wizard" th:action="@{/quiz}" th:object="${submission}" method="post" data-quiz-wizard>
+        <div class="quiz-progress" role="progressbar" aria-label="Progresso do questionario"
+             aria-valuemin="0" th:aria-valuemax="${#lists.size(perguntas)}" aria-valuenow="0">
+            <div class="quiz-progress-copy">
+                <span data-step-label>Seu perfil</span>
+                <span><strong data-progress-current>0</strong> de <span th:text="${#lists.size(perguntas)}">13</span></span>
+            </div>
+            <div class="quiz-progress-track" aria-hidden="true">
+                <span data-progress-bar></span>
+            </div>
         </div>
 
-        <p class="error block" th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}">
+        <p class="error block quiz-global-error" th:if="${#fields.hasGlobalErrors()}"
+           th:each="err : ${#fields.globalErrors()}" th:text="${err}">
             Responda todas as perguntas.
         </p>
 
-        <div class="question-list">
-            <fieldset class="question" th:each="pergunta, status : ${perguntas}">
-                <legend>
-                    <span th:text="${status.count}">1</span>.
-                    <span th:text="${pergunta.texto}">Pergunta</span>
-                </legend>
-                <div class="scale">
+        <div class="quiz-stage">
+            <section class="quiz-step quiz-profile-step" data-quiz-step data-profile-step>
+                <div class="quiz-step-heading">
+                    <span class="quiz-step-number">Antes de come&ccedil;ar</span>
+                    <h2 tabindex="-1">Conte um pouco sobre voc&ecirc;</h2>
+                    <p>Essas informa&ccedil;&otilde;es ajudam a entender quem est&aacute; usando a plataforma.</p>
+                </div>
+
+                <div class="quiz-profile-fields">
                     <label>
-                        <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="-1" required>
-                        Discordo
+                        <span>Idade</span>
+                        <input type="number" th:field="*{idade}" min="12" max="25" placeholder="Ex: 16"
+                               inputmode="numeric" autocomplete="age" required>
+                        <span class="error" th:if="${#fields.hasErrors('idade')}" th:errors="*{idade}"></span>
                     </label>
+
                     <label>
-                        <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="0" required>
-                        Neutro
-                    </label>
-                    <label>
-                        <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="1" required>
-                        Concordo
+                        <span>Escola</span>
+                        <input type="text" th:field="*{escola}" maxlength="100" placeholder="Nome da sua escola"
+                               autocomplete="organization" required>
+                        <span class="error" th:if="${#fields.hasErrors('escola')}" th:errors="*{escola}"></span>
                     </label>
                 </div>
-            </fieldset>
+            </section>
+
+            <div class="question-list">
+                <fieldset class="question quiz-step quiz-question-step" th:each="pergunta, status : ${perguntas}"
+                          data-quiz-step data-question-step th:attr="data-question-number=${status.count}">
+                    <legend tabindex="-1">
+                        <span class="quiz-step-number" th:text="|Pergunta ${status.count} de ${#lists.size(perguntas)}|">Pergunta 1 de 13</span>
+                        <span class="quiz-question-text" th:text="${pergunta.texto}">Pergunta</span>
+                    </legend>
+                    <div class="quiz-answer-list">
+                        <label class="quiz-answer">
+                            <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="-1" required>
+                            <span class="quiz-answer-control" aria-hidden="true"></span>
+                            <span class="quiz-answer-copy">
+                                <strong>Discordo</strong>
+                                <small>Isso n&atilde;o combina comigo</small>
+                            </span>
+                        </label>
+                        <label class="quiz-answer">
+                            <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="0" required>
+                            <span class="quiz-answer-control" aria-hidden="true"></span>
+                            <span class="quiz-answer-copy">
+                                <strong>Neutro</strong>
+                                <small>N&atilde;o tenho certeza ainda</small>
+                            </span>
+                        </label>
+                        <label class="quiz-answer">
+                            <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="1" required>
+                            <span class="quiz-answer-control" aria-hidden="true"></span>
+                            <span class="quiz-answer-copy">
+                                <strong>Concordo</strong>
+                                <small>Isso combina comigo</small>
+                            </span>
+                        </label>
+                    </div>
+                </fieldset>
+            </div>
         </div>
 
-        <button class="button primary full" type="submit">Ver meu resultado</button>
+        <p class="quiz-step-error" data-step-error role="alert" aria-live="polite"></p>
+
+        <div class="quiz-controls">
+            <button class="button secondary quiz-back" type="button" data-quiz-back>Voltar</button>
+            <button class="button primary quiz-next" type="button" data-quiz-next>Continuar <span aria-hidden="true">&rarr;</span></button>
+            <button class="button primary quiz-submit" type="submit" data-quiz-submit>Ver meu resultado <span aria-hidden="true">&rarr;</span></button>
+        </div>
     </form>
 </main>
 </body>
