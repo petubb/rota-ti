@@ -34,4 +34,8 @@ public class ResultadoView {
     public List<AreaScore> getRanking() {
         return ranking;
     }
+
+    public List<AreaScore> getTopTres() {
+        return ranking.stream().limit(3).toList();
+    }
 }

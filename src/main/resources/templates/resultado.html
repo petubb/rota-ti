@@ -3,73 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultado | Rota TI</title>
+    <meta name="description" content="Resultado personalizado do questionario de orientacao profissional em tecnologia.">
+    <title>Seu resultado | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
-<header class="site-header">
-    <a class="brand" th:href="@{/}">Rota TI</a>
-    <nav>
-        <a th:href="@{/quiz}">Refazer quiz</a>
-        <a th:href="@{/areas}">Areas</a>
-        <a th:href="@{/dashboard}">Dashboard</a>
+<body class="result-page">
+<header class="site-header result-header">
+    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
+        <span class="brand-mark" aria-hidden="true">RT</span>
+        <span>Rota TI<small>Orienta&ccedil;&atilde;o profissional</small></span>
+    </a>
+    <nav aria-label="Navegacao do resultado">
+        <a th:href="@{/areas}">&Aacute;reas</a>
+        <a class="button secondary result-header-action" th:href="@{/quiz}">Refazer teste</a>
     </nav>
 </header>
 
-<main class="page">
-    <p class="flash" th:if="${mensagem}" th:text="${mensagem}">Mensagem</p>
+<main>
+    <p class="flash result-flash" th:if="${mensagem}" th:text="${mensagem}">Mensagem</p>
 
-    <section class="result-hero">
-        <p class="eyebrow">Area principal recomendada</p>
-        <h1 th:text="${resultadoView.principal.area.titulo}">Seguranca Cibernetica</h1>
-        <p th:text="${resultadoView.principal.area.descricao}">Descricao</p>
-        <strong th:text="${#numbers.formatDecimal(resultadoView.principal.compatibilidade, 1, 0)} + '% de compatibilidade'">
-            82% de compatibilidade
-        </strong>
-        <a class="button primary" th:href="@{/area/{slug}(slug=${resultadoView.principal.area.slug})}">Ver roadmap completo</a>
-    </section>
-
-    <section class="section">
-        <div class="section-heading">
-            <p class="eyebrow">Ranking</p>
-            <h2>Areas complementares</h2>
-        </div>
-        <div class="ranking">
-            <article class="ranking-row" th:each="item, status : ${resultadoView.ranking}">
-                <span th:text="${status.count}">1</span>
-                <div>
-                    <h3 th:text="${item.area.titulo}">Area</h3>
-                    <p th:text="${item.area.perfil}">Perfil</p>
+    <section class="result-summary" aria-labelledby="result-title">
+        <div class="result-container result-summary-layout">
+            <div class="result-summary-copy">
+                <p class="eyebrow">Sua rota mais compat&iacute;vel</p>
+                <h1 id="result-title" th:text="${resultadoView.principal.area.titulo}">Seguran&ccedil;a Cibern&eacute;tica</h1>
+                <p class="result-lead" th:text="${resultadoView.principal.area.descricao}">Descri&ccedil;&atilde;o</p>
+                <p class="result-profile">
+                    <span>Seu perfil</span>
+                    <strong th:text="${resultadoView.principal.area.perfil}">Investiga&ccedil;&atilde;o + aten&ccedil;&atilde;o aos detalhes</strong>
+                </p>
+                <div class="actions result-actions">
+                    <a class="button result-primary-action" th:href="@{/area/{slug}(slug=${resultadoView.principal.area.slug})}">
+                        Explorar esta &aacute;rea <span aria-hidden="true">&rarr;</span>
+                    </a>
+                    <a class="result-text-link" href="#primeiros-passos">Ver primeiros passos</a>
                 </div>
-                <strong th:text="${#numbers.formatDecimal(item.compatibilidade, 1, 0)} + '%'">75%</strong>
-            </article>
+            </div>
+
+            <aside class="result-score" aria-label="Compatibilidade com a area recomendada">
+                <span class="result-score-label">Compatibilidade</span>
+                <div class="result-score-value">
+                    <strong th:text="${#numbers.formatDecimal(resultadoView.principal.compatibilidade, 1, 0)}">82</strong><span>%</span>
+                </div>
+                <div class="result-score-track" aria-hidden="true">
+                    <span th:style="|--result-score: ${#numbers.formatDecimal(resultadoView.principal.compatibilidade, 1, 0)}%|"></span>
+                </div>
+                <p>Quanto maior o percentual, mais suas respostas se aproximam das caracter&iacute;sticas dessa &aacute;rea.</p>
+            </aside>
         </div>
     </section>
 
-    <section class="section split">
-        <article>
-            <h2>Mapa de evolucao</h2>
-            <ol class="timeline">
-                <li>Ensino Medio</li>
-                <li>Curso tecnico ou graduacao</li>
-                <li>Projetos pessoais e portfolio</li>
-                <li>Estagio</li>
-                <li>Primeira vaga junior</li>
-                <li>Especializacao</li>
+    <section class="result-section result-ranking-section" aria-labelledby="ranking-title">
+        <div class="result-container">
+            <div class="result-section-heading">
+                <div>
+                    <p class="eyebrow">Seu top 3</p>
+                    <h2 id="ranking-title">Outros caminhos que tamb&eacute;m combinam com voc&ecirc;</h2>
+                </div>
+                <p>As &aacute;reas podem se complementar. Seu resultado mostra afinidades, n&atilde;o limita suas escolhas.</p>
+            </div>
+
+            <div class="result-top-three">
+                <article class="result-rank-card" th:each="item, status : ${resultadoView.topTres}"
+                         th:classappend="${status.index == 0} ? ' is-primary' : ''"
+                         th:style="|--result-score: ${#numbers.formatDecimal(item.compatibilidade, 1, 0)}%|">
+                    <div class="result-rank-card-top">
+                        <span class="result-rank-position" th:text="|0${status.count}|">01</span>
+                        <strong th:text="${#numbers.formatDecimal(item.compatibilidade, 1, 0)} + '%'">75%</strong>
+                    </div>
+                    <h3 th:text="${item.area.titulo}">&Aacute;rea</h3>
+                    <p th:text="${item.area.perfil}">Perfil</p>
+                    <div class="result-rank-track" aria-hidden="true"><span></span></div>
+                    <a th:href="@{/area/{slug}(slug=${item.area.slug})}">Conhecer &aacute;rea <span aria-hidden="true">&rarr;</span></a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="result-section result-fit-section" aria-labelledby="fit-title">
+        <div class="result-container result-fit-layout">
+            <div class="result-fit-copy">
+                <p class="eyebrow">Por que combina</p>
+                <h2 id="fit-title">O que conecta voc&ecirc; a <span th:text="${resultadoView.principal.area.titulo}">&aacute;rea recomendada</span></h2>
+                <p th:text="${resultadoView.principal.area.rotina}">Rotina da &aacute;rea.</p>
+            </div>
+            <div class="result-skill-list">
+                <h3>Habilidades importantes</h3>
+                <ul>
+                    <li th:each="habilidade : ${resultadoView.principal.area.habilidades}" th:text="${habilidade}">Habilidade</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="result-section result-roadmap-section" id="primeiros-passos" aria-labelledby="roadmap-title">
+        <div class="result-container">
+            <div class="result-section-heading roadmap-heading">
+                <div>
+                    <p class="eyebrow">Plano inicial</p>
+                    <h2 id="roadmap-title">Uma rota pr&aacute;tica para sair do interesse e chegar &agrave; experi&ecirc;ncia</h2>
+                </div>
+                <a class="result-text-link" th:href="@{/area/{slug}(slug=${resultadoView.principal.area.slug})}">Ver roadmap completo</a>
+            </div>
+
+            <ol class="result-roadmap">
+                <li th:each="passo, status : ${resultadoView.principal.area.roadmap}">
+                    <span th:text="|0${status.count}|">01</span>
+                    <p th:text="${passo}">Passo</p>
+                </li>
             </ol>
-        </article>
-        <article>
-            <h2>Feedback</h2>
-            <p>O resultado fez sentido para voce?</p>
-            <form class="feedback" th:action="@{/resultado/{id}/satisfacao(id=${resultadoView.resultado.id})}" method="post">
-                <button type="submit" name="satisfacao" value="1">1</button>
-                <button type="submit" name="satisfacao" value="2">2</button>
-                <button type="submit" name="satisfacao" value="3">3</button>
-                <button type="submit" name="satisfacao" value="4">4</button>
-                <button type="submit" name="satisfacao" value="5">5</button>
+
+            <div class="result-career-facts">
+                <article>
+                    <span>Faixa de refer&ecirc;ncia</span>
+                    <p th:text="${resultadoView.principal.area.salario}">Faixa salarial</p>
+                </article>
+                <article>
+                    <span>Estudos para come&ccedil;ar</span>
+                    <ul>
+                        <li th:each="curso : ${resultadoView.principal.area.cursos}" th:text="${curso}">Curso</li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="result-feedback-section" aria-labelledby="feedback-title">
+        <div class="result-container result-feedback-layout">
+            <div>
+                <p class="eyebrow">Sua opini&atilde;o melhora a Rota TI</p>
+                <h2 id="feedback-title">Este resultado fez sentido para voc&ecirc;?</h2>
+            </div>
+            <form class="result-feedback" th:action="@{/resultado/{id}/satisfacao(id=${resultadoView.resultado.id})}" method="post">
+                <span>De 1 a 5</span>
+                <div>
+                    <button th:each="nota : ${#numbers.sequence(1, 5)}" type="submit" name="satisfacao"
+                            th:value="${nota}" th:text="${nota}"
+                            th:classappend="${resultadoView.resultado.satisfacao == nota} ? ' is-selected' : ''"
+                            th:aria-label="|Avaliar resultado com ${nota} de 5|">1</button>
+                </div>
             </form>
-        </article>
+        </div>
+    </section>
+
+    <section class="result-final-cta" aria-labelledby="result-cta-title">
+        <div class="result-container">
+            <p class="eyebrow">Continue explorando</p>
+            <h2 id="result-cta-title">Seu resultado &eacute; um ponto de partida.</h2>
+            <div class="actions">
+                <a class="button primary" th:href="@{/area/{slug}(slug=${resultadoView.principal.area.slug})}">Conhecer minha rota</a>
+                <a class="button secondary" th:href="@{/quiz}">Refazer o teste</a>
+            </div>
+        </div>
     </section>
 </main>
+
+<footer class="site-footer result-footer">
+    <div class="result-container">
+        <a class="brand" th:href="@{/}">Rota TI</a>
+        <p>Informa&ccedil;&atilde;o para transformar curiosidade em caminho.</p>
+    </div>
+</footer>
 </body>
 </html>
