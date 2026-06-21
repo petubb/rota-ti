@@ -29,13 +29,20 @@ Por padrao o projeto usa H2 em memoria para facilitar os testes.
 
 ## Rodar com MySQL
 
-Crie um banco chamado `rotati` no MySQL e rode:
+Os scripts de criacao, carga inicial e o passo a passo para DBeaver estao em:
 
-```bash
-.\mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=mysql
+```text
+database/mysql/README.md
 ```
 
-Depois ajuste usuario e senha em `src/main/resources/application-mysql.properties`.
+Depois de executar os scripts no MySQL, ative o perfil:
+
+```powershell
+$env:DB_USERNAME="root"
+$env:DB_PASSWORD="SUA_SENHA_DO_MYSQL"
+$env:SPRING_PROFILES_ACTIVE="mysql"
+.\mvnw.cmd spring-boot:run
+```
 
 ## Estrutura MVC
 
@@ -64,5 +71,5 @@ Depois ajuste usuario e senha em `src/main/resources/application-mysql.propertie
 1. Refinar perguntas e pesos do algoritmo.
 2. Completar conteudos reais de cursos, salarios e referencias.
 3. Criar tela de login/admin se o dashboard precisar ficar restrito.
-4. Trocar H2 por MySQL quando o fluxo estiver validado.
+4. Validar a configuracao MySQL no ambiente de apresentacao.
 5. Preparar a apresentacao PDF e roteiro da demo.
