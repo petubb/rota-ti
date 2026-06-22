@@ -61,6 +61,8 @@ $env:SPRING_PROFILES_ACTIVE="mysql"
 .\mvnw.cmd spring-boot:run
 ```
 
+Substitua `SUA_SENHA_DO_MYSQL` pela mesma senha usada na conexao do DBeaver. Nao execute o texto de exemplo literalmente.
+
 Se o usuario nao tiver senha, use:
 
 ```powershell
