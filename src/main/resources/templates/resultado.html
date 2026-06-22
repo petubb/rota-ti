@@ -128,6 +128,84 @@
         </div>
     </section>
 
+    <section class="result-section result-discovery-section" aria-labelledby="discovery-title">
+        <div class="result-container">
+            <div class="result-section-heading">
+                <div>
+                    <p class="eyebrow">Aprenda com quem faz</p>
+                    <h2 id="discovery-title">Conte&uacute;do e trajet&oacute;rias para aproximar voc&ecirc; dessa &aacute;rea</h2>
+                </div>
+                <p>Uma sele&ccedil;&atilde;o inicial para entender melhor a rotina, conhecer refer&ecirc;ncias e continuar explorando.</p>
+            </div>
+
+            <div class="result-discovery-layout">
+                <div class="result-video-column">
+                    <h3>Para assistir agora</h3>
+                    <div class="result-video-list">
+                        <a class="result-video-card" th:each="video : ${conteudoArea.videos}"
+                           th:href="${video.url}" target="_blank" rel="noopener noreferrer">
+                            <span class="result-video-media">
+                                <img th:src="${video.thumbnailUrl}" th:alt="|Miniatura do video ${video.titulo}|">
+                                <span class="result-video-play" aria-hidden="true">&#9654;</span>
+                            </span>
+                            <span class="result-video-copy">
+                                <span class="result-video-channel" th:text="${video.canal}">Canal</span>
+                                <strong th:text="${video.titulo}">T&iacute;tulo do v&iacute;deo</strong>
+                                <span class="result-card-link">Assistir no YouTube <span aria-hidden="true">&nearr;</span></span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="result-people-column">
+                    <h3>Pessoas para conhecer</h3>
+                    <div class="result-person-list">
+                        <article class="result-person-card" th:each="pessoa : ${conteudoArea.personalidades}">
+                            <div class="result-person-avatar" th:text="${pessoa.iniciais}" aria-hidden="true">GH</div>
+                            <div>
+                                <h4 th:text="${pessoa.nome}">Nome</h4>
+                                <p class="result-person-role" th:text="${pessoa.atuacao}">Atua&ccedil;&atilde;o</p>
+                                <p th:text="${pessoa.descricao}">Descri&ccedil;&atilde;o da trajet&oacute;ria.</p>
+                                <a th:href="${pessoa.url}" target="_blank" rel="noopener noreferrer">
+                                    <span th:text="${pessoa.rotuloLink}">Conhecer trajet&oacute;ria</span>
+                                    <span aria-hidden="true">&nearr;</span>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="result-section result-rondonia-section" aria-labelledby="rondonia-title">
+        <div class="result-container">
+            <div class="result-section-heading">
+                <div>
+                    <p class="eyebrow">Talento local</p>
+                    <h2 id="rondonia-title">Tecnologia feita em Rond&ocirc;nia</h2>
+                </div>
+                <p>Profissionais da regi&atilde;o tamb&eacute;m constroem carreiras, empresas e solu&ccedil;&otilde;es que movimentam a tecnologia.</p>
+            </div>
+
+            <div class="result-rondonia-grid">
+                <article class="result-rondonia-card" th:each="pessoa : ${destaquesRondonia}">
+                    <img th:src="@{${pessoa.imagem}}" th:alt="|Retrato de ${pessoa.nome}|">
+                    <div>
+                        <span class="result-location-tag" th:text="${pessoa.selo}">Rond&ocirc;nia</span>
+                        <h3 th:text="${pessoa.nome}">Nome</h3>
+                        <p class="result-person-role" th:text="${pessoa.atuacao}">Atua&ccedil;&atilde;o</p>
+                        <p th:text="${pessoa.descricao}">Descri&ccedil;&atilde;o da trajet&oacute;ria.</p>
+                        <a th:href="${pessoa.url}" target="_blank" rel="noopener noreferrer">
+                            <span th:text="${pessoa.rotuloLink}">Conhecer trajet&oacute;ria</span>
+                            <span aria-hidden="true">&nearr;</span>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <section class="result-feedback-section" aria-labelledby="feedback-title">
         <div class="result-container result-feedback-layout">
             <div>
