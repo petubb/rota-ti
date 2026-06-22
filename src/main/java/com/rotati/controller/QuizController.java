@@ -1,7 +1,9 @@
 package com.rotati.controller;
 
 import com.rotati.dto.QuizSubmission;
+import com.rotati.dto.ResultadoView;
 import com.rotati.model.Resultado;
+import com.rotati.service.ConteudoAreaService;
 import com.rotati.service.QuizService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -17,9 +19,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class QuizController {
 
     private final QuizService quizService;
+    private final ConteudoAreaService conteudoAreaService;
 
-    public QuizController(QuizService quizService) {
+    public QuizController(QuizService quizService, ConteudoAreaService conteudoAreaService) {
         this.quizService = quizService;
+        this.conteudoAreaService = conteudoAreaService;
     }
 
     @GetMapping("/quiz")
@@ -59,7 +63,12 @@ public class QuizController {
 
     @GetMapping("/resultado/{id}")
     public String resultado(@PathVariable Long id, Model model) {
-        model.addAttribute("resultadoView", quizService.buscarResultado(id));
+        ResultadoView resultadoView = quizService.buscarResultado(id);
+        String areaSlug = resultadoView.getPrincipal().getArea().getSlug();
+
+        model.addAttribute("resultadoView", resultadoView);
+        model.addAttribute("conteudoArea", conteudoAreaService.buscarPorSlug(areaSlug));
+        model.addAttribute("destaquesRondonia", conteudoAreaService.listarDestaquesRondonia());
         return "resultado";
     }
 
