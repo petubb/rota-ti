@@ -1623,6 +1623,26 @@ input[type="number"] {
     line-height: 1.5;
 }
 
+.result-confidence {
+    display: grid;
+    gap: 3px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.result-confidence span {
+    color: #9fb4c1;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.result-confidence strong {
+    color: #fff;
+    font-size: 1rem;
+}
+
 .result-section,
 .result-final-cta {
     padding-block: 88px;
@@ -1745,11 +1765,40 @@ input[type="number"] {
     align-items: center;
 }
 
-.result-fit-copy > p:last-child {
+.result-fit-copy > h2 + p {
     max-width: 680px;
     margin: 22px 0 0;
     color: var(--muted);
     font-size: 1.04rem;
+}
+
+.result-profile-signals {
+    margin-top: 26px;
+}
+
+.result-profile-signals > span {
+    color: var(--primary-dark);
+    font-size: 0.76rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.result-profile-signals ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.result-profile-signals li {
+    padding: 7px 10px;
+    border-left: 3px solid var(--primary);
+    background: #fff;
+    color: #455768;
+    font-size: 0.78rem;
+    font-weight: 750;
 }
 
 .result-skill-list {

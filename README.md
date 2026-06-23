@@ -2,6 +2,8 @@
 
 Projeto MVC em Java 21 com Spring Boot, Thymeleaf, Spring Data JPA, H2 e MySQL Driver.
 
+O questionario usa 18 perguntas principais com pesos para multiplas areas. Quando as duas melhores rotas ficam muito proximas, o sistema seleciona duas perguntas extras de desempate.
+
 ## Como rodar no VS Code
 
 1. Abra esta pasta `rota-ti` no VS Code.
@@ -68,7 +70,7 @@ $env:SPRING_PROFILES_ACTIVE="mysql"
 
 ## Proximas etapas sugeridas
 
-1. Refinar perguntas e pesos do algoritmo.
+1. Avaliar o questionario com estudantes e ajustar pesos com base no feedback.
 2. Completar conteudos reais de cursos, salarios e referencias.
 3. Criar tela de login/admin se o dashboard precisar ficar restrito.
 4. Validar a configuracao MySQL no ambiente de apresentacao.

@@ -49,6 +49,10 @@
                     <span th:style="|--result-score: ${#numbers.formatDecimal(resultadoView.principal.compatibilidade, 1, 0)}%|"></span>
                 </div>
                 <p>Quanto maior o percentual, mais suas respostas se aproximam das caracter&iacute;sticas dessa &aacute;rea.</p>
+                <div class="result-confidence">
+                    <span>Confian&ccedil;a da recomenda&ccedil;&atilde;o</span>
+                    <strong th:text="${resultadoView.confianca}">Moderada</strong>
+                </div>
             </aside>
         </div>
     </section>
@@ -86,6 +90,12 @@
                 <p class="eyebrow">Por que combina</p>
                 <h2 id="fit-title">O que conecta voc&ecirc; a <span th:text="${resultadoView.principal.area.titulo}">&aacute;rea recomendada</span></h2>
                 <p th:text="${resultadoView.principal.area.rotina}">Rotina da &aacute;rea.</p>
+                <div class="result-profile-signals">
+                    <span>Sinais mais fortes nas suas respostas</span>
+                    <ul>
+                        <li th:each="destaque : ${resultadoView.destaquesPerfil}" th:text="${destaque}">Racioc&iacute;nio l&oacute;gico</li>
+                    </ul>
+                </div>
             </div>
             <div class="result-skill-list">
                 <h3>Habilidades importantes</h3>

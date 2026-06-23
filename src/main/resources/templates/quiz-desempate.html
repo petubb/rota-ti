@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Questionario de orientacao para descobrir as areas de tecnologia mais alinhadas ao seu perfil.">
-    <title>Question&aacute;rio | Rota TI</title>
+    <meta name="description" content="Perguntas de desempate para refinar o resultado do questionario Rota TI.">
+    <title>Ajuste final | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <script defer th:src="@{/js/quiz.js}"></script>
 </head>
@@ -14,63 +14,37 @@
         <span class="brand-mark" aria-hidden="true">RT</span>
         <span>Rota TI<small>Orienta&ccedil;&atilde;o profissional</small></span>
     </a>
-    <a class="quiz-exit" th:href="@{/}">Sair do teste</a>
+    <a class="quiz-exit" th:href="@{/quiz}">Recome&ccedil;ar</a>
 </header>
 
 <main class="quiz-main">
     <section class="quiz-intro" aria-labelledby="quiz-title">
-        <p class="eyebrow">Descubra sua rota</p>
-        <h1 id="quiz-title">Um passo de cada vez.</h1>
-        <p>N&atilde;o existem respostas certas. Escolha o que mais combina com voc&ecirc; hoje.</p>
+        <p class="eyebrow">Ajuste final</p>
+        <h1 id="quiz-title">Duas rotas ficaram bem pr&oacute;ximas.</h1>
+        <p>Responda s&oacute; mais duas perguntas para o resultado refletir melhor suas prefer&ecirc;ncias.</p>
     </section>
 
-    <form class="quiz-form quiz-wizard" th:action="@{/quiz}" th:object="${submission}" method="post" data-quiz-wizard>
-        <div class="quiz-progress" role="progressbar" aria-label="Progresso do questionario"
+    <form class="quiz-form quiz-wizard" th:action="@{/quiz/desempate}" th:object="${submission}" method="post"
+          data-quiz-wizard data-step-prefix="Ajuste">
+        <div class="quiz-progress" role="progressbar" aria-label="Progresso do desempate"
              aria-valuemin="0" th:aria-valuemax="${#lists.size(perguntas)}" aria-valuenow="0">
             <div class="quiz-progress-copy">
-                <span data-step-label>Seu perfil</span>
-                <span><strong data-progress-current>0</strong> de <span th:text="${#lists.size(perguntas)}">18</span></span>
+                <span data-step-label>Ajuste 1</span>
+                <span><strong data-progress-current>0</strong> de <span th:text="${#lists.size(perguntas)}">2</span></span>
             </div>
-            <div class="quiz-progress-track" aria-hidden="true">
-                <span data-progress-bar></span>
-            </div>
+            <div class="quiz-progress-track" aria-hidden="true"><span data-progress-bar></span></div>
         </div>
 
-        <p class="error block quiz-global-error" th:if="${#fields.hasGlobalErrors()}"
-           th:each="err : ${#fields.globalErrors()}" th:text="${err}">
-            Responda todas as perguntas.
+        <p class="error block quiz-global-error" th:if="${erroDesempate}" th:text="${erroDesempate}">
+            Responda as duas perguntas.
         </p>
 
         <div class="quiz-stage">
-            <section class="quiz-step quiz-profile-step" data-quiz-step data-profile-step>
-                <div class="quiz-step-heading">
-                    <span class="quiz-step-number">Antes de come&ccedil;ar</span>
-                    <h2 tabindex="-1">Conte um pouco sobre voc&ecirc;</h2>
-                    <p>Essas informa&ccedil;&otilde;es ajudam a entender quem est&aacute; usando a plataforma.</p>
-                </div>
-
-                <div class="quiz-profile-fields">
-                    <label>
-                        <span>Idade</span>
-                        <input type="number" th:field="*{idade}" min="12" max="25" placeholder="Ex: 16"
-                               inputmode="numeric" autocomplete="age" required>
-                        <span class="error" th:if="${#fields.hasErrors('idade')}" th:errors="*{idade}"></span>
-                    </label>
-
-                    <label>
-                        <span>Escola</span>
-                        <input type="text" th:field="*{escola}" maxlength="100" placeholder="Nome da sua escola"
-                               autocomplete="organization" required>
-                        <span class="error" th:if="${#fields.hasErrors('escola')}" th:errors="*{escola}"></span>
-                    </label>
-                </div>
-            </section>
-
             <div class="question-list">
                 <fieldset class="question quiz-step quiz-question-step" th:each="pergunta, status : ${perguntas}"
                           data-quiz-step data-question-step th:attr="data-question-number=${status.count}">
                     <legend tabindex="-1">
-                        <span class="quiz-step-number" th:text="|Pergunta ${status.count} de ${#lists.size(perguntas)}|">Pergunta 1 de 18</span>
+                        <span class="quiz-step-number" th:text="|Ajuste ${status.count} de ${#lists.size(perguntas)}|">Ajuste 1 de 2</span>
                         <span class="quiz-question-text" th:text="${pergunta.texto}">Pergunta</span>
                     </legend>
                     <div class="quiz-answer-list">
@@ -79,7 +53,7 @@
                             <span class="quiz-answer-control" aria-hidden="true"></span>
                             <span class="quiz-answer-copy">
                                 <strong>Discordo</strong>
-                                <small>Isso n&atilde;o combina comigo</small>
+                                <small>Prefiro mais a outra dire&ccedil;&atilde;o</small>
                             </span>
                         </label>
                         <label class="quiz-answer">
@@ -87,7 +61,7 @@
                             <span class="quiz-answer-control" aria-hidden="true"></span>
                             <span class="quiz-answer-copy">
                                 <strong>Neutro</strong>
-                                <small>N&atilde;o tenho certeza ainda</small>
+                                <small>As duas possibilidades combinam comigo</small>
                             </span>
                         </label>
                         <label class="quiz-answer">
@@ -95,7 +69,7 @@
                             <span class="quiz-answer-control" aria-hidden="true"></span>
                             <span class="quiz-answer-copy">
                                 <strong>Concordo</strong>
-                                <small>Isso combina comigo</small>
+                                <small>Essa dire&ccedil;&atilde;o combina mais comigo</small>
                             </span>
                         </label>
                     </div>

@@ -11,6 +11,7 @@ if (wizard) {
     const progressCurrent = wizard.querySelector("[data-progress-current]");
     const stepLabel = wizard.querySelector("[data-step-label]");
     const stepError = wizard.querySelector("[data-step-error]");
+    const stepPrefix = wizard.dataset.stepPrefix || "Pergunta";
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let currentStep = findInitialStep();
 
@@ -27,7 +28,7 @@ if (wizard) {
             const firstUnanswered = questionSteps.findIndex((step) => {
                 return !step.querySelector("input[type='radio']:checked");
             });
-            return firstUnanswered >= 0 ? firstUnanswered + 1 : 0;
+            return firstUnanswered >= 0 ? steps.indexOf(questionSteps[firstUnanswered]) : 0;
         }
 
         return 0;
@@ -42,7 +43,9 @@ if (wizard) {
             step.setAttribute("aria-hidden", String(!isActive));
         });
 
-        const questionNumber = Math.max(0, currentStep);
+        const activeStep = steps[currentStep];
+        const questionIndex = questionSteps.indexOf(activeStep);
+        const questionNumber = questionIndex >= 0 ? questionIndex + 1 : 0;
         const percentage = questionSteps.length === 0
             ? 0
             : (questionNumber / questionSteps.length) * 100;
@@ -51,9 +54,9 @@ if (wizard) {
         progressBar.style.width = `${percentage}%`;
         progressCurrent.textContent = String(questionNumber);
         progress.setAttribute("aria-valuenow", String(questionNumber));
-        stepLabel.textContent = currentStep === 0
+        stepLabel.textContent = activeStep.hasAttribute("data-profile-step")
             ? "Seu perfil"
-            : `Pergunta ${questionNumber}`;
+            : `${stepPrefix} ${questionNumber}`;
 
         backButton.hidden = currentStep === 0;
         nextButton.hidden = isLastStep;
