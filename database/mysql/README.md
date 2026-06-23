@@ -13,7 +13,7 @@ No DBeaver, crie uma conexao MySQL com os dados locais:
 
 Use **Test Connection** antes de continuar. Na primeira conexao, o DBeaver pode solicitar o download do driver.
 
-## 2. Criar o banco e as tabelas
+## 2. Criar um banco novo
 
 Abra um editor SQL na conexao MySQL e execute o arquivo inteiro:
 
@@ -27,7 +27,22 @@ Depois execute:
 database/mysql/02-seed-perguntas.sql
 ```
 
-O segundo script deve retornar `13` em `total_perguntas`.
+O segundo script deve retornar:
+
+- `18` perguntas do tipo `BASE`;
+- `6` perguntas do tipo `DESEMPATE`;
+- a quantidade total de pesos cadastrados.
+
+## Atualizar um banco que ja existia
+
+Se o banco foi criado antes do quiz ponderado, execute nesta ordem:
+
+```text
+database/mysql/03-upgrade-quiz-ponderado.sql
+database/mysql/02-seed-perguntas.sql
+```
+
+O script `03` remove usuarios, respostas e resultados de teste antigos. Isso e necessario porque eles foram calculados por uma regra que nao e comparavel com a pontuacao ponderada atual.
 
 ## 3. Conferir no DBeaver
 
@@ -35,6 +50,7 @@ Atualize a arvore da conexao. O banco `rotati` deve conter:
 
 - `usuarios`
 - `perguntas`
+- `pergunta_pesos`
 - `respostas`
 - `resultados`
 
@@ -45,9 +61,14 @@ USE rotati;
 
 SHOW TABLES;
 
-SELECT id, texto, categoria, area_slug
+SELECT id, codigo, texto, categoria, area_slug, tipo
 FROM perguntas
 ORDER BY id;
+
+SELECT p.codigo, pp.area_slug, pp.peso
+FROM pergunta_pesos pp
+JOIN perguntas p ON p.id = pp.pergunta_id
+ORDER BY p.id, pp.id;
 ```
 
 ## 4. Executar o Spring com MySQL

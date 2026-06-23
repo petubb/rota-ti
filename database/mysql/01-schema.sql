@@ -19,12 +19,31 @@ CREATE TABLE IF NOT EXISTS usuarios (
 
 CREATE TABLE IF NOT EXISTS perguntas (
     id BIGINT NOT NULL AUTO_INCREMENT,
+    codigo VARCHAR(50) NOT NULL,
     texto TEXT NOT NULL,
     categoria VARCHAR(50) NOT NULL,
     area_slug VARCHAR(80) NOT NULL,
+    tipo VARCHAR(20) NOT NULL,
     PRIMARY KEY (id),
+    CONSTRAINT uk_perguntas_codigo UNIQUE (codigo),
+    CONSTRAINT chk_perguntas_tipo CHECK (tipo IN ('BASE', 'DESEMPATE')),
     INDEX idx_perguntas_area_slug (area_slug),
-    INDEX idx_perguntas_categoria (categoria)
+    INDEX idx_perguntas_categoria (categoria),
+    INDEX idx_perguntas_tipo (tipo)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS pergunta_pesos (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    pergunta_id BIGINT NOT NULL,
+    area_slug VARCHAR(80) NOT NULL,
+    peso INT NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT uk_pergunta_pesos_pergunta_area UNIQUE (pergunta_id, area_slug),
+    CONSTRAINT chk_pergunta_pesos_valor CHECK (peso BETWEEN -2 AND 2 AND peso <> 0),
+    CONSTRAINT fk_pergunta_pesos_pergunta
+        FOREIGN KEY (pergunta_id) REFERENCES perguntas (id)
+        ON UPDATE RESTRICT ON DELETE CASCADE,
+    INDEX idx_pergunta_pesos_area_slug (area_slug)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS respostas (
