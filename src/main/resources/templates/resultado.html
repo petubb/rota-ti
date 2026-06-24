@@ -15,6 +15,7 @@
     </a>
     <nav aria-label="Navegacao do resultado">
         <a th:href="@{/areas}">&Aacute;reas</a>
+        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
         <a class="button secondary result-header-action" th:href="@{/quiz}">Refazer teste</a>
     </nav>
 </header>
@@ -54,6 +55,22 @@
                     <strong th:text="${resultadoView.confianca}">Moderada</strong>
                 </div>
             </aside>
+        </div>
+    </section>
+
+    <section class="result-save-section" aria-labelledby="save-result-title">
+        <div class="result-container result-save-layout">
+            <div>
+                <p class="eyebrow">Continue depois</p>
+                <h2 id="save-result-title" th:text="${contaLogada == null} ? 'Guarde esta rota na sua conta.' : 'Este resultado esta salvo.'">Guarde esta rota na sua conta.</h2>
+                <p th:if="${contaLogada == null}">Criar uma conta &eacute; opcional e n&atilde;o interfere no resultado do question&aacute;rio.</p>
+                <p th:if="${contaLogada != null}">Voce pode consultar esta e suas outras rotas no historico.</p>
+            </div>
+            <form th:if="${contaLogada == null}" th:action="@{/resultado/{id}/salvar(id=${resultadoView.resultado.id})}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button class="button primary" type="submit">Salvar meu resultado</button>
+            </form>
+            <a th:if="${contaLogada != null}" class="button secondary" th:href="@{/minha-conta/resultados}">Ver meus resultados</a>
         </div>
     </section>
 
@@ -223,6 +240,7 @@
                 <h2 id="feedback-title">Este resultado fez sentido para voc&ecirc;?</h2>
             </div>
             <form class="result-feedback" th:action="@{/resultado/{id}/satisfacao(id=${resultadoView.resultado.id})}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <span>De 1 a 5</span>
                 <div>
                     <button th:each="nota : ${#numbers.sequence(1, 5)}" type="submit" name="satisfacao"

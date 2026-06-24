@@ -4,18 +4,23 @@ import com.rotati.dto.QuizSubmission;
 import com.rotati.dto.ResultadoView;
 import com.rotati.model.Pergunta;
 import com.rotati.model.Resultado;
+import com.rotati.security.ContaPrincipal;
 import com.rotati.service.ConteudoAreaService;
 import com.rotati.service.QuizService;
+import com.rotati.service.ResultadoContaService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,10 +34,16 @@ public class QuizController {
 
     private final QuizService quizService;
     private final ConteudoAreaService conteudoAreaService;
+    private final ResultadoContaService resultadoContaService;
 
-    public QuizController(QuizService quizService, ConteudoAreaService conteudoAreaService) {
+    public QuizController(
+            QuizService quizService,
+            ConteudoAreaService conteudoAreaService,
+            ResultadoContaService resultadoContaService
+    ) {
         this.quizService = quizService;
         this.conteudoAreaService = conteudoAreaService;
+        this.resultadoContaService = resultadoContaService;
     }
 
     @GetMapping("/quiz")
@@ -51,7 +62,8 @@ public class QuizController {
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes,
-            HttpSession session
+            HttpSession session,
+            @AuthenticationPrincipal ContaPrincipal principal
     ) {
         if (!bindingResult.hasErrors() && !quizService.todasPerguntasRespondidas(submission)) {
             bindingResult.reject("respostas.obrigatorias", "Responda todas as perguntas antes de ver o resultado.");
@@ -72,6 +84,7 @@ public class QuizController {
         }
 
         Resultado resultado = quizService.processar(submission);
+        resultadoContaService.registrarResultadoGerado(resultado, principal, session);
         redirectAttributes.addFlashAttribute("mensagem", "Resultado gerado com sucesso.");
         return "redirect:/resultado/" + resultado.getId();
     }
@@ -81,7 +94,8 @@ public class QuizController {
             @ModelAttribute("submission") QuizSubmission submission,
             Model model,
             RedirectAttributes redirectAttributes,
-            HttpSession session
+            HttpSession session,
+            @AuthenticationPrincipal ContaPrincipal principal
     ) {
         QuizSubmission quizPendente = (QuizSubmission) session.getAttribute(QUIZ_PENDENTE);
         @SuppressWarnings("unchecked")
@@ -104,6 +118,7 @@ public class QuizController {
         quizPendente.setRespostas(respostasCompletas);
 
         Resultado resultado = quizService.processar(quizPendente);
+        resultadoContaService.registrarResultadoGerado(resultado, principal, session);
         limparQuizPendente(session);
         redirectAttributes.addFlashAttribute("mensagem", "Resultado gerado com sucesso.");
         return "redirect:/resultado/" + resultado.getId();
@@ -115,7 +130,13 @@ public class QuizController {
     }
 
     @GetMapping("/resultado/{id}")
-    public String resultado(@PathVariable Long id, Model model) {
+    public String resultado(
+            @PathVariable Long id,
+            Model model,
+            HttpSession session,
+            @AuthenticationPrincipal ContaPrincipal principal
+    ) {
+        resultadoContaService.exigirAcesso(id, principal, session);
         ResultadoView resultadoView = quizService.buscarResultado(id);
         String areaSlug = resultadoView.getPrincipal().getArea().getSlug();
 
@@ -126,10 +147,38 @@ public class QuizController {
     }
 
     @PostMapping("/resultado/{id}/satisfacao")
-    public String satisfacao(@PathVariable Long id, Integer satisfacao, RedirectAttributes redirectAttributes) {
+    public String satisfacao(
+            @PathVariable Long id,
+            Integer satisfacao,
+            RedirectAttributes redirectAttributes,
+            HttpSession session,
+            @AuthenticationPrincipal ContaPrincipal principal
+    ) {
+        resultadoContaService.exigirAcesso(id, principal, session);
+        if (satisfacao == null || satisfacao < 1 || satisfacao > 5) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A satisfacao deve estar entre 1 e 5.");
+        }
         quizService.registrarSatisfacao(id, satisfacao);
         redirectAttributes.addFlashAttribute("mensagem", "Obrigado pelo feedback!");
         return "redirect:/resultado/" + id;
+    }
+
+    @PostMapping("/resultado/{id}/salvar")
+    public String salvarResultado(
+            @PathVariable Long id,
+            RedirectAttributes redirectAttributes,
+            HttpSession session,
+            @AuthenticationPrincipal ContaPrincipal principal
+    ) {
+        resultadoContaService.exigirAcesso(id, principal, session);
+        if (principal != null) {
+            resultadoContaService.salvarResultado(id, principal, session);
+            redirectAttributes.addFlashAttribute("mensagem", "Resultado salvo na sua conta.");
+            return "redirect:/resultado/" + id;
+        }
+
+        resultadoContaService.prepararSalvamento(id, session);
+        return "redirect:/cadastro";
     }
 
     private QuizSubmission copiarSubmission(QuizSubmission original) {

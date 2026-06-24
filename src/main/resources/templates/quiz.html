@@ -14,7 +14,10 @@
         <span class="brand-mark" aria-hidden="true">RT</span>
         <span>Rota TI<small>Orienta&ccedil;&atilde;o profissional</small></span>
     </a>
-    <a class="quiz-exit" th:href="@{/}">Sair do teste</a>
+    <nav aria-label="Navegacao do questionario">
+        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
+        <a class="quiz-exit" th:href="@{/}">Sair do teste</a>
+    </nav>
 </header>
 
 <main class="quiz-main">
