@@ -64,9 +64,27 @@ CREATE TABLE IF NOT EXISTS respostas (
     INDEX idx_respostas_pergunta_id (pergunta_id)
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS contas (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(80) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    senha_hash VARCHAR(100) NOT NULL,
+    papel VARCHAR(20) NOT NULL DEFAULT 'USER',
+    ativo BOOLEAN NOT NULL DEFAULT TRUE,
+    tentativas_falhas INT NOT NULL DEFAULT 0,
+    bloqueado_ate DATETIME(6) NULL,
+    created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    PRIMARY KEY (id),
+    CONSTRAINT uk_contas_email UNIQUE (email),
+    CONSTRAINT chk_contas_papel CHECK (papel IN ('USER', 'ADMIN')),
+    CONSTRAINT chk_contas_tentativas CHECK (tentativas_falhas >= 0),
+    INDEX idx_contas_created_at (created_at)
+) ENGINE = InnoDB;
+
 CREATE TABLE IF NOT EXISTS resultados (
     id BIGINT NOT NULL AUTO_INCREMENT,
     usuario_id BIGINT NOT NULL,
+    conta_id BIGINT NULL,
     area VARCHAR(100) NOT NULL,
     score DOUBLE NOT NULL,
     satisfacao INT NULL,
@@ -77,7 +95,11 @@ CREATE TABLE IF NOT EXISTS resultados (
     CONSTRAINT fk_resultados_usuario
         FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
         ON UPDATE RESTRICT ON DELETE CASCADE,
+    CONSTRAINT fk_resultados_conta
+        FOREIGN KEY (conta_id) REFERENCES contas (id)
+        ON UPDATE RESTRICT ON DELETE SET NULL,
     INDEX idx_resultados_usuario_id (usuario_id),
+    INDEX idx_resultados_conta_id (conta_id),
     INDEX idx_resultados_area (area),
     INDEX idx_resultados_created_at (created_at)
 ) ENGINE = InnoDB;

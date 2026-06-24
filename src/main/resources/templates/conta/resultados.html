@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Historico pessoal de resultados do Rota TI.">
+    <title>Meus resultados | Rota TI</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="account-page">
+<header class="site-header account-header">
+    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
+        <span class="brand-mark" aria-hidden="true">RT</span>
+        <span>Rota TI<small>Orientacao profissional</small></span>
+    </a>
+    <nav aria-label="Navegacao da conta">
+        <a th:href="@{/areas}">Areas</a>
+        <a class="button primary header-cta" th:href="@{/quiz}">Novo teste</a>
+        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
+    </nav>
+</header>
+
+<main class="account-main">
+    <section class="account-heading" aria-labelledby="history-title">
+        <p class="eyebrow">Sua conta</p>
+        <h1 id="history-title">Resultados de <span th:text="${contaLogada.nome}">voce</span></h1>
+        <p>Suas rotas ficam reunidas aqui para comparar como seus interesses evoluem.</p>
+    </section>
+
+    <p class="flash" th:if="${mensagem}" th:text="${mensagem}">Mensagem</p>
+
+    <section class="account-empty" th:if="${#lists.isEmpty(resultados)}" aria-label="Nenhum resultado salvo">
+        <h2>Voce ainda nao salvou um resultado.</h2>
+        <p>O teste e livre e leva poucos minutos.</p>
+        <a class="button primary" th:href="@{/quiz}">Fazer meu primeiro teste</a>
+    </section>
+
+    <section class="history-list" th:unless="${#lists.isEmpty(resultados)}" aria-label="Resultados salvos">
+        <article class="history-item" th:each="resultado : ${resultados}">
+            <div>
+                <span class="history-date" th:text="${#temporals.format(resultado.createdAt, 'dd/MM/yyyy HH:mm')}">24/06/2026 10:00</span>
+                <h2 th:text="${resultado.area.titulo}">Area recomendada</h2>
+                <p th:text="${resultado.area.perfil}">Perfil da area</p>
+            </div>
+            <div class="history-score">
+                <strong th:text="${#numbers.formatDecimal(resultado.score, 1, 0)} + '%'">82%</strong>
+                <a th:href="@{/resultado/{id}(id=${resultado.id})}">Abrir resultado <span aria-hidden="true">&rarr;</span></a>
+            </div>
+        </article>
+    </section>
+</main>
+</body>
+</html>

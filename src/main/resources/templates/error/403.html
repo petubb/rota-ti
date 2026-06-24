@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso nao permitido | Rota TI</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header auth-header">
+    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
+        <span class="brand-mark" aria-hidden="true">RT</span>
+        <span>Rota TI<small>Orientacao profissional</small></span>
+    </a>
+</header>
+<main class="error-main">
+    <p class="eyebrow">Acesso protegido</p>
+    <h1>Voce nao tem permissao para abrir esta pagina.</h1>
+    <p>Volte para sua rota ou entre com uma conta que tenha o acesso necessario.</p>
+    <div class="actions">
+        <a class="button primary" th:href="@{/}">Voltar ao inicio</a>
+        <a class="button secondary" th:href="@{/minha-conta/resultados}">Meus resultados</a>
+    </div>
+</main>
+</body>
+</html>

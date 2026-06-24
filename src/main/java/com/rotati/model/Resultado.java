@@ -30,6 +30,10 @@ public class Resultado {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "conta_id")
+    private Conta conta;
+
     @NotBlank
     @Column(name = "area", length = 100, nullable = false)
     private String areaSlug;
@@ -75,6 +79,14 @@ public class Resultado {
 
     public String getAreaSlug() {
         return areaSlug;
+    }
+
+    public Conta getConta() {
+        return conta;
+    }
+
+    public void setConta(Conta conta) {
+        this.conta = conta;
     }
 
     public void setAreaSlug(String areaSlug) {
