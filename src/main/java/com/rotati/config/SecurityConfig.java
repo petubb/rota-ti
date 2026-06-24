@@ -4,6 +4,7 @@ import com.rotati.security.ContaUserDetailsService;
 import com.rotati.security.LoginFailureHandler;
 import com.rotati.security.LoginSuccessHandler;
 import com.rotati.security.RotaPasswordEncoder;
+import com.rotati.security.SessaoCredenciaisFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -18,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableMethodSecurity
@@ -61,14 +63,16 @@ public class SecurityConfig {
             HttpSecurity http,
             AuthenticationManager authenticationManager,
             LoginFailureHandler failureHandler,
-            LoginSuccessHandler successHandler
+            LoginSuccessHandler successHandler,
+            SessaoCredenciaisFilter sessaoCredenciaisFilter
     ) throws Exception {
         http
                 .authenticationManager(authenticationManager)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
                                 "/", "/sobre", "/areas", "/area/**", "/quiz/**", "/resultado/**",
-                                "/entrar", "/cadastro", "/css/**", "/js/**", "/images/**", "/error",
+                                "/entrar", "/cadastro", "/esqueci-senha", "/recuperar-senha",
+                                "/css/**", "/js/**", "/images/**", "/error",
                                 "/api/areas"
                         ).permitAll()
                         .requestMatchers("/dashboard", "/api/perguntas").hasRole("ADMIN")
@@ -90,6 +94,7 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                 )
+                .addFilterAfter(sessaoCredenciaisFilter, UsernamePasswordAuthenticationFilter.class)
                 .headers(headers -> {
                     headers.referrerPolicy(referrer -> referrer
                             .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN));

@@ -73,12 +73,29 @@ CREATE TABLE IF NOT EXISTS contas (
     ativo BOOLEAN NOT NULL DEFAULT TRUE,
     tentativas_falhas INT NOT NULL DEFAULT 0,
     bloqueado_ate DATETIME(6) NULL,
+    versao_credenciais INT NOT NULL DEFAULT 0,
     created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     PRIMARY KEY (id),
     CONSTRAINT uk_contas_email UNIQUE (email),
     CONSTRAINT chk_contas_papel CHECK (papel IN ('USER', 'ADMIN')),
     CONSTRAINT chk_contas_tentativas CHECK (tentativas_falhas >= 0),
     INDEX idx_contas_created_at (created_at)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS tokens_recuperacao_senha (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    conta_id BIGINT NOT NULL,
+    token_hash VARCHAR(64) NOT NULL,
+    expira_em DATETIME(6) NOT NULL,
+    usado_em DATETIME(6) NULL,
+    created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    PRIMARY KEY (id),
+    CONSTRAINT uk_tokens_recuperacao_hash UNIQUE (token_hash),
+    CONSTRAINT fk_tokens_recuperacao_conta
+        FOREIGN KEY (conta_id) REFERENCES contas (id)
+        ON UPDATE RESTRICT ON DELETE CASCADE,
+    INDEX idx_tokens_recuperacao_conta_created (conta_id, created_at),
+    INDEX idx_tokens_recuperacao_expira_em (expira_em)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS resultados (

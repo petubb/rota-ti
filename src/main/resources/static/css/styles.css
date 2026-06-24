@@ -1563,6 +1563,13 @@ input[type="number"] {
     margin-top: 18px;
 }
 
+.auth-help-link {
+    justify-self: end;
+    color: var(--primary-dark);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
 .field-hint,
 .field-error {
     font-size: 0.78rem;
@@ -1589,6 +1596,10 @@ input[type="number"] {
 
 .form-alert.success {
     color: var(--success);
+}
+
+.form-alert.warning {
+    color: #8a5a00;
 }
 
 .auth-alternative {

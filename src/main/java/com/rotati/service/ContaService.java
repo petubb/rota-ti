@@ -79,11 +79,17 @@ public class ContaService {
     }
 
     private void validarSenhas(CadastroForm form) {
-        String senha = form.getSenha();
+        validarNovaSenha(form.getSenha(), form.getConfirmarSenha());
+    }
+
+    public void validarNovaSenha(String senha, String confirmarSenha) {
         if (senha == null) {
             throw new CadastroException("senha", "Crie uma senha.");
         }
-        if (!senha.equals(form.getConfirmarSenha())) {
+        if (senha.length() < 12 || senha.length() > 72) {
+            throw new CadastroException("senha", "A senha deve ter entre 12 e 72 caracteres.");
+        }
+        if (!senha.equals(confirmarSenha)) {
             throw new CadastroException("confirmarSenha", "As senhas nao coincidem.");
         }
         if (senha.chars().anyMatch(Character::isWhitespace)) {

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Escolha uma nova senha para sua conta Rota TI.">
+    <title>Nova senha | Rota TI</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="auth-page">
+<header class="site-header auth-header">
+    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
+        <span class="brand-mark" aria-hidden="true">RT</span>
+        <span>Rota TI<small>Orientacao profissional</small></span>
+    </a>
+</header>
+
+<main class="auth-main">
+    <section class="auth-panel" aria-labelledby="nova-senha-title">
+        <div class="auth-heading">
+            <p class="eyebrow">Proteja sua conta</p>
+            <h1 id="nova-senha-title">Escolha uma nova senha.</h1>
+            <p>Depois da alteracao, as sessoes anteriores serao encerradas.</p>
+        </div>
+
+        <form class="auth-form" th:action="@{/recuperar-senha}" th:object="${redefinicaoForm}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" th:field="*{token}">
+
+            <label for="senha">Nova senha</label>
+            <input id="senha" name="senha" type="password" minlength="12" maxlength="72" autocomplete="new-password" required autofocus>
+            <span class="field-hint">De 12 a 72 caracteres, com maiuscula, minuscula, numero e simbolo.</span>
+            <span class="field-error" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">Senha invalida</span>
+
+            <label for="confirmarSenha">Confirmar nova senha</label>
+            <input id="confirmarSenha" name="confirmarSenha" type="password" minlength="12" maxlength="72" autocomplete="new-password" required>
+            <span class="field-error" th:if="${#fields.hasErrors('confirmarSenha')}" th:errors="*{confirmarSenha}">As senhas nao coincidem</span>
+
+            <button class="button primary" type="submit">Alterar senha</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>
