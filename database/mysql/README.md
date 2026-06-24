@@ -44,6 +44,14 @@ database/mysql/02-seed-perguntas.sql
 
 O script `03` remove usuarios, respostas e resultados de teste antigos. Isso e necessario porque eles foram calculados por uma regra que nao e comparavel com a pontuacao ponderada atual.
 
+Para adicionar contas e autenticacao ao banco atual, execute uma unica vez:
+
+```text
+database/mysql/04-contas-autenticacao.sql
+```
+
+O script `04` e aditivo: ele cria a tabela `contas` e adiciona a coluna opcional `conta_id` em `resultados`. Ele nao apaga perguntas, usuarios, respostas ou resultados.
+
 ## 3. Conferir no DBeaver
 
 Atualize a arvore da conexao. O banco `rotati` deve conter:
@@ -53,6 +61,7 @@ Atualize a arvore da conexao. O banco `rotati` deve conter:
 - `pergunta_pesos`
 - `respostas`
 - `resultados`
+- `contas`
 
 Consultas de verificacao:
 
@@ -107,3 +116,17 @@ $env:DB_NAME="rotati"
 ```
 
 Com o perfil `mysql`, o Hibernate usa `validate`: ele confirma se as tabelas correspondem as entidades, mas nao altera a estrutura automaticamente.
+
+## Conceder acesso administrativo
+
+Novas contas recebem o papel `USER`. Para preparar uma conta administrativa, primeiro crie a conta pela tela normal e depois conceda o papel diretamente no banco:
+
+```sql
+USE rotati;
+
+UPDATE contas
+SET papel = 'ADMIN'
+WHERE email = 'email-do-administrador@exemplo.com';
+```
+
+Encerre e abra a sessao novamente para o novo papel entrar no contexto de seguranca. O projeto nao cria administrador com senha padrao, evitando uma credencial conhecida dentro do codigo ou do Git.

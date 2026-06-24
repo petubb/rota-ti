@@ -1,6 +1,6 @@
 # Rota TI
 
-Projeto MVC em Java 21 com Spring Boot, Thymeleaf, Spring Data JPA, H2 e MySQL Driver.
+Projeto MVC em Java 21 com Spring Boot, Thymeleaf, Spring Data JPA, Spring Security, H2 e MySQL Driver.
 
 O questionario usa 18 perguntas principais com pesos para multiplas areas. Quando as duas melhores rotas ficam muito proximas, o sistema seleciona duas perguntas extras de desempate.
 
@@ -52,6 +52,8 @@ $env:SPRING_PROFILES_ACTIVE="mysql"
 - `model`: entidades JPA e enum das areas de TI.
 - `repository`: acesso ao banco com Spring Data JPA.
 - `service`: regras de negocio, scoring do quiz e metricas.
+- `security`: identidade autenticada e tratadores de login.
+- `config`: regras de acesso, BCrypt, CSRF e cabecalhos HTTP.
 - `dto`: objetos de entrada/saida entre view e service.
 - `templates`: paginas Thymeleaf.
 - `static`: CSS e JavaScript.
@@ -65,13 +67,22 @@ $env:SPRING_PROFILES_ACTIVE="mysql"
 - `/areas`: catalogo das areas de TI.
 - `/area/{slug}`: detalhes de uma area.
 - `/dashboard`: metricas internas.
+- `/entrar`: login opcional.
+- `/cadastro`: criacao de conta.
+- `/minha-conta/resultados`: historico da pessoa autenticada.
 - `/api/areas`: lista de areas em JSON.
-- `/api/perguntas`: lista de perguntas em JSON.
+- `/api/perguntas`: lista de perguntas em JSON, restrita a administradores.
+
+O quiz e publico. O dashboard exige papel `ADMIN`, e uma conta comum acessa somente os resultados vinculados a ela. Os detalhes da implementacao estao em:
+
+```text
+docs/autenticacao-seguranca.md
+```
 
 ## Proximas etapas sugeridas
 
 1. Avaliar o questionario com estudantes e ajustar pesos com base no feedback.
 2. Completar conteudos reais de cursos, salarios e referencias.
-3. Criar tela de login/admin se o dashboard precisar ficar restrito.
+3. Adicionar verificacao de e-mail e recuperacao de senha.
 4. Validar a configuracao MySQL no ambiente de apresentacao.
 5. Preparar a apresentacao PDF e roteiro da demo.
