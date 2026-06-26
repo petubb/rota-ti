@@ -6,6 +6,7 @@ import com.rotati.model.Pergunta;
 import com.rotati.model.Resultado;
 import com.rotati.security.ContaPrincipal;
 import com.rotati.service.ConteudoAreaService;
+import com.rotati.service.DetalheAreaService;
 import com.rotati.service.QuizService;
 import com.rotati.service.ResultadoContaService;
 import jakarta.servlet.http.HttpSession;
@@ -34,15 +35,18 @@ public class QuizController {
 
     private final QuizService quizService;
     private final ConteudoAreaService conteudoAreaService;
+    private final DetalheAreaService detalheAreaService;
     private final ResultadoContaService resultadoContaService;
 
     public QuizController(
             QuizService quizService,
             ConteudoAreaService conteudoAreaService,
+            DetalheAreaService detalheAreaService,
             ResultadoContaService resultadoContaService
     ) {
         this.quizService = quizService;
         this.conteudoAreaService = conteudoAreaService;
+        this.detalheAreaService = detalheAreaService;
         this.resultadoContaService = resultadoContaService;
     }
 
@@ -142,6 +146,7 @@ public class QuizController {
 
         model.addAttribute("resultadoView", resultadoView);
         model.addAttribute("conteudoArea", conteudoAreaService.buscarPorSlug(areaSlug));
+        model.addAttribute("detalheArea", detalheAreaService.buscarPorSlug(areaSlug));
         model.addAttribute("destaquesRondonia", conteudoAreaService.listarDestaquesRondonia());
         return "resultado";
     }
