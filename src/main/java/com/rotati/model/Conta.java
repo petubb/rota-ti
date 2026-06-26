@@ -46,6 +46,9 @@ public class Conta {
     @Column(name = "bloqueado_ate")
     private LocalDateTime bloqueadoAte;
 
+    @Column(name = "versao_credenciais", nullable = false)
+    private int versaoCredenciais;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
@@ -85,6 +88,12 @@ public class Conta {
         return bloqueadoAte != null && bloqueadoAte.isAfter(LocalDateTime.now());
     }
 
+    public void alterarSenha(String novoHash) {
+        senhaHash = novoHash;
+        versaoCredenciais++;
+        registrarLoginBemSucedido();
+    }
+
     public Long getId() {
         return id;
     }
@@ -119,5 +128,9 @@ public class Conta {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public int getVersaoCredenciais() {
+        return versaoCredenciais;
     }
 }

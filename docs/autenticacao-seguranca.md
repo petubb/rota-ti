@@ -35,6 +35,34 @@ Exemplo conceitual:
 senha + salt aleatorio + custo 12 -> hash BCrypt salvo em senha_hash
 ```
 
+## Recuperacao de senha
+
+O fluxo de recuperacao nao envia a senha antiga e nao cria uma senha temporaria:
+
+1. A pessoa informa o e-mail e recebe sempre uma resposta generica.
+2. Para contas existentes, o servidor gera 32 bytes com `SecureRandom`.
+3. O valor original vai somente no link enviado por e-mail.
+4. O banco guarda apenas o SHA-256 do token.
+5. O token expira em 15 minutos e pode ser utilizado uma vez.
+6. Uma nova solicitacao invalida tokens anteriores; reenvios sao limitados a um a cada 2 minutos por conta.
+7. A nova senha passa novamente pelo BCrypt com custo 12.
+8. A versao das credenciais e incrementada, encerrando sessoes autenticadas com a senha antiga.
+
+A URL do link vem de `APP_URL_BASE`, nunca do cabecalho `Host` recebido na requisicao. Isso evita envenenamento do link de recuperacao. As paginas do fluxo usam `Cache-Control: no-store`, CSRF e respostas que nao confirmam se um e-mail esta cadastrado.
+
+O SMTP e configurado fora do codigo:
+
+```powershell
+$env:MAIL_HOST="smtp.seu-provedor.com"
+$env:MAIL_PORT="587"
+$env:MAIL_USERNAME="usuario-do-smtp"
+$env:MAIL_PASSWORD="senha-ou-token-do-smtp"
+$env:APP_EMAIL_REMETENTE="contato@seu-dominio.com"
+$env:APP_URL_BASE="http://127.0.0.1:8080"
+```
+
+O provedor deve aceitar autenticacao SMTP com STARTTLS. Nenhuma dessas credenciais deve entrar no Git.
+
 ## Autenticacao e autorizacao
 
 Autenticacao responde **quem e a pessoa**. Autorizacao responde **o que ela pode acessar**.
@@ -64,6 +92,10 @@ Esconder o link do dashboard e apenas uma melhoria de interface. A protecao real
 | Uso indevido de sensores | Permissions Policy bloqueia camera, microfone e localizacao |
 | Redirecionamento malicioso | Destinos de login definidos pelo servidor, sem URL enviada pelo usuario |
 | Segredo dentro do Git | Credenciais MySQL recebidas por variaveis de ambiente |
+| Roubo de token de recuperacao no banco | Somente o SHA-256 do token e persistido |
+| Reutilizacao de link | Token de uso unico com expiracao de 15 minutos |
+| Sessao antiga apos troca de senha | Versao de credenciais verificada nas requisicoes autenticadas |
+| Envenenamento do link por `Host` | URL base fixa definida por ambiente |
 
 O console H2 usa uma cadeia de seguranca separada porque precisa de frame. Essa excecao so existe quando `spring.h2.console.enabled=true`; no perfil MySQL ela fica desabilitada.
 
@@ -95,14 +127,17 @@ Os testes automatizados verificam:
 - rejeicao de senha fraca;
 - usuario comum recebendo `403` no dashboard;
 - bloqueio depois de cinco falhas;
-- resultado anonimo restrito a sessao e resultado salvo restrito ao dono.
+- resultado anonimo restrito a sessao e resultado salvo restrito ao dono;
+- mesma resposta de recuperacao para e-mail existente e inexistente;
+- token expirado e token reutilizado sendo recusados;
+- sessao antiga invalidada depois da troca da senha.
 
 ## Limites e proximos reforcos
 
 Para uma implantacao publica, ainda seriam recomendados:
 
 - HTTPS e `SESSION_COOKIE_SECURE=true`;
-- verificacao de e-mail e recuperacao segura de senha;
+- confirmacao de e-mail no cadastro;
 - MFA para administradores;
 - limite adicional por IP no proxy ou gateway;
 - monitoramento e auditoria de eventos de login;

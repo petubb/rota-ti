@@ -21,6 +21,7 @@ public class ContaPrincipal implements UserDetails {
     private final String papel;
     private final boolean ativo;
     private final boolean bloqueada;
+    private final int versaoCredenciais;
 
     public ContaPrincipal(Conta conta) {
         this.id = conta.getId();
@@ -30,6 +31,7 @@ public class ContaPrincipal implements UserDetails {
         this.papel = conta.getPapel().name();
         this.ativo = conta.isAtivo();
         this.bloqueada = conta.estaBloqueada();
+        this.versaoCredenciais = conta.getVersaoCredenciais();
     }
 
     public Long getId() {
@@ -38,6 +40,10 @@ public class ContaPrincipal implements UserDetails {
 
     public String getNome() {
         return nome;
+    }
+
+    public int getVersaoCredenciais() {
+        return versaoCredenciais;
     }
 
     @Override

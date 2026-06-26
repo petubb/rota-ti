@@ -143,7 +143,16 @@
             <div class="result-career-facts">
                 <article>
                     <span>Faixa de refer&ecirc;ncia</span>
-                    <p th:text="${resultadoView.principal.area.salario}">Faixa salarial</p>
+                    <p th:text="${detalheArea.salario.resumo}">Faixa salarial</p>
+                    <small th:text="${detalheArea.salario.observacao}">Observacao sobre salario.</small>
+                    <ul class="salary-source-list" aria-label="Fontes da faixa salarial">
+                        <li th:each="fonte : ${detalheArea.salario.fontes}">
+                            <a th:href="${fonte.url}" target="_blank" rel="noopener noreferrer">
+                                <span th:text="${fonte.titulo}">Fonte</span>
+                                <span aria-hidden="true">&nearr;</span>
+                            </a>
+                        </li>
+                    </ul>
                 </article>
                 <article>
                     <span>Estudos para come&ccedil;ar</span>

@@ -52,6 +52,14 @@ database/mysql/04-contas-autenticacao.sql
 
 O script `04` e aditivo: ele cria a tabela `contas` e adiciona a coluna opcional `conta_id` em `resultados`. Ele nao apaga perguntas, usuarios, respostas ou resultados.
 
+Depois execute a migracao da recuperacao de senha:
+
+```text
+database/mysql/05-recuperacao-senha.sql
+```
+
+O script `05` adiciona a versao das credenciais e a tabela de tokens temporarios. Ele tambem nao apaga dados.
+
 ## 3. Conferir no DBeaver
 
 Atualize a arvore da conexao. O banco `rotati` deve conter:
@@ -62,6 +70,7 @@ Atualize a arvore da conexao. O banco `rotati` deve conter:
 - `respostas`
 - `resultados`
 - `contas`
+- `tokens_recuperacao_senha`
 
 Consultas de verificacao:
 
@@ -78,7 +87,13 @@ SELECT p.codigo, pp.area_slug, pp.peso
 FROM pergunta_pesos pp
 JOIN perguntas p ON p.id = pp.pergunta_id
 ORDER BY p.id, pp.id;
+
+SELECT id, nome, email, papel, ativo, created_at
+FROM contas
+ORDER BY id DESC;
 ```
+
+`usuarios` nao e a tabela de login. Ela guarda idade e escola informadas no quiz. Cadastros de login aparecem em `contas`. Se uma tabela nova nao aparecer na arvore do DBeaver, use **Refresh** na conexao ou no schema `rotati`.
 
 ## 4. Executar o Spring com MySQL
 

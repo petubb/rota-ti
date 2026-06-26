@@ -69,6 +69,8 @@ $env:SPRING_PROFILES_ACTIVE="mysql"
 - `/dashboard`: metricas internas.
 - `/entrar`: login opcional.
 - `/cadastro`: criacao de conta.
+- `/esqueci-senha`: solicitacao de recuperacao por e-mail.
+- `/recuperar-senha`: redefinicao por token temporario.
 - `/minha-conta/resultados`: historico da pessoa autenticada.
 - `/api/areas`: lista de areas em JSON.
 - `/api/perguntas`: lista de perguntas em JSON, restrita a administradores.
