@@ -3,51 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Rota TI</title>
+    <meta name="description" content="Painel administrativo do Rota TI.">
+    <title>Admin | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
+<body class="admin-page">
 <header class="site-header">
-    <a class="brand" th:href="@{/}">Rota TI</a>
+    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
+        <span class="brand-mark" aria-hidden="true">RT</span>
+        <span>Rota TI<small>Administra&ccedil;&atilde;o</small></span>
+    </a>
     <nav>
         <a th:href="@{/quiz}">Quiz</a>
-        <a th:href="@{/areas}">Areas</a>
+        <a th:href="@{/areas}">&Aacute;reas</a>
         <a th:href="@{/sobre}">Sobre</a>
         <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
     </nav>
 </header>
 
-<main class="page">
-    <section class="section narrow">
-        <p class="eyebrow">Metricas internas</p>
-        <h1>Impacto do questionario</h1>
-        <p>Primeira versao do painel para apresentar dados de uso na banca.</p>
+<main class="admin-main">
+    <section class="admin-hero" aria-labelledby="admin-title">
+        <div>
+            <p class="eyebrow">Painel interno</p>
+            <h1 id="admin-title">Vis&atilde;o geral do Rota TI</h1>
+            <p>Dados de uso, contas, resultados e estrutura do question&aacute;rio reunidos para acompanhamento administrativo.</p>
+        </div>
+        <a class="button secondary" th:href="@{/quiz}">Abrir quiz</a>
     </section>
 
-    <section class="metrics">
-        <article>
-            <span>Total de alunos</span>
+    <section class="admin-kpis" aria-label="Indicadores principais">
+        <article class="admin-kpi">
+            <span>Participa&ccedil;&otilde;es no quiz</span>
             <strong th:text="${metricas.totalUsuarios}">0</strong>
+            <p>Registros na tabela usuarios.</p>
         </article>
-        <article>
+        <article class="admin-kpi">
             <span>Resultados gerados</span>
             <strong th:text="${metricas.totalResultados}">0</strong>
+            <p th:text="|${#numbers.formatDecimal(metricas.mediaScore, 1, 1)}% de score medio|">0% de score medio</p>
         </article>
-        <article>
-            <span>Media de satisfacao</span>
+        <article class="admin-kpi">
+            <span>Resultados salvos</span>
+            <strong th:text="${metricas.resultadosSalvos}">0</strong>
+            <p th:text="|${#numbers.formatDecimal(metricas.taxaSalvamento, 1, 1)}% vinculados a contas|">0% vinculados</p>
+        </article>
+        <article class="admin-kpi">
+            <span>Contas cadastradas</span>
+            <strong th:text="${metricas.totalContas}">0</strong>
+            <p th:text="|${metricas.contasAtivas} ativas, ${metricas.contasBloqueadas} bloqueadas|">0 ativas</p>
+        </article>
+        <article class="admin-kpi">
+            <span>Satisfa&ccedil;&atilde;o m&eacute;dia</span>
             <strong th:text="${#numbers.formatDecimal(metricas.mediaSatisfacao, 1, 1)}">0.0</strong>
+            <p th:text="|${metricas.satisfacoesRecebidas} avaliacoes recebidas|">0 avaliacoes</p>
+        </article>
+        <article class="admin-kpi">
+            <span>Perguntas no banco</span>
+            <strong th:text="${metricas.perguntas.total}">0</strong>
+            <p th:text="|${metricas.perguntas.base} base, ${metricas.perguntas.desempate} desempate|">0 base</p>
         </article>
     </section>
 
-    <section class="section">
-        <h2>Distribuicao por area recomendada</h2>
-        <div class="ranking">
-            <article class="ranking-row" th:each="item : ${metricas.distribuicaoAreas}">
+    <section class="admin-layout">
+        <article class="admin-panel admin-area-panel" aria-labelledby="area-ranking-title">
+            <div class="admin-panel-heading">
                 <div>
-                    <h3 th:text="${item.key}">Area</h3>
-                    <p>Quantidade de indicacoes</p>
+                    <p class="eyebrow">Resultados</p>
+                    <h2 id="area-ranking-title">Distribui&ccedil;&atilde;o por &aacute;rea</h2>
                 </div>
-                <strong th:text="${item.value}">0</strong>
+                <span th:text="|${metricas.totalResultados} no total|">0 no total</span>
+            </div>
+
+            <div class="admin-area-list">
+                <div class="admin-area-row" th:each="area : ${metricas.areas}"
+                     th:style="|--area-percent: ${#numbers.formatDecimal(area.percentual, 1, 0)}%|">
+                    <div>
+                        <strong th:text="${area.titulo}">&Aacute;rea</strong>
+                        <small th:text="|${#numbers.formatDecimal(area.percentual, 1, 1)}% dos resultados|">0%</small>
+                    </div>
+                    <span th:text="${area.total}">0</span>
+                    <div class="admin-area-bar" aria-hidden="true"><i></i></div>
+                </div>
+            </div>
+        </article>
+
+        <article class="admin-panel admin-question-panel" aria-labelledby="question-title">
+            <div class="admin-panel-heading">
+                <div>
+                    <p class="eyebrow">Question&aacute;rio</p>
+                    <h2 id="question-title">Estrutura atual</h2>
+                </div>
+            </div>
+
+            <div class="admin-question-grid">
+                <div>
+                    <span>Total</span>
+                    <strong th:text="${metricas.perguntas.total}">0</strong>
+                </div>
+                <div>
+                    <span>Base</span>
+                    <strong th:text="${metricas.perguntas.base}">0</strong>
+                </div>
+                <div>
+                    <span>Desempate</span>
+                    <strong th:text="${metricas.perguntas.desempate}">0</strong>
+                </div>
+            </div>
+
+            <p class="admin-panel-note">As perguntas de desempate ajudam quando duas rotas ficam muito pr&oacute;ximas na pontua&ccedil;&atilde;o.</p>
+        </article>
+    </section>
+
+    <section class="admin-panel" aria-labelledby="recent-results-title">
+        <div class="admin-panel-heading">
+            <div>
+                <p class="eyebrow">Atividade</p>
+                <h2 id="recent-results-title">&Uacute;ltimos resultados</h2>
+            </div>
+        </div>
+
+        <div class="admin-empty" th:if="${#lists.isEmpty(metricas.resultadosRecentes)}">
+            Nenhum resultado gerado ainda.
+        </div>
+
+        <div class="admin-table-wrap" th:unless="${#lists.isEmpty(metricas.resultadosRecentes)}">
+            <table class="admin-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>&Aacute;rea</th>
+                    <th>Score</th>
+                    <th>Satisfa&ccedil;&atilde;o</th>
+                    <th>Perfil</th>
+                    <th>Conta</th>
+                    <th>Data</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="resultado : ${metricas.resultadosRecentes}">
+                    <td th:text="${resultado.id}">1</td>
+                    <td>
+                        <a th:href="@{/area/{slug}(slug=${resultado.areaSlug})}" th:text="${resultado.areaTitulo}">&Aacute;rea</a>
+                    </td>
+                    <td th:text="|${#numbers.formatDecimal(resultado.score, 1, 1)}%|">0%</td>
+                    <td th:text="${resultado.satisfacao == null ? '-' : resultado.satisfacao}">-</td>
+                    <td>
+                        <span th:text="|${resultado.idade} anos|">0 anos</span>
+                        <small th:text="${resultado.escola}">Escola</small>
+                    </td>
+                    <td th:text="${resultado.contaNome}">Visitante</td>
+                    <td th:text="${resultado.criadoEm}">-</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="admin-panel" aria-labelledby="recent-accounts-title">
+        <div class="admin-panel-heading">
+            <div>
+                <p class="eyebrow">Acesso</p>
+                <h2 id="recent-accounts-title">Contas recentes</h2>
+            </div>
+        </div>
+
+        <div class="admin-empty" th:if="${#lists.isEmpty(metricas.contasRecentes)}">
+            Nenhuma conta cadastrada ainda.
+        </div>
+
+        <div class="admin-account-grid" th:unless="${#lists.isEmpty(metricas.contasRecentes)}">
+            <article class="admin-account-card" th:each="conta : ${metricas.contasRecentes}">
+                <div>
+                    <h3 th:text="${conta.nome}">Nome</h3>
+                    <p th:text="${conta.email}">email</p>
+                </div>
+                <div class="admin-account-meta">
+                    <span th:classappend="${conta.papel == 'ADMIN'} ? ' is-admin' : ''" th:text="${conta.papel}">USER</span>
+                    <span th:classappend="${conta.bloqueada} ? ' is-danger' : ' is-ok'"
+                          th:text="${conta.bloqueada ? 'Bloqueada' : 'Liberada'}">Liberada</span>
+                </div>
+                <dl>
+                    <div>
+                        <dt>Resultados</dt>
+                        <dd th:text="${conta.resultadosSalvos}">0</dd>
+                    </div>
+                    <div>
+                        <dt>Status</dt>
+                        <dd th:text="${conta.ativo ? 'Ativa' : 'Inativa'}">Ativa</dd>
+                    </div>
+                    <div>
+                        <dt>Criada em</dt>
+                        <dd th:text="${conta.criadaEm}">-</dd>
+                    </div>
+                </dl>
             </article>
         </div>
     </section>

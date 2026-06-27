@@ -3,6 +3,7 @@ package com.rotati;
 import com.rotati.dto.CadastroForm;
 import com.rotati.dto.QuizSubmission;
 import com.rotati.model.Conta;
+import com.rotati.model.PapelConta;
 import com.rotati.model.Resultado;
 import com.rotati.model.TokenRecuperacaoSenha;
 import com.rotati.model.Usuario;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -159,6 +161,16 @@ class AutenticacaoSegurancaTests {
 
         mockMvc.perform(get("/dashboard").with(user(new ContaPrincipal(conta))))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void contaAdminConsegueAbrirDashboard() throws Exception {
+        Conta conta = contaService.criarConta(novoCadastro(emailUnico()));
+        ReflectionTestUtils.setField(conta, "papel", PapelConta.ADMIN);
+
+        mockMvc.perform(get("/dashboard").with(user(new ContaPrincipal(conta))))
+                .andExpect(status().isOk())
+                .andExpect(view().name("dashboard"));
     }
 
     @Test

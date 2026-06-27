@@ -9,4 +9,10 @@ import java.util.List;
 public interface ResultadoRepository extends JpaRepository<Resultado, Long> {
 
     List<Resultado> findByContaOrderByCreatedAtDesc(Conta conta);
+
+    List<Resultado> findTop8ByOrderByCreatedAtDesc();
+
+    long countByContaIsNotNull();
+
+    long countByConta(Conta conta);
 }
