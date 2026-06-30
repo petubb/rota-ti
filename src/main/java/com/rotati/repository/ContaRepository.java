@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface ContaRepository extends JpaRepository<Conta, Long> {
@@ -14,6 +16,12 @@ public interface ContaRepository extends JpaRepository<Conta, Long> {
     Optional<Conta> findByEmailIgnoreCase(String email);
 
     boolean existsByEmailIgnoreCase(String email);
+
+    List<Conta> findTop6ByOrderByCreatedAtDesc();
+
+    long countByAtivoTrue();
+
+    long countByBloqueadoAteAfter(LocalDateTime agora);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select conta from Conta conta where lower(conta.email) = lower(:email)")

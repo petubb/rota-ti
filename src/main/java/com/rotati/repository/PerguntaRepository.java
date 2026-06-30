@@ -14,4 +14,6 @@ public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
 
     @EntityGraph(attributePaths = "pesos")
     List<Pergunta> findAllByTipoOrderByIdAsc(TipoPergunta tipo);
+
+    long countByTipo(TipoPergunta tipo);
 }
