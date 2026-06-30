@@ -16,7 +16,6 @@
     <nav aria-label="Navegacao principal">
         <a th:href="@{/sobre}">Sobre</a>
         <a th:href="@{/areas}">&Aacute;reas</a>
-        <a th:if="${contaAdmin}" th:href="@{/dashboard}">Dashboard</a>
         <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
         <a class="button primary header-cta" th:href="@{/quiz}">
             <span class="cta-full">Fazer o teste</span>
