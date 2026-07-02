@@ -22,11 +22,11 @@ class QuizServiceTests {
     private QuizService quizService;
 
     @Test
-    void mantemDezoitoPerguntasPrincipaisEUsaDesempateQuandoNecessario() {
+    void mantemDozePerguntasPrincipaisEUsaDesempateQuandoNecessario() {
         List<Pergunta> perguntas = quizService.listarPerguntas();
         QuizSubmission submission = submissionComValor(perguntas, 0);
 
-        assertThat(perguntas).hasSize(18);
+        assertThat(perguntas).hasSize(12);
         assertThat(quizService.analisar(submission))
                 .extracting(AreaScore::getCompatibilidade)
                 .allMatch(valor -> valor == 50.0);
@@ -64,7 +64,7 @@ class QuizServiceTests {
                 .findFirst()
                 .orElseThrow();
 
-        assertThat(pergunta.getPeso(AreaTi.DESENVOLVIMENTO)).isEqualTo(2);
+        assertThat(pergunta.getPeso(AreaTi.DESENVOLVIMENTO)).isEqualTo(3);
         assertThat(pergunta.getPeso(AreaTi.DADOS)).isEqualTo(1);
         assertThat(pergunta.getPeso(AreaTi.IA)).isEqualTo(1);
     }
@@ -75,7 +75,7 @@ class QuizServiceTests {
         QuizSubmission submission = submissionComValor(perguntas, -1);
 
         perguntas.stream()
-                .filter(pergunta -> pergunta.getPeso(AreaTi.DESENVOLVIMENTO) > 0)
+                .filter(pergunta -> List.of("BASE_DEV_CRIAR", "BASE_DEV_LOGICA").contains(pergunta.getCodigo()))
                 .forEach(pergunta -> submission.getRespostas().put(pergunta.getId(), 1));
 
         assertThat(quizService.analisar(submission).getFirst().getArea()).isEqualTo(AreaTi.DESENVOLVIMENTO);

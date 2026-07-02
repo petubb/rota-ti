@@ -51,6 +51,9 @@ public class Pergunta {
     @Column(length = 20, nullable = false)
     private TipoPergunta tipo;
 
+    @Column(nullable = false)
+    private boolean ativa = true;
+
     @OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OrderBy("id ASC")
     private List<PerguntaPeso> pesos = new ArrayList<>();
@@ -100,6 +103,14 @@ public class Pergunta {
 
     public TipoPergunta getTipo() {
         return tipo;
+    }
+
+    public boolean isAtiva() {
+        return ativa;
+    }
+
+    public void setAtiva(boolean ativa) {
+        this.ativa = ativa;
     }
 
     public List<PerguntaPeso> getPesos() {

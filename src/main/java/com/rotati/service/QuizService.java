@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Service
 public class QuizService {
 
-    private static final double LIMIAR_DESEMPATE = 12.0;
+    private static final double LIMIAR_DESEMPATE = 8.0;
     private static final int TOTAL_PERGUNTAS_DESEMPATE = 2;
 
     private static final Map<String, String> ROTULOS_CATEGORIAS = new LinkedHashMap<>();
@@ -71,7 +71,7 @@ public class QuizService {
 
     @Transactional(readOnly = true)
     public List<Pergunta> listarPerguntas() {
-        return perguntaRepository.findAllByTipoOrderByIdAsc(TipoPergunta.BASE);
+        return perguntaRepository.findAllByTipoAndAtivaTrueOrderByIdAsc(TipoPergunta.BASE);
     }
 
     @Transactional(readOnly = true)
@@ -118,7 +118,7 @@ public class QuizService {
         AreaTi primeira = ranking.get(0).getArea();
         AreaTi segunda = ranking.get(1).getArea();
 
-        return perguntaRepository.findAllByTipoOrderByIdAsc(TipoPergunta.DESEMPATE)
+        return perguntaRepository.findAllByTipoAndAtivaTrueOrderByIdAsc(TipoPergunta.DESEMPATE)
                 .stream()
                 .filter(pergunta -> discriminacao(pergunta, primeira, segunda) > 0)
                 .sorted(Comparator

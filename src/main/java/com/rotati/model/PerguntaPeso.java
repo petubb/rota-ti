@@ -40,8 +40,8 @@ public class PerguntaPeso {
     @Column(name = "area_slug", length = 80, nullable = false)
     private String areaSlug;
 
-    @Min(-2)
-    @Max(2)
+    @Min(-3)
+    @Max(3)
     @Column(nullable = false)
     private int peso;
 
