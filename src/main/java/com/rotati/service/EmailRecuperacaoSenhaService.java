@@ -62,7 +62,23 @@ public class EmailRecuperacaoSenhaService {
         try {
             mailSender.send(mensagem);
         } catch (MailException exception) {
-            LOGGER.error("Nao foi possivel enviar o e-mail de recuperacao de senha.");
+            LOGGER.error("Nao foi possivel enviar o e-mail de recuperacao de senha. Motivo: {}", motivo(exception));
+            LOGGER.debug("Falha detalhada no envio de recuperacao de senha.", exception);
         }
+    }
+
+    private String motivo(Throwable throwable) {
+        Throwable causa = throwable;
+        while (causa.getCause() != null) {
+            causa = causa.getCause();
+        }
+
+        String mensagem = causa.getMessage();
+        if (mensagem == null || mensagem.isBlank()) {
+            mensagem = throwable.getMessage();
+        }
+        return mensagem == null || mensagem.isBlank()
+                ? causa.getClass().getSimpleName()
+                : mensagem;
     }
 }

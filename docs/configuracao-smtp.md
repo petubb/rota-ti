@@ -56,6 +56,14 @@ No Gmail, normalmente nao se usa a senha normal da conta no SMTP. Use uma senha 
 
 Nao coloque essa senha em arquivo do projeto e nao suba para o Git.
 
+Se o Google mostrar a senha de app com espacos, use a senha sem os espacos no terminal.
+
+Exemplo:
+
+```powershell
+$env:MAIL_PASSWORD="abcdefghijklmnop"
+```
+
 ## Teste rapido
 
 1. Inicie o site com as variaveis SMTP configuradas.
@@ -82,3 +90,20 @@ Troque `192.168.0.10` pelo IP do seu computador na rede.
 ## Como saber se o SMTP nao esta configurado
 
 Na tela `/esqueci-senha`, o sistema mostra um aviso quando o envio de e-mail ainda nao esta configurado. O pedido de recuperacao continua seguro: ele nao revela se o e-mail existe ou nao.
+
+## Erros comuns
+
+- `535` ou `Authentication failed`: usuario ou senha SMTP incorretos. No Gmail, quase sempre e senha normal em vez de senha de app.
+- `Username and Password not accepted`: confirme se `MAIL_USERNAME` e o mesmo e-mail que gerou a senha de app.
+- `Connection timed out`: porta, internet, firewall ou host SMTP incorreto.
+- `From address rejected`: use `APP_EMAIL_REMETENTE` igual ao e-mail autenticado em `MAIL_USERNAME`.
+- As variaveis foram configuradas depois do sistema ja estar rodando: pare o Spring e rode novamente.
+
+Para conferir as variaveis sem mostrar a senha:
+
+```powershell
+echo $env:MAIL_HOST
+echo $env:MAIL_PORT
+echo $env:MAIL_USERNAME
+echo $env:APP_EMAIL_REMETENTE
+```
