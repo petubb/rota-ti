@@ -29,6 +29,13 @@ Por padrao o projeto usa H2 em memoria para facilitar os testes.
 - Usuario: `sa`
 - Senha: vazia
 
+Para abrir o console H2 localmente, habilite antes de rodar:
+
+```powershell
+$env:H2_CONSOLE_ENABLED="true"
+.\mvnw.cmd spring-boot:run
+```
+
 ## Rodar com MySQL
 
 Os scripts de criacao, carga inicial e o passo a passo para DBeaver estao em:
@@ -87,10 +94,15 @@ Configuracao de envio de e-mail para recuperacao de senha:
 docs/configuracao-smtp.md
 ```
 
+Deploy online para testar com outras pessoas:
+
+```text
+docs/deploy-online.md
+```
+
 ## Proximas etapas sugeridas
 
 1. Avaliar o questionario com estudantes e ajustar pesos com base no feedback.
 2. Completar conteudos reais de cursos, salarios e referencias.
-3. Configurar SMTP definitivo para recuperacao de senha.
-4. Validar a configuracao MySQL no ambiente de apresentacao.
-5. Preparar a apresentacao PDF e roteiro da demo.
+3. Validar a configuracao MySQL no ambiente de apresentacao.
+4. Preparar a apresentacao PDF e roteiro da demo.
