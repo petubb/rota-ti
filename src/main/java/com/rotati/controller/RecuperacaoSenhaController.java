@@ -59,7 +59,8 @@ public class RecuperacaoSenhaController {
         recuperacaoSenhaService.solicitar(form.getEmail());
         redirectAttributes.addFlashAttribute(
                 "mensagem",
-                "Se existir uma conta com esse e-mail, enviaremos as instrucoes de recuperacao."
+                "Se existir uma conta com esse e-mail, enviaremos as instrucoes de recuperacao. "
+                        + "Caso nao apareca na caixa de entrada, confira tambem a pasta de spam."
         );
         return "redirect:/esqueci-senha";
     }

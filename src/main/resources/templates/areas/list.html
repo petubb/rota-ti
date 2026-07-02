@@ -32,8 +32,8 @@
         <article class="area-list-card" th:each="area, status : ${areas}">
             <a class="area-list-media" th:href="@{/area/{slug}(slug=${area.slug})}"
                th:aria-label="|Abrir detalhes de ${area.titulo}|">
-                <img th:src="@{/images/areas/{slug}.png(slug=${area.slug})}"
-                     th:alt="|Ilustracao de ${area.titulo}|" loading="lazy">
+                <img th:src="@{/images/areas/{slug}.jpg(slug=${area.slug})}"
+                     th:alt="|Imagem sobre ${area.titulo}|" loading="lazy">
             </a>
             <div class="area-list-body">
                 <span class="area-list-index" th:text="${status.count < 10 ? '0' + status.count : status.count}">01</span>
