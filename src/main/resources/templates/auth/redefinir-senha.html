@@ -28,12 +28,12 @@
             <input type="hidden" th:field="*{token}">
 
             <label for="senha">Nova senha</label>
-            <input id="senha" name="senha" type="password" minlength="12" maxlength="72" autocomplete="new-password" required autofocus>
-            <span class="field-hint">De 12 a 72 caracteres, com maiuscula, minuscula, numero e simbolo.</span>
+            <input id="senha" name="senha" type="password" minlength="8" maxlength="72" autocomplete="new-password" required autofocus>
+            <span class="field-hint">De 8 a 72 caracteres, com maiuscula, minuscula, numero e simbolo.</span>
             <span class="field-error" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">Senha invalida</span>
 
             <label for="confirmarSenha">Confirmar nova senha</label>
-            <input id="confirmarSenha" name="confirmarSenha" type="password" minlength="12" maxlength="72" autocomplete="new-password" required>
+            <input id="confirmarSenha" name="confirmarSenha" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
             <span class="field-error" th:if="${#fields.hasErrors('confirmarSenha')}" th:errors="*{confirmarSenha}">As senhas nao coincidem</span>
 
             <button class="button primary" type="submit">Alterar senha</button>

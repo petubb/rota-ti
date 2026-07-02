@@ -17,6 +17,8 @@ public class ContaService {
 
     public static final int LIMITE_TENTATIVAS = 5;
     public static final int MINUTOS_BLOQUEIO = 15;
+    public static final int MINIMO_CARACTERES_SENHA = 8;
+    public static final int MAXIMO_BYTES_SENHA = 72;
 
     private final ContaRepository contaRepository;
     private final PasswordEncoder passwordEncoder;
@@ -86,8 +88,8 @@ public class ContaService {
         if (senha == null) {
             throw new CadastroException("senha", "Crie uma senha.");
         }
-        if (senha.length() < 12 || senha.length() > 72) {
-            throw new CadastroException("senha", "A senha deve ter entre 12 e 72 caracteres.");
+        if (senha.length() < MINIMO_CARACTERES_SENHA || senha.length() > MAXIMO_BYTES_SENHA) {
+            throw new CadastroException("senha", "A senha deve ter entre 8 e 72 caracteres.");
         }
         if (!senha.equals(confirmarSenha)) {
             throw new CadastroException("confirmarSenha", "As senhas nao coincidem.");
@@ -95,7 +97,7 @@ public class ContaService {
         if (senha.chars().anyMatch(Character::isWhitespace)) {
             throw new CadastroException("senha", "A senha nao pode conter espacos.");
         }
-        if (senha.getBytes(StandardCharsets.UTF_8).length > 72) {
+        if (senha.getBytes(StandardCharsets.UTF_8).length > MAXIMO_BYTES_SENHA) {
             throw new CadastroException("senha", "A senha deve ter no maximo 72 bytes.");
         }
 

@@ -10,7 +10,7 @@ public class RedefinicaoSenhaForm {
     private String token;
 
     @NotBlank(message = "Crie uma nova senha.")
-    @Size(min = 12, max = 72, message = "A senha deve ter entre 12 e 72 caracteres.")
+    @Size(min = 8, max = 72, message = "A senha deve ter entre 8 e 72 caracteres.")
     private String senha;
 
     @NotBlank(message = "Confirme sua nova senha.")

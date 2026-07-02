@@ -51,7 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 class AutenticacaoSegurancaTests {
 
-    private static final String SENHA_FORTE = "RotaSegura123!";
+    private static final String SENHA_FORTE = "Rota123!";
 
     private MockMvc mockMvc;
 
