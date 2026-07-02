@@ -138,10 +138,12 @@ public class MetricaService {
     }
 
     private DashboardPerguntasResumo perguntasResumo() {
+        long base = perguntaRepository.countByTipoAndAtivaTrue(TipoPergunta.BASE);
+        long desempate = perguntaRepository.countByTipoAndAtivaTrue(TipoPergunta.DESEMPATE);
         return new DashboardPerguntasResumo(
-                perguntaRepository.count(),
-                perguntaRepository.countByTipo(TipoPergunta.BASE),
-                perguntaRepository.countByTipo(TipoPergunta.DESEMPATE)
+                base + desempate,
+                base,
+                desempate
         );
     }
 

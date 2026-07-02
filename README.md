@@ -2,7 +2,7 @@
 
 Projeto MVC em Java 21 com Spring Boot, Thymeleaf, Spring Data JPA, Spring Security, H2 e MySQL Driver.
 
-O questionario usa 18 perguntas principais com pesos para multiplas areas. Quando as duas melhores rotas ficam muito proximas, o sistema seleciona duas perguntas extras de desempate.
+O questionario usa 12 perguntas principais com pesos para multiplas areas. Quando as duas melhores rotas ficam muito proximas, o sistema seleciona duas perguntas extras de desempate.
 
 ## Como rodar no VS Code
 

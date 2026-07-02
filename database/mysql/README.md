@@ -29,8 +29,9 @@ database/mysql/02-seed-perguntas.sql
 
 O segundo script deve retornar:
 
-- `18` perguntas do tipo `BASE`;
-- `6` perguntas do tipo `DESEMPATE`;
+- `12` perguntas `BASE` ativas;
+- `6` perguntas `BASE` arquivadas;
+- `6` perguntas `DESEMPATE` ativas;
 - a quantidade total de pesos cadastrados.
 
 ## Atualizar um banco que ja existia
@@ -60,6 +61,15 @@ database/mysql/05-recuperacao-senha.sql
 
 O script `05` adiciona a versao das credenciais e a tabela de tokens temporarios. Ele tambem nao apaga dados.
 
+Para aplicar o quiz curto em um banco ja existente, execute:
+
+```text
+database/mysql/06-quiz-curto.sql
+database/mysql/02-seed-perguntas.sql
+```
+
+O script `06` adiciona a coluna `ativa` em `perguntas` e amplia o limite de pesos para `-3` a `3`. Depois, o script `02` marca 12 perguntas principais como ativas, arquiva as demais e atualiza os pesos. Nenhum usuario, conta, resposta ou resultado e apagado.
+
 ## 3. Conferir no DBeaver
 
 Atualize a arvore da conexao. O banco `rotati` deve conter:
@@ -79,7 +89,7 @@ USE rotati;
 
 SHOW TABLES;
 
-SELECT id, codigo, texto, categoria, area_slug, tipo
+SELECT id, codigo, texto, categoria, area_slug, tipo, ativa
 FROM perguntas
 ORDER BY id;
 

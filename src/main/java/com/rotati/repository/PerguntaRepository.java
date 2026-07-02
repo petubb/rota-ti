@@ -13,7 +13,7 @@ public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
     List<Pergunta> findAllByOrderByIdAsc();
 
     @EntityGraph(attributePaths = "pesos")
-    List<Pergunta> findAllByTipoOrderByIdAsc(TipoPergunta tipo);
+    List<Pergunta> findAllByTipoAndAtivaTrueOrderByIdAsc(TipoPergunta tipo);
 
-    long countByTipo(TipoPergunta tipo);
+    long countByTipoAndAtivaTrue(TipoPergunta tipo);
 }

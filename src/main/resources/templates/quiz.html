@@ -32,7 +32,7 @@
              aria-valuemin="0" th:aria-valuemax="${#lists.size(perguntas)}" aria-valuenow="0">
             <div class="quiz-progress-copy">
                 <span data-step-label>Seu perfil</span>
-                <span><strong data-progress-current>0</strong> de <span th:text="${#lists.size(perguntas)}">18</span></span>
+                <span><strong data-progress-current>0</strong> de <span th:text="${#lists.size(perguntas)}">12</span></span>
             </div>
             <div class="quiz-progress-track" aria-hidden="true">
                 <span data-progress-bar></span>
@@ -73,7 +73,7 @@
                 <fieldset class="question quiz-step quiz-question-step" th:each="pergunta, status : ${perguntas}"
                           data-quiz-step data-question-step th:attr="data-question-number=${status.count}">
                     <legend tabindex="-1">
-                        <span class="quiz-step-number" th:text="|Pergunta ${status.count} de ${#lists.size(perguntas)}|">Pergunta 1 de 18</span>
+                        <span class="quiz-step-number" th:text="|Pergunta ${status.count} de ${#lists.size(perguntas)}|">Pergunta 1 de 12</span>
                         <span class="quiz-question-text" th:text="${pergunta.texto}">Pergunta</span>
                     </legend>
                     <div class="quiz-answer-list">
