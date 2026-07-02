@@ -81,10 +81,16 @@ O quiz e publico. O dashboard exige papel `ADMIN`, e uma conta comum acessa some
 docs/autenticacao-seguranca.md
 ```
 
+Configuracao de envio de e-mail para recuperacao de senha:
+
+```text
+docs/configuracao-smtp.md
+```
+
 ## Proximas etapas sugeridas
 
 1. Avaliar o questionario com estudantes e ajustar pesos com base no feedback.
 2. Completar conteudos reais de cursos, salarios e referencias.
-3. Adicionar verificacao de e-mail e recuperacao de senha.
+3. Configurar SMTP definitivo para recuperacao de senha.
 4. Validar a configuracao MySQL no ambiente de apresentacao.
 5. Preparar a apresentacao PDF e roteiro da demo.
