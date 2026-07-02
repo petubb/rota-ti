@@ -60,7 +60,11 @@ public class EmailRecuperacaoSenhaService {
                 """.formatted(evento.nome(), evento.link()));
 
         try {
+            LOGGER.info("Enviando e-mail de recuperacao para {} usando SMTP {}.",
+                    mascararEmail(evento.email()), host);
             mailSender.send(mensagem);
+            LOGGER.info("Servidor SMTP aceitou o e-mail de recuperacao para {}.",
+                    mascararEmail(evento.email()));
         } catch (MailException exception) {
             LOGGER.error("Nao foi possivel enviar o e-mail de recuperacao de senha. Motivo: {}", motivo(exception));
             LOGGER.debug("Falha detalhada no envio de recuperacao de senha.", exception);
@@ -80,5 +84,13 @@ public class EmailRecuperacaoSenhaService {
         return mensagem == null || mensagem.isBlank()
                 ? causa.getClass().getSimpleName()
                 : mensagem;
+    }
+
+    private String mascararEmail(String email) {
+        int arroba = email == null ? -1 : email.indexOf('@');
+        if (arroba <= 1) {
+            return "***";
+        }
+        return email.substring(0, Math.min(2, arroba)) + "***" + email.substring(arroba);
     }
 }
