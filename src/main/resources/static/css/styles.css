@@ -2046,7 +2046,7 @@ input[type="number"] {
 
 .quiz-profile-fields {
     display: grid;
-    grid-template-columns: minmax(150px, 0.45fr) minmax(260px, 1fr);
+    grid-template-columns: minmax(180px, 0.8fr) minmax(120px, 0.38fr) minmax(280px, 1.2fr);
     gap: 18px;
     margin-top: 36px;
 }
@@ -2068,6 +2068,25 @@ input[type="number"] {
 .quiz-profile-fields input:focus {
     border-color: var(--primary);
     outline: 3px solid rgba(31, 122, 140, 0.14);
+}
+
+.quiz-school-field,
+.quiz-other-school-field {
+    grid-column: span 1;
+}
+
+.quiz-other-school-field {
+    grid-column: 1 / -1;
+}
+
+.quiz-profile-fields .field-hint {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 650;
+}
+
+.quiz-other-school-field[hidden] {
+    display: none;
 }
 
 .quiz-question-step {

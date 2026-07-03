@@ -7,8 +7,11 @@ import com.rotati.model.Resultado;
 import com.rotati.security.ContaPrincipal;
 import com.rotati.service.ConteudoAreaService;
 import com.rotati.service.DetalheAreaService;
+import com.rotati.service.EscolaEstadualService;
+import com.rotati.service.EscolaEstadualService.EscolaEstadual;
 import com.rotati.service.QuizService;
 import com.rotati.service.ResultadoContaService;
+import com.rotati.service.ResultadoContaService.PerfilResultado;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,29 +36,47 @@ public class QuizController {
 
     private static final String QUIZ_PENDENTE = "quizPendente";
     private static final String IDS_DESEMPATE = "idsDesempate";
+    private static final String PERFIL_QUIZ = "perfilQuiz";
 
     private final QuizService quizService;
     private final ConteudoAreaService conteudoAreaService;
     private final DetalheAreaService detalheAreaService;
     private final ResultadoContaService resultadoContaService;
+    private final EscolaEstadualService escolaEstadualService;
 
     public QuizController(
             QuizService quizService,
             ConteudoAreaService conteudoAreaService,
             DetalheAreaService detalheAreaService,
-            ResultadoContaService resultadoContaService
+            ResultadoContaService resultadoContaService,
+            EscolaEstadualService escolaEstadualService
     ) {
         this.quizService = quizService;
         this.conteudoAreaService = conteudoAreaService;
         this.detalheAreaService = detalheAreaService;
         this.resultadoContaService = resultadoContaService;
+        this.escolaEstadualService = escolaEstadualService;
+    }
+
+    @ModelAttribute("escolasEstaduais")
+    public List<EscolaEstadual> escolasEstaduais() {
+        return escolaEstadualService.listar();
+    }
+
+    @ModelAttribute("valorOutraEscola")
+    public String valorOutraEscola() {
+        return EscolaEstadualService.OUTRA_ESCOLA;
     }
 
     @GetMapping("/quiz")
-    public String quiz(Model model, HttpSession session) {
+    public String quiz(
+            Model model,
+            HttpSession session,
+            @AuthenticationPrincipal ContaPrincipal principal
+    ) {
         limparQuizPendente(session);
         if (!model.containsAttribute("submission")) {
-            model.addAttribute("submission", new QuizSubmission());
+            model.addAttribute("submission", submissionInicial(session, principal));
         }
         model.addAttribute("perguntas", quizService.listarPerguntas());
         return "quiz";
@@ -69,6 +91,7 @@ public class QuizController {
             HttpSession session,
             @AuthenticationPrincipal ContaPrincipal principal
     ) {
+        validarEscola(submission, bindingResult);
         if (!bindingResult.hasErrors() && !quizService.todasPerguntasRespondidas(submission)) {
             bindingResult.reject("respostas.obrigatorias", "Responda todas as perguntas antes de ver o resultado.");
         }
@@ -78,6 +101,7 @@ public class QuizController {
             return "quiz";
         }
 
+        normalizarPerfil(submission);
         List<Pergunta> perguntasDesempate = quizService.selecionarPerguntasDesempate(submission);
         if (!perguntasDesempate.isEmpty()) {
             session.setAttribute(QUIZ_PENDENTE, copiarSubmission(submission));
@@ -89,6 +113,7 @@ public class QuizController {
 
         Resultado resultado = quizService.processar(submission);
         resultadoContaService.registrarResultadoGerado(resultado, principal, session);
+        lembrarPerfil(submission, session);
         redirectAttributes.addFlashAttribute("mensagem", "Resultado gerado com sucesso.");
         return "redirect:/resultado/" + resultado.getId();
     }
@@ -123,6 +148,7 @@ public class QuizController {
 
         Resultado resultado = quizService.processar(quizPendente);
         resultadoContaService.registrarResultadoGerado(resultado, principal, session);
+        lembrarPerfil(quizPendente, session);
         limparQuizPendente(session);
         redirectAttributes.addFlashAttribute("mensagem", "Resultado gerado com sucesso.");
         return "redirect:/resultado/" + resultado.getId();
@@ -188,14 +214,73 @@ public class QuizController {
 
     private QuizSubmission copiarSubmission(QuizSubmission original) {
         QuizSubmission copia = new QuizSubmission();
+        copia.setNome(original.getNome());
         copia.setIdade(original.getIdade());
         copia.setEscola(original.getEscola());
+        copia.setEscolaOutra(original.getEscolaOutra());
         copia.setRespostas(new HashMap<>(original.getRespostas()));
         return copia;
+    }
+
+    private QuizSubmission submissionInicial(HttpSession session, ContaPrincipal principal) {
+        PerfilQuiz perfil = (PerfilQuiz) session.getAttribute(PERFIL_QUIZ);
+        QuizSubmission submission = new QuizSubmission();
+        if (perfil != null) {
+            submission.setNome(perfil.nome());
+            submission.setIdade(perfil.idade());
+            submission.setEscola(perfil.escola());
+            return escolaEstadualService.preencherEscolaParaFormulario(submission);
+        }
+
+        PerfilResultado perfilSalvo = resultadoContaService.buscarPerfilMaisRecente(principal).orElse(null);
+        if (perfilSalvo != null) {
+            submission.setNome(perfilSalvo.nome());
+            submission.setIdade(perfilSalvo.idade());
+            submission.setEscola(perfilSalvo.escola());
+            return escolaEstadualService.preencherEscolaParaFormulario(submission);
+        }
+
+        if (principal != null) {
+            submission.setNome(principal.getNome());
+        }
+        return submission;
+    }
+
+    private void validarEscola(QuizSubmission submission, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors("escola") || bindingResult.hasFieldErrors("escolaOutra")) {
+            return;
+        }
+        if (!escolaEstadualService.escolaValida(submission)) {
+            if (escolaEstadualService.usaOutraEscola(submission)) {
+                bindingResult.rejectValue("escolaOutra", "escolaOutra.obrigatoria", "Informe o nome da escola.");
+            } else {
+                bindingResult.rejectValue(
+                        "escola",
+                        "escola.lista",
+                        "Selecione uma escola estadual da lista ou use a opcao Outra escola."
+                );
+            }
+        }
+    }
+
+    private void normalizarPerfil(QuizSubmission submission) {
+        submission.setNome(submission.getNome().trim());
+        escolaEstadualService.normalizarEscola(submission);
+    }
+
+    private void lembrarPerfil(QuizSubmission submission, HttpSession session) {
+        session.setAttribute(PERFIL_QUIZ, new PerfilQuiz(
+                submission.getNome(),
+                submission.getIdade(),
+                submission.getEscola()
+        ));
     }
 
     private void limparQuizPendente(HttpSession session) {
         session.removeAttribute(QUIZ_PENDENTE);
         session.removeAttribute(IDS_DESEMPATE);
+    }
+
+    private record PerfilQuiz(String nome, Integer idade, String escola) implements Serializable {
     }
 }

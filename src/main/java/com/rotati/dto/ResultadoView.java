@@ -50,6 +50,13 @@ public class ResultadoView {
         return ranking.stream().limit(3).toList();
     }
 
+    public List<AreaScore> getOutrosCaminhos() {
+        return ranking.stream()
+                .filter(item -> item.getArea() != principal.getArea())
+                .limit(3)
+                .toList();
+    }
+
     public List<String> getDestaquesPerfil() {
         return destaquesPerfil;
     }

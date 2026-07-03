@@ -219,6 +219,7 @@ class AutenticacaoSegurancaTests {
     @Test
     void paginaDoResultadoSoRenderizaNaSessaoCriadora() throws Exception {
         QuizSubmission submission = new QuizSubmission();
+        submission.setNome("Pessoa Teste");
         submission.setIdade(18);
         submission.setEscola("Escola Teste");
         submission.setRespostas(new HashMap<>());

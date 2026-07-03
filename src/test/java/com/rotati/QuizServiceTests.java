@@ -84,6 +84,7 @@ class QuizServiceTests {
 
     private QuizSubmission submissionComValor(List<Pergunta> perguntas, int valor) {
         QuizSubmission submission = new QuizSubmission();
+        submission.setNome("Pessoa Teste");
         submission.setIdade(18);
         submission.setEscola("Escola de teste");
 

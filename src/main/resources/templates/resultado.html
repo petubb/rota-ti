@@ -78,15 +78,14 @@
         <div class="result-container">
             <div class="result-section-heading">
                 <div>
-                    <p class="eyebrow">Seu top 3</p>
+                    <p class="eyebrow">Rotas relacionadas</p>
                     <h2 id="ranking-title">Outros caminhos que tamb&eacute;m combinam com voc&ecirc;</h2>
                 </div>
                 <p>As &aacute;reas podem se complementar. Seu resultado mostra afinidades, n&atilde;o limita suas escolhas.</p>
             </div>
 
             <div class="result-top-three">
-                <article class="result-rank-card" th:each="item, status : ${resultadoView.topTres}"
-                         th:classappend="${status.index == 0} ? ' is-primary' : ''"
+                <article class="result-rank-card" th:each="item, status : ${resultadoView.outrosCaminhos}"
                          th:style="|--result-score: ${#numbers.formatDecimal(item.compatibilidade, 1, 0)}%|">
                     <div class="result-rank-card-top">
                         <span class="result-rank-position" th:text="|0${status.count}|">01</span>

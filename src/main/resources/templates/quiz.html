@@ -54,17 +54,41 @@
 
                 <div class="quiz-profile-fields">
                     <label>
+                        <span>Nome</span>
+                        <input type="text" th:field="*{nome}" maxlength="80" placeholder="Seu nome"
+                               autocomplete="name" required autofocus>
+                        <span class="error" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+                    </label>
+
+                    <label>
                         <span>Idade</span>
                         <input type="number" th:field="*{idade}" min="12" max="25" placeholder="Ex: 16"
                                inputmode="numeric" autocomplete="age" required>
                         <span class="error" th:if="${#fields.hasErrors('idade')}" th:errors="*{idade}"></span>
                     </label>
 
-                    <label>
+                    <label class="quiz-school-field">
                         <span>Escola</span>
-                        <input type="text" th:field="*{escola}" maxlength="100" placeholder="Nome da sua escola"
-                               autocomplete="organization" required>
+                        <input type="text" th:field="*{escola}" maxlength="100"
+                               placeholder="Digite para buscar sua escola" autocomplete="organization"
+                               list="escolas-estaduais" required data-school-input
+                               th:attr="data-other-value=${valorOutraEscola}">
+                        <datalist id="escolas-estaduais">
+                            <option th:each="escolaItem : ${escolasEstaduais}"
+                                    th:value="${escolaItem.nome}"
+                                    th:label="${escolaItem.rede}"></option>
+                            <option th:value="${valorOutraEscola}" label="Minha escola nao esta na lista"></option>
+                        </datalist>
+                        <span class="field-hint">Digite para filtrar. Se nao encontrar, escolha Outra escola.</span>
                         <span class="error" th:if="${#fields.hasErrors('escola')}" th:errors="*{escola}"></span>
+                    </label>
+
+                    <label class="quiz-other-school-field" data-other-school-field
+                           th:hidden="${submission.escola != valorOutraEscola}">
+                        <span>Nome da escola</span>
+                        <input type="text" th:field="*{escolaOutra}" maxlength="100"
+                               placeholder="Escreva o nome da escola" data-other-school-input>
+                        <span class="error" th:if="${#fields.hasErrors('escolaOutra')}" th:errors="*{escolaOutra}"></span>
                     </label>
                 </div>
             </section>

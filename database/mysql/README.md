@@ -70,6 +70,14 @@ database/mysql/02-seed-perguntas.sql
 
 O script `06` adiciona a coluna `ativa` em `perguntas` e amplia o limite de pesos para `-3` a `3`. Depois, o script `02` marca 12 perguntas principais como ativas, arquiva as demais e atualiza os pesos. Nenhum usuario, conta, resposta ou resultado e apagado.
 
+Para adicionar o nome do estudante no inicio do quiz, execute:
+
+```text
+database/mysql/07-usuario-nome-escola.sql
+```
+
+O script `07` adiciona a coluna `nome` em `usuarios` e preserva os registros antigos com o valor inicial `Estudante`.
+
 ## 3. Conferir no DBeaver
 
 Atualize a arvore da conexao. O banco `rotati` deve conter:
@@ -103,7 +111,7 @@ FROM contas
 ORDER BY id DESC;
 ```
 
-`usuarios` nao e a tabela de login. Ela guarda idade e escola informadas no quiz. Cadastros de login aparecem em `contas`. Se uma tabela nova nao aparecer na arvore do DBeaver, use **Refresh** na conexao ou no schema `rotati`.
+`usuarios` nao e a tabela de login. Ela guarda nome, idade e escola informados no quiz. Cadastros de login aparecem em `contas`. Se uma tabela nova nao aparecer na arvore do DBeaver, use **Refresh** na conexao ou no schema `rotati`.
 
 ## 4. Executar o Spring com MySQL
 

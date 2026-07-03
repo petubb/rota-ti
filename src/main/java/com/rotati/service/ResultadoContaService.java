@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -120,6 +121,22 @@ public class ResultadoContaService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public Optional<PerfilResultado> buscarPerfilMaisRecente(ContaPrincipal principal) {
+        if (principal == null) {
+            return Optional.empty();
+        }
+
+        Conta conta = buscarConta(principal.getId());
+        return resultadoRepository.findFirstByContaOrderByCreatedAtDesc(conta)
+                .map(Resultado::getUsuario)
+                .map(usuario -> new PerfilResultado(
+                        usuario.getNome(),
+                        usuario.getIdade(),
+                        usuario.getEscola()
+                ));
+    }
+
     private Resultado buscarResultado(Long id) {
         return resultadoRepository.findById(id)
                 .orElseThrow(ResultadoNaoEncontradoException::new);
@@ -128,6 +145,9 @@ public class ResultadoContaService {
     private Conta buscarConta(Long id) {
         return contaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Conta nao encontrada."));
+    }
+
+    public record PerfilResultado(String nome, Integer idade, String escola) {
     }
 
     @SuppressWarnings("unchecked")
