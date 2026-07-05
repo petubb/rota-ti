@@ -67,21 +67,37 @@
                         <span class="error" th:if="${#fields.hasErrors('idade')}" th:errors="*{idade}"></span>
                     </label>
 
-                    <label class="quiz-school-field">
-                        <span>Escola</span>
+                    <div class="quiz-school-field" data-school-combobox>
+                        <label class="quiz-profile-label" for="escola">Escola</label>
+                        <div class="quiz-school-picker">
                         <input type="text" th:field="*{escola}" maxlength="100"
                                placeholder="Digite para buscar sua escola" autocomplete="organization"
-                               list="escolas-estaduais" required data-school-input
+                               required data-school-input role="combobox" aria-autocomplete="list"
+                               aria-expanded="false" aria-controls="escolas-estaduais-opcoes"
                                th:attr="data-other-value=${valorOutraEscola}">
-                        <datalist id="escolas-estaduais">
-                            <option th:each="escolaItem : ${escolasEstaduais}"
-                                    th:value="${escolaItem.nome}"
-                                    th:label="${escolaItem.rede}"></option>
-                            <option th:value="${valorOutraEscola}" label="Minha escola nao esta na lista"></option>
-                        </datalist>
+                            <button class="quiz-school-toggle" type="button" data-school-toggle
+                                    aria-label="Mostrar escolas" aria-controls="escolas-estaduais-opcoes"
+                                    aria-expanded="false">
+                                <span aria-hidden="true">&#9662;</span>
+                            </button>
+                            <div class="quiz-school-options" id="escolas-estaduais-opcoes" role="listbox"
+                                 data-school-options hidden>
+                                <button class="quiz-school-option" type="button" role="option" data-school-option
+                                        th:each="escolaItem : ${escolasEstaduais}"
+                                        th:attr="data-value=${escolaItem.nome}">
+                                    <strong th:text="${escolaItem.nome}">Escola estadual</strong>
+                                    <span th:text="${escolaItem.rede}">Rede estadual / Urbana</span>
+                                </button>
+                                <button class="quiz-school-option is-other" type="button" role="option"
+                                        data-school-option th:attr="data-value=${valorOutraEscola}">
+                                    <strong th:text="${valorOutraEscola}">Outra escola</strong>
+                                    <span>Minha escola nao esta na lista</span>
+                                </button>
+                            </div>
+                        </div>
                         <span class="field-hint">Digite para filtrar. Se nao encontrar, escolha Outra escola.</span>
                         <span class="error" th:if="${#fields.hasErrors('escola')}" th:errors="*{escola}"></span>
-                    </label>
+                    </div>
 
                     <label class="quiz-other-school-field" data-other-school-field
                            th:hidden="${submission.escola != valorOutraEscola}">

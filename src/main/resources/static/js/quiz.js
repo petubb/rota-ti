@@ -11,21 +11,25 @@ if (wizard) {
     const progressCurrent = wizard.querySelector("[data-progress-current]");
     const stepLabel = wizard.querySelector("[data-step-label]");
     const stepError = wizard.querySelector("[data-step-error]");
+    const schoolCombobox = wizard.querySelector("[data-school-combobox]");
     const schoolInput = wizard.querySelector("[data-school-input]");
+    const schoolToggle = wizard.querySelector("[data-school-toggle]");
+    const schoolOptionsList = wizard.querySelector("[data-school-options]");
     const otherSchoolField = wizard.querySelector("[data-other-school-field]");
     const otherSchoolInput = wizard.querySelector("[data-other-school-input]");
-    const schoolOptions = schoolInput
-        ? Array.from(document.querySelectorAll(`#${schoolInput.getAttribute("list")} option`))
+    const schoolOptions = schoolOptionsList
+        ? Array.from(schoolOptionsList.querySelectorAll("[data-school-option]"))
         : [];
     const otherSchoolValue = schoolInput?.dataset.otherValue || "";
     const validSchoolValues = new Set(
         schoolOptions
-            .map((option) => option.value)
+            .map((option) => option.dataset.value)
             .filter((value) => value && value !== otherSchoolValue)
     );
     const stepPrefix = wizard.dataset.stepPrefix || "Pergunta";
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let currentStep = findInitialStep();
+    let suppressNextSchoolOpen = false;
 
     document.body.classList.add("quiz-ready");
 
@@ -135,6 +139,88 @@ if (wizard) {
         return true;
     }
 
+    function normalizeSearchText(value) {
+        return value
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .trim();
+    }
+
+    function setSchoolOptionsExpanded(expanded) {
+        if (!schoolInput || !schoolOptionsList) {
+            return;
+        }
+
+        schoolOptionsList.hidden = !expanded;
+        schoolInput.setAttribute("aria-expanded", String(expanded));
+        schoolToggle?.setAttribute("aria-expanded", String(expanded));
+    }
+
+    function openSchoolOptions() {
+        if (!schoolOptionsList || suppressNextSchoolOpen) {
+            return;
+        }
+
+        filterSchoolOptions();
+        setSchoolOptionsExpanded(true);
+    }
+
+    function closeSchoolOptions() {
+        setSchoolOptionsExpanded(false);
+    }
+
+    function filterSchoolOptions() {
+        if (!schoolInput || !schoolOptionsList) {
+            return;
+        }
+
+        const query = normalizeSearchText(schoolInput.value);
+        schoolOptions.forEach((option) => {
+            const value = option.dataset.value || "";
+            const text = normalizeSearchText(option.textContent || "");
+            const isOtherSchool = value === otherSchoolValue;
+            option.hidden = !isOtherSchool && Boolean(query) && !text.includes(query);
+        });
+    }
+
+    function selectSchoolOption(option) {
+        if (!schoolInput) {
+            return;
+        }
+
+        schoolInput.value = option.dataset.value || "";
+        schoolInput.setCustomValidity("");
+        syncOtherSchoolField();
+        closeSchoolOptions();
+        clearStepError();
+
+        if (schoolInput.value === otherSchoolValue) {
+            otherSchoolInput?.focus();
+        } else {
+            suppressNextSchoolOpen = true;
+            schoolInput.focus({preventScroll: true});
+            window.setTimeout(() => {
+                suppressNextSchoolOpen = false;
+            }, 0);
+        }
+    }
+
+    function firstVisibleSchoolOption() {
+        return schoolOptions.find((option) => !option.hidden);
+    }
+
+    function focusSiblingSchoolOption(currentOption, direction) {
+        const visibleOptions = schoolOptions.filter((option) => !option.hidden);
+        const currentIndex = visibleOptions.indexOf(currentOption);
+        if (currentIndex < 0 || visibleOptions.length === 0) {
+            return;
+        }
+
+        const nextIndex = (currentIndex + direction + visibleOptions.length) % visibleOptions.length;
+        visibleOptions[nextIndex].focus();
+    }
+
     function syncOtherSchoolField() {
         if (!schoolInput || !otherSchoolField || !otherSchoolInput) {
             return;
@@ -166,6 +252,8 @@ if (wizard) {
     });
 
     wizard.addEventListener("input", () => {
+        schoolInput?.setCustomValidity("");
+        filterSchoolOptions();
         syncOtherSchoolField();
         clearStepError();
     });
@@ -174,8 +262,59 @@ if (wizard) {
         clearStepError();
     });
 
+    schoolInput?.addEventListener("focus", openSchoolOptions);
+    schoolInput?.addEventListener("click", openSchoolOptions);
+
+    schoolInput?.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
+            openSchoolOptions();
+            firstVisibleSchoolOption()?.focus();
+        }
+        if (event.key === "Escape") {
+            closeSchoolOptions();
+        }
+    });
+
+    schoolToggle?.addEventListener("click", () => {
+        if (schoolOptionsList?.hidden) {
+            schoolInput?.focus();
+            openSchoolOptions();
+        } else {
+            closeSchoolOptions();
+        }
+    });
+
+    schoolOptions.forEach((option) => {
+        option.addEventListener("click", () => selectSchoolOption(option));
+        option.addEventListener("keydown", (event) => {
+            if (event.key === "ArrowDown") {
+                event.preventDefault();
+                focusSiblingSchoolOption(option, 1);
+            }
+            if (event.key === "ArrowUp") {
+                event.preventDefault();
+                focusSiblingSchoolOption(option, -1);
+            }
+            if (event.key === "Escape") {
+                closeSchoolOptions();
+                schoolInput?.focus();
+            }
+        });
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!schoolCombobox?.contains(event.target)) {
+            closeSchoolOptions();
+        }
+    });
+
     wizard.addEventListener("keydown", (event) => {
-        if (event.key !== "Enter" || event.target.matches("input[type='radio']")) {
+        if (
+            event.key !== "Enter"
+            || event.target.matches("input[type='radio']")
+            || event.target.closest("[data-school-combobox]")
+        ) {
             return;
         }
 
