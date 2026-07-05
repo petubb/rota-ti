@@ -4,6 +4,8 @@ import com.rotati.model.Conta;
 import com.rotati.model.TokenRecuperacaoSenha;
 import com.rotati.repository.ContaRepository;
 import com.rotati.repository.TokenRecuperacaoSenhaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +18,8 @@ import java.time.LocalDateTime;
 
 @Service
 public class RecuperacaoSenhaService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecuperacaoSenhaService.class);
 
     private static final int MINUTOS_VALIDADE = 15;
     private static final int MINUTOS_ENTRE_SOLICITACOES = 2;
@@ -51,11 +55,14 @@ public class RecuperacaoSenhaService {
         TokenSeguroService.TokenGerado tokenGerado = tokenSeguroService.gerar();
         String emailNormalizado = contaService.normalizarEmail(email);
         if (emailNormalizado.isEmpty() || emailNormalizado.length() > 150) {
+            LOGGER.info("Solicitacao de recuperacao recebida com e-mail invalido ou vazio.");
             return;
         }
 
+        LOGGER.info("Solicitacao de recuperacao recebida para {}.", mascararEmail(emailNormalizado));
         Conta conta = contaRepository.buscarParaAtualizacao(emailNormalizado).orElse(null);
         if (conta == null || !conta.isAtivo()) {
+            LOGGER.info("Solicitacao de recuperacao finalizada sem envio para {}.", mascararEmail(emailNormalizado));
             return;
         }
 
@@ -64,6 +71,8 @@ public class RecuperacaoSenhaService {
                 .map(token -> token.getCreatedAt().isAfter(agora.minusMinutes(MINUTOS_ENTRE_SOLICITACOES)))
                 .orElse(false);
         if (solicitacaoRecente) {
+            LOGGER.info("Solicitacao de recuperacao aguardando intervalo minimo para {}.",
+                    mascararEmail(emailNormalizado));
             return;
         }
 
@@ -81,6 +90,7 @@ public class RecuperacaoSenhaService {
                 .encode()
                 .toUriString();
         eventPublisher.publishEvent(new EventoRecuperacaoSenha(conta.getNome(), conta.getEmail(), link));
+        LOGGER.info("Token de recuperacao gerado e envio agendado para {}.", mascararEmail(conta.getEmail()));
     }
 
     @Transactional(readOnly = true)
@@ -126,5 +136,13 @@ public class RecuperacaoSenhaService {
             throw new IllegalArgumentException("APP_URL_BASE deve ser uma URL HTTP ou HTTPS valida.");
         }
         return normalizada;
+    }
+
+    private String mascararEmail(String email) {
+        int arroba = email == null ? -1 : email.indexOf('@');
+        if (arroba <= 1) {
+            return "***";
+        }
+        return email.substring(0, Math.min(2, arroba)) + "***" + email.substring(arroba);
     }
 }

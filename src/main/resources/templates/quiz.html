@@ -54,17 +54,57 @@
 
                 <div class="quiz-profile-fields">
                     <label>
+                        <span>Nome</span>
+                        <input type="text" th:field="*{nome}" maxlength="80" placeholder="Seu nome"
+                               autocomplete="name" required autofocus>
+                        <span class="error" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+                    </label>
+
+                    <label>
                         <span>Idade</span>
                         <input type="number" th:field="*{idade}" min="12" max="25" placeholder="Ex: 16"
                                inputmode="numeric" autocomplete="age" required>
                         <span class="error" th:if="${#fields.hasErrors('idade')}" th:errors="*{idade}"></span>
                     </label>
 
-                    <label>
-                        <span>Escola</span>
-                        <input type="text" th:field="*{escola}" maxlength="100" placeholder="Nome da sua escola"
-                               autocomplete="organization" required>
+                    <div class="quiz-school-field" data-school-combobox>
+                        <label class="quiz-profile-label" for="escola">Escola</label>
+                        <div class="quiz-school-picker">
+                        <input type="text" th:field="*{escola}" maxlength="100"
+                               placeholder="Digite para buscar sua escola" autocomplete="organization"
+                               required data-school-input role="combobox" aria-autocomplete="list"
+                               aria-expanded="false" aria-controls="escolas-estaduais-opcoes"
+                               th:attr="data-other-value=${valorOutraEscola}">
+                            <button class="quiz-school-toggle" type="button" data-school-toggle
+                                    aria-label="Mostrar escolas" aria-controls="escolas-estaduais-opcoes"
+                                    aria-expanded="false">
+                                <span aria-hidden="true">&#9662;</span>
+                            </button>
+                            <div class="quiz-school-options" id="escolas-estaduais-opcoes" role="listbox"
+                                 data-school-options hidden>
+                                <button class="quiz-school-option" type="button" role="option" data-school-option
+                                        th:each="escolaItem : ${escolasEstaduais}"
+                                        th:attr="data-value=${escolaItem.nome}">
+                                    <strong th:text="${escolaItem.nome}">Escola estadual</strong>
+                                    <span th:text="${escolaItem.rede}">Rede estadual / Urbana</span>
+                                </button>
+                                <button class="quiz-school-option is-other" type="button" role="option"
+                                        data-school-option th:attr="data-value=${valorOutraEscola}">
+                                    <strong th:text="${valorOutraEscola}">Outra escola</strong>
+                                    <span>Minha escola nao esta na lista</span>
+                                </button>
+                            </div>
+                        </div>
+                        <span class="field-hint">Digite para filtrar. Se nao encontrar, escolha Outra escola.</span>
                         <span class="error" th:if="${#fields.hasErrors('escola')}" th:errors="*{escola}"></span>
+                    </div>
+
+                    <label class="quiz-other-school-field" data-other-school-field
+                           th:hidden="${submission.escola != valorOutraEscola}">
+                        <span>Nome da escola</span>
+                        <input type="text" th:field="*{escolaOutra}" maxlength="100"
+                               placeholder="Escreva o nome da escola" data-other-school-input>
+                        <span class="error" th:if="${#fields.hasErrors('escolaOutra')}" th:errors="*{escolaOutra}"></span>
                     </label>
                 </div>
             </section>

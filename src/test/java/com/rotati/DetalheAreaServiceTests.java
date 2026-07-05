@@ -18,6 +18,8 @@ class DetalheAreaServiceTests {
             assertThat(detalhe.getMercado()).isNotBlank();
             assertThat(detalhe.getPlanoCarreira()).hasSize(4);
             assertThat(detalhe.getReferencias()).hasSizeGreaterThanOrEqualTo(3);
+            assertThat(detalhe.getProfissoes()).hasSizeGreaterThanOrEqualTo(4);
+            assertThat(detalhe.getFormacoes()).hasSizeGreaterThanOrEqualTo(4);
             assertThat(detalhe.getFerramentas()).hasSizeGreaterThanOrEqualTo(4);
         }
     }

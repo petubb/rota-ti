@@ -6,7 +6,7 @@
     <title>Areas | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
+<body class="areas-page">
 <header class="site-header">
     <a class="brand" th:href="@{/}">Rota TI</a>
     <nav>
@@ -16,19 +16,34 @@
     </nav>
 </header>
 
-<main class="page">
-    <section class="section narrow">
-        <p class="eyebrow">Explorar areas</p>
-        <h1>Conheca caminhos possiveis dentro da tecnologia.</h1>
-        <p>Use esta pagina para navegar pelas areas antes ou depois do questionario.</p>
+<main class="areas-main">
+    <section class="areas-hero" aria-labelledby="areas-title">
+        <div>
+            <p class="eyebrow">Explorar areas</p>
+            <h1 id="areas-title">Conheca caminhos possiveis dentro da tecnologia.</h1>
+        </div>
+        <p>
+            Cada rota mostra uma forma diferente de trabalhar com tecnologia. Use os cards para comparar
+            perfis, rotina e primeiros passos antes ou depois do questionario.
+        </p>
     </section>
 
-    <section class="grid cards">
-        <article class="card" th:each="area : ${areas}">
-            <h2 th:text="${area.titulo}">Area</h2>
-            <p th:text="${area.descricao}">Descricao</p>
-            <span th:text="${area.perfil}">Perfil</span>
-            <a th:href="@{/area/{slug}(slug=${area.slug})}">Abrir area</a>
+    <section class="area-list" aria-label="Areas de tecnologia">
+        <article class="area-list-card" th:each="area, status : ${areas}">
+            <a class="area-list-media" th:href="@{/area/{slug}(slug=${area.slug})}"
+               th:aria-label="|Abrir detalhes de ${area.titulo}|">
+                <img th:src="@{/images/areas/{slug}.svg(slug=${area.slug})}"
+                     th:alt="|Ilustracao de ${area.titulo}|" loading="lazy">
+            </a>
+            <div class="area-list-body">
+                <span class="area-list-index" th:text="${status.count < 10 ? '0' + status.count : status.count}">01</span>
+                <h2 th:text="${area.titulo}">Area</h2>
+                <p th:text="${area.descricao}">Descricao</p>
+                <strong th:text="${area.perfil}">Perfil</strong>
+                <a class="area-list-link" th:href="@{/area/{slug}(slug=${area.slug})}">
+                    Conhecer rota <span aria-hidden="true">&rarr;</span>
+                </a>
+            </div>
         </article>
     </section>
 </main>

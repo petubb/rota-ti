@@ -51,7 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 class AutenticacaoSegurancaTests {
 
-    private static final String SENHA_FORTE = "RotaSegura123!";
+    private static final String SENHA_FORTE = "Rota123!";
 
     private MockMvc mockMvc;
 
@@ -219,6 +219,7 @@ class AutenticacaoSegurancaTests {
     @Test
     void paginaDoResultadoSoRenderizaNaSessaoCriadora() throws Exception {
         QuizSubmission submission = new QuizSubmission();
+        submission.setNome("Pessoa Teste");
         submission.setIdade(18);
         submission.setEscola("Escola Teste");
         submission.setRespostas(new HashMap<>());

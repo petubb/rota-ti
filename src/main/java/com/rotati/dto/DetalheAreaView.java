@@ -8,6 +8,8 @@ public class DetalheAreaView {
     private final String mercado;
     private final List<PlanoCarreiraView> planoCarreira;
     private final List<ReferenciaAreaView> referencias;
+    private final List<ProfissaoAreaView> profissoes;
+    private final List<FormacaoLocalView> formacoes;
     private final List<String> ferramentas;
 
     public DetalheAreaView(
@@ -17,10 +19,24 @@ public class DetalheAreaView {
             List<ReferenciaAreaView> referencias,
             List<String> ferramentas
     ) {
+        this(salario, mercado, planoCarreira, referencias, List.of(), List.of(), ferramentas);
+    }
+
+    public DetalheAreaView(
+            SalarioAreaView salario,
+            String mercado,
+            List<PlanoCarreiraView> planoCarreira,
+            List<ReferenciaAreaView> referencias,
+            List<ProfissaoAreaView> profissoes,
+            List<FormacaoLocalView> formacoes,
+            List<String> ferramentas
+    ) {
         this.salario = salario;
         this.mercado = mercado;
         this.planoCarreira = List.copyOf(planoCarreira);
         this.referencias = List.copyOf(referencias);
+        this.profissoes = List.copyOf(profissoes);
+        this.formacoes = List.copyOf(formacoes);
         this.ferramentas = List.copyOf(ferramentas);
     }
 
@@ -38,6 +54,14 @@ public class DetalheAreaView {
 
     public List<ReferenciaAreaView> getReferencias() {
         return referencias;
+    }
+
+    public List<ProfissaoAreaView> getProfissoes() {
+        return profissoes;
+    }
+
+    public List<FormacaoLocalView> getFormacoes() {
+        return formacoes;
     }
 
     public List<String> getFerramentas() {

@@ -23,6 +23,11 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(max = 80)
+    @Column(length = 80, nullable = false)
+    private String nome;
+
     @NotNull
     @Min(12)
     @Max(25)
@@ -40,6 +45,11 @@ public class Usuario {
     }
 
     public Usuario(Integer idade, String escola) {
+        this("Estudante", idade, escola);
+    }
+
+    public Usuario(String nome, Integer idade, String escola) {
+        this.nome = nome;
         this.idade = idade;
         this.escola = escola;
     }
@@ -53,6 +63,14 @@ public class Usuario {
 
     public Long getId() {
         return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public Integer getIdade() {

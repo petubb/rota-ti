@@ -158,7 +158,11 @@ public class QuizService {
                 .filter(pergunta -> submission.getRespostas().containsKey(pergunta.getId()))
                 .toList();
 
-        Usuario usuario = usuarioRepository.save(new Usuario(submission.getIdade(), submission.getEscola()));
+        Usuario usuario = usuarioRepository.save(new Usuario(
+                submission.getNome().trim(),
+                submission.getIdade(),
+                submission.getEscola().trim()
+        ));
         List<Resposta> respostas = perguntasRespondidas.stream()
                 .map(pergunta -> new Resposta(usuario, pergunta, submission.getRespostas().get(pergunta.getId())))
                 .toList();
