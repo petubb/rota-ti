@@ -79,6 +79,26 @@
         </div>
     </section>
 
+    <section class="area-detail-section" aria-labelledby="area-careers-title">
+        <div class="area-detail-container">
+            <div class="area-section-heading">
+                <div>
+                    <p class="eyebrow">Possibilidades reais</p>
+                    <h2 id="area-careers-title">Profiss&otilde;es relacionadas</h2>
+                </div>
+                <p>Use esses nomes para pesquisar vagas, conversar com profissionais e entender o que cada fun&ccedil;&atilde;o faz.</p>
+            </div>
+
+            <div class="career-role-grid">
+                <article class="career-role-card" th:each="profissao : ${detalheArea.profissoes}">
+                    <span th:text="${profissao.nivel}">Entrada</span>
+                    <h3 th:text="${profissao.titulo}">Profiss&atilde;o</h3>
+                    <p th:text="${profissao.descricao}">Descri&ccedil;&atilde;o da profiss&atilde;o.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <section class="area-detail-section area-plan-section" id="plano-carreira" aria-labelledby="plan-title">
         <div class="area-detail-container">
             <div class="area-section-heading">
@@ -97,6 +117,30 @@
                     <p th:text="${passo.descricao}">Descricao.</p>
                 </li>
             </ol>
+        </div>
+    </section>
+
+    <section class="area-detail-section area-formation-section" aria-labelledby="area-formation-title">
+        <div class="area-detail-container">
+            <div class="area-section-heading">
+                <div>
+                    <p class="eyebrow">Forma&ccedil;&atilde;o pr&oacute;xima</p>
+                    <h2 id="area-formation-title">Onde procurar cursos e trilhas na regi&atilde;o</h2>
+                </div>
+                <p>As ofertas mudam com editais e turmas. Use os links como ponto de partida para conferir disponibilidade atual.</p>
+            </div>
+
+            <div class="formation-grid">
+                <a class="formation-card" th:each="formacao : ${detalheArea.formacoes}"
+                   th:href="${formacao.url}" target="_blank" rel="noopener noreferrer">
+                    <span th:text="${formacao.cidade}">Cidade</span>
+                    <h3 th:text="${formacao.titulo}">Forma&ccedil;&atilde;o</h3>
+                    <strong th:text="${formacao.instituicao}">Institui&ccedil;&atilde;o</strong>
+                    <small th:text="${formacao.modalidade}">Modalidade</small>
+                    <p th:text="${formacao.descricao}">Descri&ccedil;&atilde;o.</p>
+                    <em>Ver site <span aria-hidden="true">&nearr;</span></em>
+                </a>
+            </div>
         </div>
     </section>
 

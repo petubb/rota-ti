@@ -2,7 +2,9 @@ package com.rotati.service;
 
 import com.rotati.dto.DetalheAreaView;
 import com.rotati.dto.FonteSalarioView;
+import com.rotati.dto.FormacaoLocalView;
 import com.rotati.dto.PlanoCarreiraView;
+import com.rotati.dto.ProfissaoAreaView;
 import com.rotati.dto.ReferenciaAreaView;
 import com.rotati.dto.SalarioAreaView;
 import com.rotati.model.AreaTi;
@@ -16,6 +18,16 @@ public class DetalheAreaService {
 
     private static final String ROBERT_HALF_TECNOLOGIA =
             "https://www.roberthalf.com/br/pt/insights/guia-salarial/tecnologia";
+    private static final String IFRO_CACOAL_CURSOS = "https://portal.ifro.edu.br/cacoal/cursos";
+    private static final String IFRO_EAD = "https://portal.ifro.edu.br/educacaoadistancia-nav";
+    private static final String SENAC_INFORMATICA = "https://www.ro.senac.br/categoria-produto/area_de_atuacao/informatica/";
+    private static final String SENAC_PIMENTA_BUENO = "https://www.ro.senac.br/unidades/senac-pimenta-bueno/";
+    private static final String SENAC_ROLIM_MOURA = "https://www.ro.senac.br/category/processo-seletivo/processo-seletivo-rolim-de-moura/";
+    private static final String SENAI_RO = "https://portal.fiero.org.br/senai";
+    private static final String SENAI_FUTURO_DIGITAL = "https://www.futuro.digital/senai-ro";
+    private static final String UNESC_SI_CACOAL = "https://vestibular.unescnet.br/PS_UNESC/Curso.aspx?Cidade=Cacoal&CursoId=84&CursoNome=sistemas-de-informacao&CursoUnidadeId=8801&MenuId=3&UF=RO";
+    private static final String UNESC_ADS_CACOAL = "https://vestibular.unescnet.br/PS_UNESC/Curso.aspx?Cidade=Cacoal&CursoId=85&CursoNome=superior-de-tecnologia-em-analise-e-desenvolvimento-de-sistemas&CursoUnidadeId=8803&MenuId=4&UF=RO";
+    private static final String CRUZEIRO_SUL_ROLIM_MOURA = "https://www.cruzeirodosulvirtual.com.br/polo/rolim-de-moura-centro-ro/";
 
     private final Map<String, DetalheAreaView> detalhes = Map.ofEntries(
             Map.entry("desenvolvimento-software", detalhe(
@@ -189,12 +201,122 @@ public class DetalheAreaService {
             ))
     );
 
+    private final Map<String, List<ProfissaoAreaView>> profissoes = Map.ofEntries(
+            Map.entry("desenvolvimento-software", List.of(
+                    profissao("Desenvolvedor(a) Web", "Entrada", "Cria sites, telas e sistemas web usando HTML, CSS, JavaScript e frameworks."),
+                    profissao("Desenvolvedor(a) Backend", "Evolucao", "Constrói APIs, regras de negocio, integracoes e acesso a banco de dados."),
+                    profissao("Desenvolvedor(a) Mobile", "Evolucao", "Desenvolve aplicativos para celular e integra recursos do aparelho com servicos online."),
+                    profissao("QA / Testador(a) de Software", "Entrada", "Testa funcionalidades, registra falhas e ajuda o time a entregar sistemas mais confiaveis.")
+            )),
+            Map.entry("dados-bi", List.of(
+                    profissao("Analista de Dados", "Entrada", "Organiza bases, cria consultas e transforma informacoes em respostas para o negocio."),
+                    profissao("Analista de BI", "Entrada", "Monta dashboards, indicadores e relatorios para acompanhar desempenho."),
+                    profissao("Engenheiro(a) de Dados Jr.", "Evolucao", "Prepara fluxos de dados para que analistas e sistemas usem informacoes confiaveis."),
+                    profissao("Cientista de Dados Jr.", "Evolucao", "Usa estatistica e modelos para encontrar padroes, previsoes e oportunidades.")
+            )),
+            Map.entry("seguranca-cibernetica", List.of(
+                    profissao("Analista SOC", "Entrada", "Monitora alertas, investiga eventos suspeitos e apoia a resposta a incidentes."),
+                    profissao("Analista de Seguranca Jr.", "Entrada", "Revisa acessos, vulnerabilidades, politicas e boas praticas de protecao."),
+                    profissao("DevSecOps Jr.", "Evolucao", "Ajuda a inserir seguranca no ciclo de desenvolvimento e entrega de software."),
+                    profissao("Pentester Jr.", "Evolucao", "Testa sistemas em ambientes autorizados para encontrar falhas antes de invasores.")
+            )),
+            Map.entry("infraestrutura-redes", List.of(
+                    profissao("Tecnico(a) de Suporte", "Entrada", "Atende usuarios, resolve problemas de computador, rede, sistemas e acessos."),
+                    profissao("Analista de Redes Jr.", "Entrada", "Configura, documenta e acompanha redes, Wi-Fi, roteadores e conectividade."),
+                    profissao("Administrador(a) de Sistemas Jr.", "Evolucao", "Cuida de servidores, contas, backups, atualizacoes e disponibilidade."),
+                    profissao("Analista Cloud Jr.", "Evolucao", "Opera servicos em nuvem, monitora recursos e apoia ambientes escalaveis.")
+            )),
+            Map.entry("ux-ui-design", List.of(
+                    profissao("UI Designer Jr.", "Entrada", "Cria telas, componentes e layouts com foco em clareza visual e consistencia."),
+                    profissao("UX Researcher Jr.", "Entrada", "Pesquisa usuarios, conduz entrevistas e transforma achados em melhorias."),
+                    profissao("Product Designer Jr.", "Evolucao", "Une pesquisa, interface, prototipos e estrategia de produto digital."),
+                    profissao("UX Writer", "Evolucao", "Escreve textos de interface para deixar fluxos mais claros e humanos.")
+            )),
+            Map.entry("game-design", List.of(
+                    profissao("Game Designer Jr.", "Entrada", "Define regras, objetivos, progresso, recompensa e experiencia do jogador."),
+                    profissao("Level Designer", "Entrada", "Planeja fases, mapas, desafios e ritmo de aprendizado dentro do jogo."),
+                    profissao("Programador(a) Gameplay Jr.", "Evolucao", "Implementa mecanicas jogaveis, controles, interacoes e sistemas do jogo."),
+                    profissao("QA de Jogos", "Entrada", "Testa jogos, encontra bugs e ajuda a melhorar jogabilidade e estabilidade.")
+            )),
+            Map.entry("inteligencia-artificial", List.of(
+                    profissao("Analista de Machine Learning Jr.", "Evolucao", "Treina modelos simples, mede resultados e documenta limites das solucoes."),
+                    profissao("Desenvolvedor(a) de Automacoes", "Entrada", "Usa APIs, scripts e IA para automatizar tarefas repetitivas."),
+                    profissao("Cientista de Dados Jr.", "Evolucao", "Explora dados, cria hipoteses e avalia modelos preditivos."),
+                    profissao("Desenvolvedor(a) IA Jr.", "Evolucao", "Integra modelos de IA em sistemas, produtos e fluxos de trabalho.")
+            )),
+            Map.entry("gestao-ti", List.of(
+                    profissao("Analista de Requisitos", "Entrada", "Conversa com usuarios e transforma necessidades em tarefas compreensiveis para o time."),
+                    profissao("Scrum Master Jr.", "Entrada", "Ajuda o time a organizar rituais, remover bloqueios e melhorar o fluxo."),
+                    profissao("Product Owner Jr.", "Evolucao", "Prioriza demandas, acompanha valor entregue e conecta tecnologia ao negocio."),
+                    profissao("Coordenador(a) de Suporte Jr.", "Evolucao", "Organiza atendimento, acompanha indicadores e melhora processos de suporte.")
+            ))
+    );
+
+    private final Map<String, List<FormacaoLocalView>> formacoes = Map.ofEntries(
+            Map.entry("desenvolvimento-software", List.of(
+                    formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Boa base para logica, programacao, sistemas e continuidade em graduacao.", IFRO_CACOAL_CURSOS),
+                    formacao("Analise e Desenvolvimento de Sistemas", "UNESC", "Cacoal", "Graduacao tecnologica", "Caminho direto para desenvolvimento, arquitetura de software e projetos reais.", UNESC_ADS_CACOAL),
+                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Forma base ampla em programacao, banco de dados, engenharia de software e gestao.", UNESC_SI_CACOAL),
+                    formacao("Informatica e cursos livres", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Opcao proxima para comecar por fundamentos, ferramentas e trilhas profissionais.", SENAC_INFORMATICA)
+            )),
+            Map.entry("dados-bi", List.of(
+                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Ajuda a construir base em banco de dados, sistemas e leitura de negocio.", UNESC_SI_CACOAL),
+                    formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Base util para SQL, logica, bancos e projetos com informacao estruturada.", IFRO_CACOAL_CURSOS),
+                    formacao("Cursos de Informatica", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Procure turmas com planilhas, informatica, banco de dados ou ferramentas de produtividade.", SENAC_INFORMATICA),
+                    formacao("Cursos EAD e polos", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Vale acompanhar editais e polos para oportunidades de formacao tecnica e continuada.", IFRO_EAD)
+            )),
+            Map.entry("seguranca-cibernetica", List.of(
+                    formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Base para redes, sistemas operacionais, programacao e manutencao segura.", IFRO_CACOAL_CURSOS),
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Cacoal, Rolim de Moura e RO", "Tecnico/Livre", "Procure turmas de informatica, redes, IoT, manutencao e trilhas de tecnologia.", SENAI_FUTURO_DIGITAL),
+                    formacao("Informatica", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Um comeco pratico para fundamentos antes de aprofundar em redes e seguranca.", SENAC_INFORMATICA),
+                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Aprofunda programacao, banco, sistemas e gestao, base boa para seguranca em software.", UNESC_SI_CACOAL)
+            )),
+            Map.entry("infraestrutura-redes", List.of(
+                    formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Caminho forte para suporte, manutencao, redes e sistemas.", IFRO_CACOAL_CURSOS),
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Cacoal, Rolim de Moura e RO", "Tecnico/Livre", "Procure turmas ligadas a informatica, redes, IoT e operacao tecnica.", SENAI_RO),
+                    formacao("Tecnico em Informatica", "SENAC-RO", "Pimenta Bueno", "Tecnico", "Alternativa proxima para comecar por suporte, ferramentas e rotina tecnica.", SENAC_INFORMATICA),
+                    formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno", "EAD/Presencial", "Acompanhe editais de cursos subsequentes, FIC e polos na regiao.", IFRO_EAD)
+            )),
+            Map.entry("ux-ui-design", List.of(
+                    formacao("Informatica e ferramentas digitais", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Comece por fundamentos digitais e procure turmas ligadas a design, web ou produtividade.", SENAC_PIMENTA_BUENO),
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Pode ajudar com web, ferramentas visuais e fundamentos para prototipos digitais.", SENAI_FUTURO_DIGITAL),
+                    formacao("Analise e Desenvolvimento de Sistemas", "UNESC", "Cacoal", "Graduacao tecnologica", "Mesmo sendo mais tecnico, ajuda a entender produto, front-end e construcao de interfaces.", UNESC_ADS_CACOAL),
+                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Boa base para quem quer unir tecnologia, negocio, experiencia e produto.", UNESC_SI_CACOAL)
+            )),
+            Map.entry("game-design", List.of(
+                    formacao("Analise e Desenvolvimento de Sistemas", "UNESC", "Cacoal", "Graduacao tecnologica", "Base para programacao de jogos, logica, banco e projetos interativos.", UNESC_ADS_CACOAL),
+                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Ajuda a construir fundamentos de software antes de especializar em games.", UNESC_SI_CACOAL),
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Procure trilhas de programacao, web, design digital ou fundamentos de tecnologia.", SENAI_FUTURO_DIGITAL),
+                    formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Ajuda a comecar por logica, programacao e projetos pequenos.", IFRO_CACOAL_CURSOS)
+            )),
+            Map.entry("inteligencia-artificial", List.of(
+                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Base ampla para dados, programacao, banco, sistemas e fundamentos para IA.", UNESC_SI_CACOAL),
+                    formacao("Analise e Desenvolvimento de Sistemas", "UNESC", "Cacoal", "Graduacao tecnologica", "Caminho pratico para programacao, APIs, dados e automacoes.", UNESC_ADS_CACOAL),
+                    formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Primeiro passo para logica, programacao e organizacao de dados.", IFRO_CACOAL_CURSOS),
+                    formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe cursos tecnicos, FIC e editais que podem abrir oportunidades em tecnologia.", IFRO_EAD)
+            )),
+            Map.entry("gestao-ti", List.of(
+                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Une tecnologia, processos, dados e gestao de solucoes para empresas.", UNESC_SI_CACOAL),
+                    formacao("Gestao e Informatica", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Procure cursos de gestao, atendimento, informatica e processos administrativos.", SENAC_PIMENTA_BUENO),
+                    formacao("Tecnologia a distancia", "Cruzeiro do Sul Virtual", "Rolim de Moura", "EAD/Polo", "Opcoes EAD de tecnologia podem ajudar quem precisa estudar perto de casa.", CRUZEIRO_SUL_ROLIM_MOURA),
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Bom para entender operacao, processos tecnicos e contexto de equipes.", SENAI_RO)
+            ))
+    );
+
     public DetalheAreaView buscarPorSlug(String slug) {
         DetalheAreaView detalhe = detalhes.get(slug);
         if (detalhe == null) {
             throw new IllegalArgumentException("Detalhes nao encontrados para a area: " + slug);
         }
-        return detalhe;
+        return new DetalheAreaView(
+                detalhe.getSalario(),
+                detalhe.getMercado(),
+                detalhe.getPlanoCarreira(),
+                detalhe.getReferencias(),
+                profissoes.getOrDefault(slug, List.of()),
+                formacoes.getOrDefault(slug, List.of()),
+                detalhe.getFerramentas()
+        );
     }
 
     public DetalheAreaView buscarPorArea(AreaTi area) {
@@ -225,5 +347,20 @@ public class DetalheAreaService {
 
     private static ReferenciaAreaView referencia(String tipo, String titulo, String descricao, String url) {
         return new ReferenciaAreaView(tipo, titulo, descricao, url);
+    }
+
+    private static ProfissaoAreaView profissao(String titulo, String nivel, String descricao) {
+        return new ProfissaoAreaView(titulo, nivel, descricao);
+    }
+
+    private static FormacaoLocalView formacao(
+            String titulo,
+            String instituicao,
+            String cidade,
+            String modalidade,
+            String descricao,
+            String url
+    ) {
+        return new FormacaoLocalView(titulo, instituicao, cidade, modalidade, descricao, url);
     }
 }

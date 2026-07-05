@@ -6,6 +6,7 @@
     <meta name="description" content="Resultado personalizado do questionario de orientacao profissional em tecnologia.">
     <title>Seu resultado | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script defer th:src="@{/js/result.js}"></script>
 </head>
 <body class="result-page">
 <header class="site-header result-header">
@@ -74,6 +75,26 @@
         </div>
     </section>
 
+    <section class="result-share-section" aria-labelledby="share-title"
+             data-result-share
+             th:attr="data-share-area=${resultadoView.principal.area.titulo},
+                      data-share-score=${#numbers.formatDecimal(resultadoView.principal.compatibilidade, 1, 0)},
+                      data-share-quiz-url=@{/quiz}">
+        <div class="result-container result-share-layout">
+            <div>
+                <p class="eyebrow">Mostre sua rota</p>
+                <h2 id="share-title">Compartilhe seu resultado</h2>
+                <p>Use um texto pronto para chamar colegas para fazer o teste tamb&eacute;m.</p>
+            </div>
+            <div class="result-share-actions">
+                <button class="button primary" type="button" data-share-native>Compartilhar</button>
+                <a class="button secondary" href="#" target="_blank" rel="noopener noreferrer" data-share-whatsapp>WhatsApp</a>
+                <button class="button secondary" type="button" data-share-copy>Copiar texto</button>
+                <span class="result-share-status" data-share-status role="status" aria-live="polite"></span>
+            </div>
+        </div>
+    </section>
+
     <section class="result-section result-ranking-section" aria-labelledby="ranking-title">
         <div class="result-container">
             <div class="result-section-heading">
@@ -122,6 +143,26 @@
         </div>
     </section>
 
+    <section class="result-section result-careers-section" aria-labelledby="careers-title">
+        <div class="result-container">
+            <div class="result-section-heading">
+                <div>
+                    <p class="eyebrow">Possibilidades reais</p>
+                    <h2 id="careers-title">Profiss&otilde;es que podem nascer dessa rota</h2>
+                </div>
+                <p>O nome da &aacute;rea &eacute; s&oacute; o come&ccedil;o. Dentro dela existem fun&ccedil;&otilde;es diferentes para explorar.</p>
+            </div>
+
+            <div class="career-role-grid">
+                <article class="career-role-card" th:each="profissao : ${detalheArea.profissoes}">
+                    <span th:text="${profissao.nivel}">Entrada</span>
+                    <h3 th:text="${profissao.titulo}">Profiss&atilde;o</h3>
+                    <p th:text="${profissao.descricao}">Descri&ccedil;&atilde;o da profiss&atilde;o.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <section class="result-section result-roadmap-section" id="primeiros-passos" aria-labelledby="roadmap-title">
         <div class="result-container">
             <div class="result-section-heading roadmap-heading">
@@ -159,6 +200,30 @@
                         <li th:each="curso : ${resultadoView.principal.area.cursos}" th:text="${curso}">Curso</li>
                     </ul>
                 </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="result-section result-formation-section" aria-labelledby="formation-title">
+        <div class="result-container">
+            <div class="result-section-heading">
+                <div>
+                    <p class="eyebrow">Perto de voc&ecirc;</p>
+                    <h2 id="formation-title">Onde procurar forma&ccedil;&atilde;o na regi&atilde;o</h2>
+                </div>
+                <p>Confira os sites oficiais, editais e agendas. As ofertas mudam por semestre, unidade e disponibilidade de turma.</p>
+            </div>
+
+            <div class="formation-grid">
+                <a class="formation-card" th:each="formacao : ${detalheArea.formacoes}"
+                   th:href="${formacao.url}" target="_blank" rel="noopener noreferrer">
+                    <span th:text="${formacao.cidade}">Cidade</span>
+                    <h3 th:text="${formacao.titulo}">Forma&ccedil;&atilde;o</h3>
+                    <strong th:text="${formacao.instituicao}">Institui&ccedil;&atilde;o</strong>
+                    <small th:text="${formacao.modalidade}">Modalidade</small>
+                    <p th:text="${formacao.descricao}">Descri&ccedil;&atilde;o.</p>
+                    <em>Ver site <span aria-hidden="true">&nearr;</span></em>
+                </a>
             </div>
         </div>
     </section>
