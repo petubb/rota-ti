@@ -106,6 +106,25 @@ class AutenticacaoSegurancaTests {
     }
 
     @Test
+    void paginasInstitucionaisSaoPublicas() throws Exception {
+        mockMvc.perform(get("/sobre"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("sobre"));
+
+        mockMvc.perform(get("/privacidade"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("privacidade"));
+
+        mockMvc.perform(get("/politica-privacidade"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("privacidade"));
+
+        mockMvc.perform(get("/lgpd"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("privacidade"));
+    }
+
+    @Test
     void areaDaContaExigeLoginEPostSemCsrfERecusado() throws Exception {
         mockMvc.perform(get("/minha-conta/resultados"))
                 .andExpect(status().is3xxRedirection())

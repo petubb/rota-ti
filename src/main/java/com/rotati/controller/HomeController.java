@@ -28,4 +28,9 @@ public class HomeController {
     public String sobre() {
         return "sobre";
     }
+
+    @GetMapping({"/privacidade", "/politica-privacidade", "/lgpd"})
+    public String privacidade() {
+        return "privacidade";
+    }
 }

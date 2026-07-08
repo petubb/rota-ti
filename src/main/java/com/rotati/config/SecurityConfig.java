@@ -70,7 +70,8 @@ public class SecurityConfig {
                 .authenticationManager(authenticationManager)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
-                                "/", "/sobre", "/areas", "/area/**", "/quiz/**", "/resultado/**",
+                                "/", "/sobre", "/privacidade", "/politica-privacidade", "/lgpd",
+                                "/areas", "/area/**", "/quiz/**", "/resultado/**",
                                 "/entrar", "/cadastro", "/esqueci-senha", "/recuperar-senha",
                                 "/css/**", "/js/**", "/images/**", "/error",
                                 "/api/areas"

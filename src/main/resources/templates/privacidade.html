@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Politica de privacidade e LGPD do Rota TI. Entenda quais dados sao coletados e como sao usados no projeto.">
+    <title>Privacidade e LGPD | Rota TI</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="privacy-page">
+<header class="site-header">
+    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
+        <span class="brand-mark" aria-hidden="true">RT</span>
+        <span>Rota TI<small>Orientacao profissional</small></span>
+    </a>
+    <nav aria-label="Navegacao da politica de privacidade">
+        <a th:href="@{/sobre}">Sobre</a>
+        <a th:href="@{/areas}">&Aacute;reas</a>
+        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
+        <a class="button primary header-cta" th:href="@{/quiz}">Fazer o teste</a>
+    </nav>
+</header>
+
+<main>
+    <section class="privacy-hero" aria-labelledby="privacy-title">
+        <div class="privacy-container">
+            <p class="eyebrow">Privacidade e LGPD</p>
+            <h1 id="privacy-title">Como o Rota TI cuida dos seus dados.</h1>
+            <p>
+                Esta pagina explica, de forma simples, quais informacoes sao usadas no projeto,
+                por que elas sao solicitadas e quais cuidados foram adotados para proteger quem
+                utiliza a plataforma.
+            </p>
+        </div>
+    </section>
+
+    <section class="privacy-section">
+        <div class="privacy-container privacy-layout">
+            <aside class="privacy-summary" aria-label="Resumo da politica">
+                <span>Resumo rapido</span>
+                <ul>
+                    <li>O quiz pode ser feito sem cadastro.</li>
+                    <li>A conta e opcional para salvar historico.</li>
+                    <li>Senhas sao protegidas com BCrypt.</li>
+                    <li>Os dados ajudam a gerar resultados e estatisticas gerais.</li>
+                </ul>
+            </aside>
+
+            <div class="privacy-content">
+                <article>
+                    <h2>1. Sobre esta politica</h2>
+                    <p>
+                        O Rota TI e um projeto academico de orientacao profissional em tecnologia.
+                        A proposta e ajudar estudantes a refletirem sobre areas de TI que podem combinar
+                        com seus interesses. Esta politica foi escrita para apoiar a transparencia no uso
+                        dos dados, em alinhamento com a Lei Geral de Protecao de Dados Pessoais (LGPD).
+                    </p>
+                </article>
+
+                <article>
+                    <h2>2. Quais dados podem ser coletados</h2>
+                    <p>Durante o uso do site, podem ser registrados os seguintes dados:</p>
+                    <ul>
+                        <li>nome informado no inicio do quiz;</li>
+                        <li>idade;</li>
+                        <li>escola;</li>
+                        <li>respostas do questionario;</li>
+                        <li>resultado gerado, area recomendada e pontuacao;</li>
+                        <li>avaliacao de satisfacao do resultado, quando preenchida;</li>
+                        <li>nome, e-mail e senha protegida, caso a pessoa crie uma conta.</li>
+                    </ul>
+                </article>
+
+                <article>
+                    <h2>3. Para que os dados sao usados</h2>
+                    <p>Os dados sao usados para:</p>
+                    <ul>
+                        <li>gerar o resultado personalizado do quiz;</li>
+                        <li>permitir que uma conta salve e consulte historico de resultados;</li>
+                        <li>mostrar estatisticas gerais no painel administrativo;</li>
+                        <li>melhorar o questionario e a experiencia do projeto;</li>
+                        <li>permitir recuperacao de senha por e-mail, quando necessario.</li>
+                    </ul>
+                    <p>
+                        As estatisticas do dashboard sao apresentadas de forma geral, sem expor publicamente
+                        dados individuais dos estudantes.
+                    </p>
+                </article>
+
+                <article>
+                    <h2>4. Cadastro e login</h2>
+                    <p>
+                        O cadastro nao e obrigatorio para fazer o quiz. Ele existe para quem deseja salvar
+                        resultados e consultar o historico depois. Visitantes conseguem responder o quiz e
+                        visualizar o resultado sem criar conta.
+                    </p>
+                </article>
+
+                <article>
+                    <h2>5. Senhas e recuperacao</h2>
+                    <p>
+                        Senhas nao sao salvas em texto puro. O sistema armazena apenas um hash BCrypt, que
+                        e uma representacao de mao unica usada para validar o login sem recuperar a senha
+                        original. Na recuperacao de senha, o link enviado por e-mail usa token temporario,
+                        de uso unico e com expiracao.
+                    </p>
+                </article>
+
+                <article>
+                    <h2>6. Quem pode acessar os dados</h2>
+                    <p>
+                        Usuarios comuns acessam apenas seus proprios resultados salvos. A area administrativa
+                        exige permissao de administrador e serve para acompanhar metricas gerais do projeto,
+                        como quantidade de resultados por area e participacoes recentes.
+                    </p>
+                </article>
+
+                <article>
+                    <h2>7. Compartilhamento de resultado</h2>
+                    <p>
+                        A funcao de compartilhar resultado apenas prepara um texto para a propria pessoa enviar
+                        se quiser. O Rota TI nao publica automaticamente o resultado em redes sociais e nao envia
+                        mensagens em nome do usuario.
+                    </p>
+                </article>
+
+                <article>
+                    <h2>8. Direitos do titular</h2>
+                    <p>
+                        A pessoa que usa o sistema pode solicitar acesso, correcao ou remocao de dados vinculados
+                        a sua conta. Como este e um projeto academico, essas solicitacoes devem ser feitas a equipe
+                        responsavel pelo Rota TI durante o periodo de testes e apresentacao.
+                    </p>
+                </article>
+
+                <article>
+                    <h2>9. Limites da orientacao</h2>
+                    <p>
+                        O resultado do quiz e uma orientacao inicial baseada nas respostas informadas. Ele nao e
+                        diagnostico profissional, avaliacao psicologica ou decisao definitiva de carreira. O ideal
+                        e usar o resultado como ponto de partida para pesquisar, conversar e experimentar.
+                    </p>
+                </article>
+
+                <article>
+                    <h2>10. Atualizacoes</h2>
+                    <p>
+                        Esta politica pode ser ajustada conforme o projeto evoluir, especialmente se novas
+                        funcionalidades, relatorios ou formas de contato forem adicionadas ao site.
+                    </p>
+                    <p class="privacy-updated">Ultima atualizacao: julho de 2026.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+</main>
+
+<th:block th:replace="~{fragments/site-footer :: footer}"></th:block>
+</body>
+</html>
