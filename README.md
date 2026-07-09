@@ -69,6 +69,7 @@ $env:SPRING_PROFILES_ACTIVE="mysql"
 
 - `/`: pagina inicial.
 - `/sobre`: explicacao do projeto.
+- `/privacidade`: politica de privacidade e LGPD.
 - `/quiz`: formulario do questionario.
 - `/resultado/{id}`: resultado de um questionario respondido.
 - `/areas`: catalogo das areas de TI.

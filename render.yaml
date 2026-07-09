@@ -1,0 +1,44 @@
+services:
+  - type: web
+    runtime: docker
+    name: rota-ti
+    plan: free
+    region: oregon
+    healthCheckPath: /
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: mysql
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_NAME
+        value: rotati
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_SSL_MODE
+        value: REQUIRED
+      - key: APP_URL_BASE
+        sync: false
+      - key: SESSION_COOKIE_SECURE
+        value: "true"
+      - key: H2_CONSOLE_ENABLED
+        value: "false"
+      - key: THYMELEAF_CACHE
+        value: "true"
+      - key: MAIL_HOST
+        value: smtp.gmail.com
+      - key: MAIL_PORT
+        value: "587"
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: APP_EMAIL_REMETENTE
+        sync: false
+      - key: MAIL_SMTP_AUTH
+        value: "true"
+      - key: MAIL_SMTP_STARTTLS_ENABLE
+        value: "true"

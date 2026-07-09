@@ -9,7 +9,7 @@ if (shareBox) {
     const score = shareBox.dataset.shareScore || "";
     const quizUrl = new URL(shareBox.dataset.shareQuizUrl || "/quiz", window.location.origin).toString();
     const scoreText = score ? `, com ${score}% de compatibilidade` : "";
-    const shareText = `Meu resultado no Rota TI foi ${area}${scoreText}. Faca o teste tambem: ${quizUrl}`;
+    const shareText = `Fiz o quiz do Rota TI e minha rota mais compativel foi ${area}${scoreText}. Achei um jeito legal de conhecer caminhos em tecnologia: ${quizUrl}`;
 
     if (whatsappLink) {
         whatsappLink.href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;

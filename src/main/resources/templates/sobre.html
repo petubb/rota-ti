@@ -3,50 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conheca o Rota TI, uma plataforma de orientacao profissional para estudantes explorarem caminhos em tecnologia.">
     <title>Sobre | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
+<body class="about-page">
 <header class="site-header">
-    <a class="brand" th:href="@{/}">Rota TI</a>
-    <nav>
-        <a th:href="@{/quiz}">Quiz</a>
-        <a th:href="@{/areas}">Areas</a>
+    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
+        <span class="brand-mark" aria-hidden="true">RT</span>
+        <span>Rota TI<small>Orientacao profissional</small></span>
+    </a>
+    <nav aria-label="Navegacao da pagina sobre">
+        <a th:href="@{/areas}">&Aacute;reas</a>
         <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
+        <a class="button primary header-cta" th:href="@{/quiz}">Fazer o teste</a>
     </nav>
 </header>
 
-<main class="page">
-    <section class="section narrow">
-        <p class="eyebrow">Sobre o projeto</p>
-        <h1>Uma plataforma para ampliar a orientacao profissional em tecnologia.</h1>
-        <p>
-            Muitos estudantes associam TI apenas a programacao. O Rota TI mostra que existem
-            caminhos diferentes, como dados, seguranca, design, infraestrutura, jogos, IA e gestao.
-        </p>
-        <p>
-            A proposta atende ao ODS 4 ao facilitar o acesso a informacao de qualidade para
-            estudantes do ensino medio, especialmente em contextos onde a orientacao de carreira
-            nem sempre chega cedo.
-        </p>
+<main>
+    <section class="about-hero" aria-labelledby="about-title">
+        <div class="about-container about-hero-grid">
+            <div>
+                <p class="eyebrow">Sobre o projeto</p>
+                <h1 id="about-title">Orientacao simples para descobrir caminhos em tecnologia.</h1>
+                <p>
+                    O Rota TI ajuda estudantes a entenderem que tecnologia nao e uma carreira unica.
+                    Existem rotas diferentes para quem gosta de criar sistemas, analisar dados,
+                    proteger ambientes, desenhar experiencias, cuidar de redes, trabalhar com jogos,
+                    explorar inteligencia artificial ou coordenar projetos.
+                </p>
+                <div class="actions">
+                    <a class="button primary" th:href="@{/quiz}">Comecar pelo quiz</a>
+                    <a class="button secondary" th:href="@{/areas}">Conhecer as areas</a>
+                </div>
+            </div>
+
+            <aside class="about-summary" aria-label="Resumo do Rota TI">
+                <span>Proposito</span>
+                <strong>Transformar curiosidade em primeiro passo.</strong>
+                <p>
+                    A plataforma combina questionario, resultado explicado, trilhas de estudo,
+                    referencias e formacoes proximas para apoiar escolhas mais conscientes.
+                </p>
+            </aside>
+        </div>
     </section>
 
-    <section class="section split">
-        <article>
-            <h2>Problema</h2>
-            <p>
-                Falta de orientacao clara sobre carreiras de TI, o que pode afastar jovens da area
-                ou levar a escolhas sem informacao suficiente.
-            </p>
-        </article>
-        <article>
-            <h2>Solucao</h2>
-            <p>
-                Um questionario simples que gera recomendacao personalizada, roadmap, habilidades
-                e cursos gratuitos para comecar.
-            </p>
-        </article>
+    <section class="about-section" aria-labelledby="why-title">
+        <div class="about-container about-two-column">
+            <article>
+                <p class="eyebrow">Problema</p>
+                <h2 id="why-title">Muita gente conhece TI por uma porta so.</h2>
+                <p>
+                    Quando tecnologia aparece apenas como programacao, parte dos estudantes nao se
+                    identifica e acaba deixando de explorar areas que poderiam combinar com seu jeito
+                    de pensar, estudar e resolver problemas.
+                </p>
+            </article>
+            <article>
+                <p class="eyebrow">Solucao</p>
+                <h2>Uma rota explicada, nao uma resposta fechada.</h2>
+                <p>
+                    O resultado mostra a area mais compativel, caminhos relacionados, habilidades,
+                    possibilidades profissionais e proximos passos. Ele serve como ponto de partida,
+                    nao como limite para a escolha do estudante.
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <section class="about-section about-process-section" aria-labelledby="about-process-title">
+        <div class="about-container">
+            <div class="about-heading">
+                <p class="eyebrow">Como funciona</p>
+                <h2 id="about-process-title">Do interesse ao plano inicial</h2>
+            </div>
+
+            <ol class="about-process-list">
+                <li>
+                    <span>01</span>
+                    <h3>Perfil</h3>
+                    <p>O estudante informa nome, idade, escola e responde perguntas objetivas sobre interesses.</p>
+                </li>
+                <li>
+                    <span>02</span>
+                    <h3>Resultado</h3>
+                    <p>O sistema calcula afinidade com as areas e explica o que conectou o perfil a rota indicada.</p>
+                </li>
+                <li>
+                    <span>03</span>
+                    <h3>Exploracao</h3>
+                    <p>A tela apresenta profissi&otilde;es, estudos, videos, referencias e forma&ccedil;&otilde;es proximas.</p>
+                </li>
+                <li>
+                    <span>04</span>
+                    <h3>Continuidade</h3>
+                    <p>Quem cria conta pode salvar resultados, comparar caminhos e acompanhar novas tentativas.</p>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="about-section" aria-labelledby="care-title">
+        <div class="about-container about-care-grid">
+            <div>
+                <p class="eyebrow">Cuidado com dados</p>
+                <h2 id="care-title">O projeto pede apenas o necessario para orientar melhor.</h2>
+                <p>
+                    Nome, idade e escola ajudam a contextualizar os resultados e as estatisticas do projeto.
+                    Login e salvamento sao opcionais. Senhas sao protegidas com hash BCrypt e o objetivo
+                    dos dados e melhorar a orientacao, nao expor informacoes pessoais.
+                </p>
+            </div>
+            <ul class="about-care-list">
+                <li>Questionario livre para uso sem cadastro obrigatorio.</li>
+                <li>Conta opcional para guardar historico de resultados.</li>
+                <li>Resultados apresentados como afinidade, nao diagnostico definitivo.</li>
+                <li>Conteudos e formacoes tratados como ponto de partida para pesquisa.</li>
+            </ul>
+        </div>
     </section>
 </main>
+
+<th:block th:replace="~{fragments/site-footer :: footer}"></th:block>
 </body>
 </html>

@@ -125,11 +125,6 @@
     </section>
 </main>
 
-<footer class="site-footer">
-    <div class="home-container">
-        <a class="brand" th:href="@{/}">Rota TI</a>
-        <p>Orienta&ccedil;&atilde;o para quem quer descobrir seu lugar na tecnologia.</p>
-    </div>
-</footer>
+<th:block th:replace="~{fragments/site-footer :: footer}"></th:block>
 </body>
 </html>
