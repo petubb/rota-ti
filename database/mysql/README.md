@@ -78,6 +78,15 @@ database/mysql/07-usuario-nome-escola.sql
 
 O script `07` adiciona a coluna `nome` em `usuarios` e preserva os registros antigos com o valor inicial `Estudante`.
 
+Para liberar as opcoes parciais do quiz, execute:
+
+```text
+database/mysql/08-respostas-parciais.sql
+database/mysql/02-seed-perguntas.sql
+```
+
+O script `08` amplia o intervalo de respostas para `-2` a `2`. Depois, o script `02` atualiza os textos simplificados das perguntas. Nenhum usuario, conta, resposta ou resultado e apagado.
+
 ## 3. Conferir no DBeaver
 
 Atualize a arvore da conexao. O banco `rotati` deve conter:

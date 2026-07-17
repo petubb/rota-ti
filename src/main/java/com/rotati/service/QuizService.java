@@ -31,6 +31,8 @@ public class QuizService {
 
     private static final double LIMIAR_DESEMPATE = 8.0;
     private static final int TOTAL_PERGUNTAS_DESEMPATE = 2;
+    private static final int RESPOSTA_MINIMA = -2;
+    private static final int RESPOSTA_MAXIMA = 2;
 
     private static final Map<String, String> ROTULOS_CATEGORIAS = new LinkedHashMap<>();
 
@@ -91,7 +93,7 @@ public class QuizService {
 
         return perguntas.stream().allMatch(pergunta -> {
             Integer valor = submission.getRespostas().get(pergunta.getId());
-            return valor != null && valor >= -1 && valor <= 1;
+            return valor != null && valor >= RESPOSTA_MINIMA && valor <= RESPOSTA_MAXIMA;
         });
     }
 
@@ -227,7 +229,7 @@ public class QuizService {
                 AreaTi area = AreaTi.fromSlug(peso.getAreaSlug())
                         .orElseThrow(() -> new IllegalStateException("Area invalida no peso da pergunta."));
                 pontosPorArea.merge(area, valor * peso.getPeso(), Integer::sum);
-                maximoPorArea.merge(area, Math.abs(peso.getPeso()), Integer::sum);
+                maximoPorArea.merge(area, Math.abs(peso.getPeso()) * RESPOSTA_MAXIMA, Integer::sum);
             }
         }
 

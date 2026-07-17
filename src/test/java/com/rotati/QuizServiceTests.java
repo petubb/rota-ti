@@ -34,27 +34,37 @@ class QuizServiceTests {
     }
 
     @Test
-    void diferenciaDiscordanciaNeutralidadeEConcordancia() {
+    void diferenciaEscalaCompletaDeRespostas() {
         List<Pergunta> perguntas = quizService.listarPerguntas();
         Pergunta perguntaDesenvolvimento = perguntas.stream()
                 .filter(pergunta -> pergunta.getCodigo().equals("BASE_DEV_CRIAR"))
                 .findFirst()
                 .orElseThrow();
 
-        QuizSubmission discordo = submissionComValor(perguntas, 0);
-        discordo.getRespostas().put(perguntaDesenvolvimento.getId(), -1);
+        QuizSubmission naoCombina = submissionComValor(perguntas, 0);
+        naoCombina.getRespostas().put(perguntaDesenvolvimento.getId(), -2);
+
+        QuizSubmission combinaPouco = submissionComValor(perguntas, 0);
+        combinaPouco.getRespostas().put(perguntaDesenvolvimento.getId(), -1);
 
         QuizSubmission neutro = submissionComValor(perguntas, 0);
 
-        QuizSubmission concordo = submissionComValor(perguntas, 0);
-        concordo.getRespostas().put(perguntaDesenvolvimento.getId(), 1);
+        QuizSubmission combinaUmPouco = submissionComValor(perguntas, 0);
+        combinaUmPouco.getRespostas().put(perguntaDesenvolvimento.getId(), 1);
 
-        double scoreDiscordo = scoreDaArea(discordo, AreaTi.DESENVOLVIMENTO);
+        QuizSubmission combinaMuito = submissionComValor(perguntas, 0);
+        combinaMuito.getRespostas().put(perguntaDesenvolvimento.getId(), 2);
+
+        double scoreNaoCombina = scoreDaArea(naoCombina, AreaTi.DESENVOLVIMENTO);
+        double scoreCombinaPouco = scoreDaArea(combinaPouco, AreaTi.DESENVOLVIMENTO);
         double scoreNeutro = scoreDaArea(neutro, AreaTi.DESENVOLVIMENTO);
-        double scoreConcordo = scoreDaArea(concordo, AreaTi.DESENVOLVIMENTO);
+        double scoreCombinaUmPouco = scoreDaArea(combinaUmPouco, AreaTi.DESENVOLVIMENTO);
+        double scoreCombinaMuito = scoreDaArea(combinaMuito, AreaTi.DESENVOLVIMENTO);
 
-        assertThat(scoreDiscordo).isLessThan(scoreNeutro);
-        assertThat(scoreNeutro).isLessThan(scoreConcordo);
+        assertThat(scoreNaoCombina).isLessThan(scoreCombinaPouco);
+        assertThat(scoreCombinaPouco).isLessThan(scoreNeutro);
+        assertThat(scoreNeutro).isLessThan(scoreCombinaUmPouco);
+        assertThat(scoreCombinaUmPouco).isLessThan(scoreCombinaMuito);
     }
 
     @Test
@@ -72,11 +82,11 @@ class QuizServiceTests {
     @Test
     void perfilDefinidoNaoExigeDesempate() {
         List<Pergunta> perguntas = quizService.listarPerguntas();
-        QuizSubmission submission = submissionComValor(perguntas, -1);
+        QuizSubmission submission = submissionComValor(perguntas, -2);
 
         perguntas.stream()
                 .filter(pergunta -> List.of("BASE_DEV_CRIAR", "BASE_DEV_LOGICA").contains(pergunta.getCodigo()))
-                .forEach(pergunta -> submission.getRespostas().put(pergunta.getId(), 1));
+                .forEach(pergunta -> submission.getRespostas().put(pergunta.getId(), 2));
 
         assertThat(quizService.analisar(submission).getFirst().getArea()).isEqualTo(AreaTi.DESENVOLVIMENTO);
         assertThat(quizService.selecionarPerguntasDesempate(submission)).isEmpty();

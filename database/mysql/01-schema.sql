@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS respostas (
     valor INT NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT uk_respostas_usuario_pergunta UNIQUE (usuario_id, pergunta_id),
-    CONSTRAINT chk_respostas_valor CHECK (valor BETWEEN -1 AND 1),
+    CONSTRAINT chk_respostas_valor CHECK (valor BETWEEN -2 AND 2),
     CONSTRAINT fk_respostas_usuario
         FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
         ON UPDATE RESTRICT ON DELETE CASCADE,

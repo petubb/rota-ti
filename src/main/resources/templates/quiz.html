@@ -118,18 +118,26 @@
                     </legend>
                     <div class="quiz-answer-list">
                         <label class="quiz-answer">
+                            <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="-2" required>
+                            <span class="quiz-answer-control" aria-hidden="true"></span>
+                            <span class="quiz-answer-copy">
+                                <strong>N&atilde;o combina</strong>
+                                <small>Isso n&atilde;o tem muito a ver comigo</small>
+                            </span>
+                        </label>
+                        <label class="quiz-answer">
                             <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="-1" required>
                             <span class="quiz-answer-control" aria-hidden="true"></span>
                             <span class="quiz-answer-copy">
-                                <strong>Discordo</strong>
-                                <small>Isso n&atilde;o combina comigo</small>
+                                <strong>Combina pouco</strong>
+                                <small>Talvez, mas n&atilde;o &eacute; meu foco</small>
                             </span>
                         </label>
                         <label class="quiz-answer">
                             <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="0" required>
                             <span class="quiz-answer-control" aria-hidden="true"></span>
                             <span class="quiz-answer-copy">
-                                <strong>Neutro</strong>
+                                <strong>N&atilde;o sei dizer</strong>
                                 <small>N&atilde;o tenho certeza ainda</small>
                             </span>
                         </label>
@@ -137,8 +145,16 @@
                             <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="1" required>
                             <span class="quiz-answer-control" aria-hidden="true"></span>
                             <span class="quiz-answer-copy">
-                                <strong>Concordo</strong>
-                                <small>Isso combina comigo</small>
+                                <strong>Combina um pouco</strong>
+                                <small>Tem algo aqui que me chama aten&ccedil;&atilde;o</small>
+                            </span>
+                        </label>
+                        <label class="quiz-answer">
+                            <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="2" required>
+                            <span class="quiz-answer-control" aria-hidden="true"></span>
+                            <span class="quiz-answer-copy">
+                                <strong>Combina muito</strong>
+                                <small>Isso parece bastante comigo</small>
                             </span>
                         </label>
                     </div>
