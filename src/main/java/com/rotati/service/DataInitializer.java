@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -21,11 +24,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (perguntaRepository.count() > 0) {
-            return;
-        }
-
-        perguntaRepository.saveAll(List.of(
+        List<Pergunta> definicoes = List.of(
                 base(
                         "BASE_DEV_CRIAR",
                         "Gosto de criar sites, aplicativos ou sistemas.",
@@ -38,14 +37,15 @@ public class DataInitializer implements CommandLineRunner {
                         "Gosto de resolver problemas em etapas.",
                         "logica",
                         AreaTi.DESENVOLVIMENTO,
-                        peso(AreaTi.DESENVOLVIMENTO, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.IA, 1)
+                        peso(AreaTi.DESENVOLVIMENTO, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.IA, 1),
+                        peso(AreaTi.GAME_DESIGN, 1)
                 ),
-                baseInativa(
+                base(
                         "BASE_DADOS_ORGANIZAR",
-                        "Gosto de organizar informacoes em tabelas ou relatorios.",
+                        "Quando recebo muitas informacoes, gosto de organiza-las em tabelas ou relatorios.",
                         "analise",
                         AreaTi.DADOS,
-                        peso(AreaTi.DADOS, 2), peso(AreaTi.GESTAO, 1)
+                        peso(AreaTi.DADOS, 3), peso(AreaTi.GESTAO, 1)
                 ),
                 base(
                         "BASE_DADOS_PADROES",
@@ -61,12 +61,12 @@ public class DataInitializer implements CommandLineRunner {
                         AreaTi.SEGURANCA,
                         peso(AreaTi.SEGURANCA, 3), peso(AreaTi.INFRAESTRUTURA, 1)
                 ),
-                baseInativa(
+                base(
                         "BASE_SEG_DETALHES",
-                        "Percebo quando algo parece fora do normal.",
+                        "Costumo perceber quando algo parece fora do normal em um sistema ou conta digital.",
                         "detalhe",
                         AreaTi.SEGURANCA,
-                        peso(AreaTi.SEGURANCA, 2), peso(AreaTi.DADOS, 1), peso(AreaTi.INFRAESTRUTURA, 1)
+                        peso(AreaTi.SEGURANCA, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.INFRAESTRUTURA, 1)
                 ),
                 base(
                         "BASE_INFRA_CONFIGURAR",
@@ -75,12 +75,12 @@ public class DataInitializer implements CommandLineRunner {
                         AreaTi.INFRAESTRUTURA,
                         peso(AreaTi.INFRAESTRUTURA, 3), peso(AreaTi.SEGURANCA, 1)
                 ),
-                baseInativa(
+                base(
                         "BASE_INFRA_ESTABILIDADE",
-                        "Prefiro manter sistemas estaveis e organizados.",
+                        "Tenho satisfacao em manter sistemas estaveis, organizados e funcionando.",
                         "organizacao",
                         AreaTi.INFRAESTRUTURA,
-                        peso(AreaTi.INFRAESTRUTURA, 2), peso(AreaTi.GESTAO, 1)
+                        peso(AreaTi.INFRAESTRUTURA, 3), peso(AreaTi.GESTAO, 1)
                 ),
                 base(
                         "BASE_UX_INTERFACES",
@@ -94,7 +94,8 @@ public class DataInitializer implements CommandLineRunner {
                         "Gosto de entender o que as pessoas precisam.",
                         "empatia",
                         AreaTi.UX_UI,
-                        peso(AreaTi.UX_UI, 3), peso(AreaTi.GESTAO, 1), peso(AreaTi.DADOS, 1)
+                        peso(AreaTi.UX_UI, 3), peso(AreaTi.GESTAO, 1), peso(AreaTi.DADOS, 1),
+                        peso(AreaTi.GAME_DESIGN, 1)
                 ),
                 base(
                         "BASE_GAME_MECANICAS",
@@ -103,12 +104,12 @@ public class DataInitializer implements CommandLineRunner {
                         AreaTi.GAME_DESIGN,
                         peso(AreaTi.GAME_DESIGN, 3), peso(AreaTi.DESENVOLVIMENTO, 1), peso(AreaTi.UX_UI, 1)
                 ),
-                baseInativa(
+                base(
                         "BASE_GAME_BALANCEAMENTO",
-                        "Tenho interesse em testar e ajustar experiencias interativas.",
+                        "Quando jogo, gosto de imaginar ajustes na dificuldade, nas regras ou nas recompensas.",
                         "experimentacao",
                         AreaTi.GAME_DESIGN,
-                        peso(AreaTi.GAME_DESIGN, 2), peso(AreaTi.DADOS, 1), peso(AreaTi.UX_UI, 1)
+                        peso(AreaTi.GAME_DESIGN, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.UX_UI, 1)
                 ),
                 base(
                         "BASE_IA_CURIOSIDADE",
@@ -117,12 +118,13 @@ public class DataInitializer implements CommandLineRunner {
                         AreaTi.IA,
                         peso(AreaTi.IA, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.DESENVOLVIMENTO, 1)
                 ),
-                baseInativa(
+                base(
                         "BASE_IA_EXPERIMENTAR",
-                        "Gosto de testar ideias e comparar resultados.",
+                        "Gosto de testar uma ideia, comparar os resultados e ajustar o que nao funcionou.",
                         "experimentacao",
                         AreaTi.IA,
-                        peso(AreaTi.IA, 2), peso(AreaTi.DADOS, 1), peso(AreaTi.DESENVOLVIMENTO, 1)
+                        peso(AreaTi.IA, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.DESENVOLVIMENTO, 1),
+                        peso(AreaTi.GAME_DESIGN, 1)
                 ),
                 base(
                         "BASE_GESTAO_LIDERAR",
@@ -131,14 +133,14 @@ public class DataInitializer implements CommandLineRunner {
                         AreaTi.GESTAO,
                         peso(AreaTi.GESTAO, 3)
                 ),
-                baseInativa(
+                base(
                         "BASE_GESTAO_COMUNICAR",
-                        "Gosto de conectar pessoas, prazos e objetivos.",
+                        "Gosto de conectar pessoas, prazos e objetivos para que um projeto avance.",
                         "comunicacao",
                         AreaTi.GESTAO,
-                        peso(AreaTi.GESTAO, 2), peso(AreaTi.UX_UI, 1)
+                        peso(AreaTi.GESTAO, 3), peso(AreaTi.UX_UI, 1)
                 ),
-                base(
+                baseInativa(
                         "BASE_PERSISTENCIA",
                         "Continuo tentando quando uma solucao nao funciona de primeira.",
                         "persistencia",
@@ -146,7 +148,7 @@ public class DataInitializer implements CommandLineRunner {
                         peso(AreaTi.DESENVOLVIMENTO, 1), peso(AreaTi.SEGURANCA, 1),
                         peso(AreaTi.IA, 1), peso(AreaTi.GAME_DESIGN, 1)
                 ),
-                base(
+                baseInativa(
                         "BASE_EXPLICAR_IDEIAS",
                         "Gosto de explicar ideias de um jeito simples.",
                         "comunicacao",
@@ -200,7 +202,24 @@ public class DataInitializer implements CommandLineRunner {
                         peso(AreaTi.GAME_DESIGN, 3), peso(AreaTi.UX_UI, 1),
                         peso(AreaTi.INFRAESTRUTURA, -3), peso(AreaTi.SEGURANCA, -1)
                 )
-        ));
+        );
+
+        Map<String, Pergunta> perguntasExistentes = perguntaRepository.findAllByOrderByIdAsc()
+                .stream()
+                .collect(Collectors.toMap(Pergunta::getCodigo, Function.identity()));
+
+        List<Pergunta> perguntasSincronizadas = definicoes.stream()
+                .map(definicao -> {
+                    Pergunta existente = perguntasExistentes.get(definicao.getCodigo());
+                    if (existente == null) {
+                        return definicao;
+                    }
+                    existente.atualizarDefinicao(definicao);
+                    return existente;
+                })
+                .toList();
+
+        perguntaRepository.saveAll(perguntasSincronizadas);
     }
 
     private Pergunta base(String codigo, String texto, String categoria, AreaTi principal, Peso... pesos) {

@@ -110,10 +110,10 @@ O campo `conta_id` em `resultados` e opcional. Isso permite que o visitante faca
 
 1. O estudante acessa a pagina do quiz.
 2. Informa nome, idade e escola.
-3. Responde 12 perguntas principais.
+3. Responde 16 perguntas principais, duas para cada area.
 4. Cada resposta soma pontos para uma ou mais areas de TI.
 5. O sistema calcula o ranking de areas.
-6. Se as primeiras areas ficarem muito proximas, o sistema aplica perguntas extras de desempate.
+6. Se algumas areas ficarem muito proximas, o sistema aplica de duas a tres perguntas extras de desempate.
 7. A pagina de resultado mostra a rota mais compativel, porcentagem, top 3 e conteudos relacionados.
 8. O visitante pode salvar o resultado criando conta ou fazendo login.
 

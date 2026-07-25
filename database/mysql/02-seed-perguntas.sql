@@ -1,5 +1,5 @@
 -- Rota TI - catalogo ponderado do questionario
--- 12 perguntas principais ativas, 6 arquivadas e 6 candidatas a desempate.
+-- 16 perguntas principais ativas, 2 arquivadas e 6 candidatas a desempate.
 
 USE rotati;
 
@@ -8,22 +8,22 @@ START TRANSACTION;
 INSERT INTO perguntas (codigo, texto, categoria, area_slug, tipo, ativa) VALUES
 ('BASE_DEV_CRIAR', 'Gosto de criar sites, aplicativos ou sistemas.', 'criatividade', 'desenvolvimento-software', 'BASE', TRUE),
 ('BASE_DEV_LOGICA', 'Gosto de resolver problemas em etapas.', 'logica', 'desenvolvimento-software', 'BASE', TRUE),
-('BASE_DADOS_ORGANIZAR', 'Gosto de organizar informacoes em tabelas ou relatorios.', 'analise', 'dados-bi', 'BASE', FALSE),
+('BASE_DADOS_ORGANIZAR', 'Quando recebo muitas informacoes, gosto de organiza-las em tabelas ou relatorios.', 'analise', 'dados-bi', 'BASE', TRUE),
 ('BASE_DADOS_PADROES', 'Percebo padroes em numeros, tabelas ou graficos.', 'analise', 'dados-bi', 'BASE', TRUE),
 ('BASE_SEG_INVESTIGAR', 'Tenho interesse em investigar falhas ou golpes digitais.', 'investigacao', 'seguranca-cibernetica', 'BASE', TRUE),
-('BASE_SEG_DETALHES', 'Percebo quando algo parece fora do normal.', 'detalhe', 'seguranca-cibernetica', 'BASE', FALSE),
+('BASE_SEG_DETALHES', 'Costumo perceber quando algo parece fora do normal em um sistema ou conta digital.', 'detalhe', 'seguranca-cibernetica', 'BASE', TRUE),
 ('BASE_INFRA_CONFIGURAR', 'Gosto de configurar computadores, redes ou servicos.', 'operacao', 'infraestrutura-redes', 'BASE', TRUE),
-('BASE_INFRA_ESTABILIDADE', 'Prefiro manter sistemas estaveis e organizados.', 'organizacao', 'infraestrutura-redes', 'BASE', FALSE),
+('BASE_INFRA_ESTABILIDADE', 'Tenho satisfacao em manter sistemas estaveis, organizados e funcionando.', 'organizacao', 'infraestrutura-redes', 'BASE', TRUE),
 ('BASE_UX_INTERFACES', 'Gosto de pensar em telas simples e faceis de usar.', 'design', 'ux-ui-design', 'BASE', TRUE),
 ('BASE_UX_USUARIOS', 'Gosto de entender o que as pessoas precisam.', 'empatia', 'ux-ui-design', 'BASE', TRUE),
 ('BASE_GAME_MECANICAS', 'Gosto de imaginar regras, fases ou desafios de jogos.', 'narrativa', 'game-design', 'BASE', TRUE),
-('BASE_GAME_BALANCEAMENTO', 'Tenho interesse em testar e ajustar experiencias interativas.', 'experimentacao', 'game-design', 'BASE', FALSE),
+('BASE_GAME_BALANCEAMENTO', 'Quando jogo, gosto de imaginar ajustes na dificuldade, nas regras ou nas recompensas.', 'experimentacao', 'game-design', 'BASE', TRUE),
 ('BASE_IA_CURIOSIDADE', 'Tenho curiosidade sobre inteligencia artificial e automacao.', 'curiosidade', 'inteligencia-artificial', 'BASE', TRUE),
-('BASE_IA_EXPERIMENTAR', 'Gosto de testar ideias e comparar resultados.', 'experimentacao', 'inteligencia-artificial', 'BASE', FALSE),
+('BASE_IA_EXPERIMENTAR', 'Gosto de testar uma ideia, comparar os resultados e ajustar o que nao funcionou.', 'experimentacao', 'inteligencia-artificial', 'BASE', TRUE),
 ('BASE_GESTAO_LIDERAR', 'Gosto de organizar tarefas e ajudar um grupo a avancar.', 'lideranca', 'gestao-ti', 'BASE', TRUE),
-('BASE_GESTAO_COMUNICAR', 'Gosto de conectar pessoas, prazos e objetivos.', 'comunicacao', 'gestao-ti', 'BASE', FALSE),
-('BASE_PERSISTENCIA', 'Continuo tentando quando uma solucao nao funciona de primeira.', 'persistencia', 'desenvolvimento-software', 'BASE', TRUE),
-('BASE_EXPLICAR_IDEIAS', 'Gosto de explicar ideias de um jeito simples.', 'comunicacao', 'gestao-ti', 'BASE', TRUE),
+('BASE_GESTAO_COMUNICAR', 'Gosto de conectar pessoas, prazos e objetivos para que um projeto avance.', 'comunicacao', 'gestao-ti', 'BASE', TRUE),
+('BASE_PERSISTENCIA', 'Continuo tentando quando uma solucao nao funciona de primeira.', 'persistencia', 'desenvolvimento-software', 'BASE', FALSE),
+('BASE_EXPLICAR_IDEIAS', 'Gosto de explicar ideias de um jeito simples.', 'comunicacao', 'gestao-ti', 'BASE', FALSE),
 ('DESEMPATE_CRIAR_MANTER', 'Entre criar algo novo e manter tudo estavel, eu prefiro criar.', 'criatividade', 'desenvolvimento-software', 'DESEMPATE', TRUE),
 ('DESEMPATE_PREVENIR_EXPLORAR', 'Entre investigar riscos e explorar novidades, eu prefiro investigar riscos.', 'investigacao', 'seguranca-cibernetica', 'DESEMPATE', TRUE),
 ('DESEMPATE_PESSOAS_LOGICA', 'Prefiro entender pessoas e comunicacao a lidar com logica e numeros.', 'empatia', 'ux-ui-design', 'DESEMPATE', TRUE),
@@ -46,39 +46,42 @@ JOIN (
     UNION ALL SELECT 'BASE_DEV_LOGICA', 'desenvolvimento-software', 3
     UNION ALL SELECT 'BASE_DEV_LOGICA', 'dados-bi', 1
     UNION ALL SELECT 'BASE_DEV_LOGICA', 'inteligencia-artificial', 1
-    UNION ALL SELECT 'BASE_DADOS_ORGANIZAR', 'dados-bi', 2
+    UNION ALL SELECT 'BASE_DEV_LOGICA', 'game-design', 1
+    UNION ALL SELECT 'BASE_DADOS_ORGANIZAR', 'dados-bi', 3
     UNION ALL SELECT 'BASE_DADOS_ORGANIZAR', 'gestao-ti', 1
     UNION ALL SELECT 'BASE_DADOS_PADROES', 'dados-bi', 3
     UNION ALL SELECT 'BASE_DADOS_PADROES', 'inteligencia-artificial', 1
     UNION ALL SELECT 'BASE_DADOS_PADROES', 'seguranca-cibernetica', 1
     UNION ALL SELECT 'BASE_SEG_INVESTIGAR', 'seguranca-cibernetica', 3
     UNION ALL SELECT 'BASE_SEG_INVESTIGAR', 'infraestrutura-redes', 1
-    UNION ALL SELECT 'BASE_SEG_DETALHES', 'seguranca-cibernetica', 2
+    UNION ALL SELECT 'BASE_SEG_DETALHES', 'seguranca-cibernetica', 3
     UNION ALL SELECT 'BASE_SEG_DETALHES', 'dados-bi', 1
     UNION ALL SELECT 'BASE_SEG_DETALHES', 'infraestrutura-redes', 1
     UNION ALL SELECT 'BASE_INFRA_CONFIGURAR', 'infraestrutura-redes', 3
     UNION ALL SELECT 'BASE_INFRA_CONFIGURAR', 'seguranca-cibernetica', 1
-    UNION ALL SELECT 'BASE_INFRA_ESTABILIDADE', 'infraestrutura-redes', 2
+    UNION ALL SELECT 'BASE_INFRA_ESTABILIDADE', 'infraestrutura-redes', 3
     UNION ALL SELECT 'BASE_INFRA_ESTABILIDADE', 'gestao-ti', 1
     UNION ALL SELECT 'BASE_UX_INTERFACES', 'ux-ui-design', 3
     UNION ALL SELECT 'BASE_UX_INTERFACES', 'desenvolvimento-software', 1
     UNION ALL SELECT 'BASE_UX_USUARIOS', 'ux-ui-design', 3
     UNION ALL SELECT 'BASE_UX_USUARIOS', 'gestao-ti', 1
     UNION ALL SELECT 'BASE_UX_USUARIOS', 'dados-bi', 1
+    UNION ALL SELECT 'BASE_UX_USUARIOS', 'game-design', 1
     UNION ALL SELECT 'BASE_GAME_MECANICAS', 'game-design', 3
     UNION ALL SELECT 'BASE_GAME_MECANICAS', 'desenvolvimento-software', 1
     UNION ALL SELECT 'BASE_GAME_MECANICAS', 'ux-ui-design', 1
-    UNION ALL SELECT 'BASE_GAME_BALANCEAMENTO', 'game-design', 2
+    UNION ALL SELECT 'BASE_GAME_BALANCEAMENTO', 'game-design', 3
     UNION ALL SELECT 'BASE_GAME_BALANCEAMENTO', 'dados-bi', 1
     UNION ALL SELECT 'BASE_GAME_BALANCEAMENTO', 'ux-ui-design', 1
     UNION ALL SELECT 'BASE_IA_CURIOSIDADE', 'inteligencia-artificial', 3
     UNION ALL SELECT 'BASE_IA_CURIOSIDADE', 'dados-bi', 1
     UNION ALL SELECT 'BASE_IA_CURIOSIDADE', 'desenvolvimento-software', 1
-    UNION ALL SELECT 'BASE_IA_EXPERIMENTAR', 'inteligencia-artificial', 2
+    UNION ALL SELECT 'BASE_IA_EXPERIMENTAR', 'inteligencia-artificial', 3
     UNION ALL SELECT 'BASE_IA_EXPERIMENTAR', 'dados-bi', 1
     UNION ALL SELECT 'BASE_IA_EXPERIMENTAR', 'desenvolvimento-software', 1
+    UNION ALL SELECT 'BASE_IA_EXPERIMENTAR', 'game-design', 1
     UNION ALL SELECT 'BASE_GESTAO_LIDERAR', 'gestao-ti', 3
-    UNION ALL SELECT 'BASE_GESTAO_COMUNICAR', 'gestao-ti', 2
+    UNION ALL SELECT 'BASE_GESTAO_COMUNICAR', 'gestao-ti', 3
     UNION ALL SELECT 'BASE_GESTAO_COMUNICAR', 'ux-ui-design', 1
     UNION ALL SELECT 'BASE_PERSISTENCIA', 'desenvolvimento-software', 1
     UNION ALL SELECT 'BASE_PERSISTENCIA', 'seguranca-cibernetica', 1

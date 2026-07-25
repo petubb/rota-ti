@@ -17,6 +17,7 @@ import com.rotati.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.LinkedHashMap;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 public class QuizService {
 
     private static final double LIMIAR_DESEMPATE = 8.0;
-    private static final int TOTAL_PERGUNTAS_DESEMPATE = 2;
+    private static final int MAXIMO_PERGUNTAS_DESEMPATE = 3;
     private static final int RESPOSTA_MINIMA = -2;
     private static final int RESPOSTA_MAXIMA = 2;
 
@@ -111,24 +112,49 @@ public class QuizService {
     @Transactional(readOnly = true)
     public List<Pergunta> selecionarPerguntasDesempate(QuizSubmission submission) {
         List<AreaScore> ranking = analisar(submission);
-        double diferenca = ranking.get(0).getCompatibilidade() - ranking.get(1).getCompatibilidade();
+        double maiorCompatibilidade = ranking.getFirst().getCompatibilidade();
+        List<AreaTi> areasCandidatas = ranking.stream()
+                .filter(score -> maiorCompatibilidade - score.getCompatibilidade() < LIMIAR_DESEMPATE)
+                .map(AreaScore::getArea)
+                .toList();
 
-        if (diferenca >= LIMIAR_DESEMPATE) {
+        if (areasCandidatas.size() < 2) {
             return List.of();
         }
 
-        AreaTi primeira = ranking.get(0).getArea();
-        AreaTi segunda = ranking.get(1).getArea();
+        int totalPerguntas = Math.min(
+                MAXIMO_PERGUNTAS_DESEMPATE,
+                Math.max(2, areasCandidatas.size() - 1)
+        );
+        List<Pergunta> disponiveis = new ArrayList<>(
+                perguntaRepository.findAllByTipoAndAtivaTrueOrderByIdAsc(TipoPergunta.DESEMPATE)
+        );
+        List<ParAreas> paresPendentes = paresEntre(areasCandidatas);
+        List<Pergunta> selecionadas = new ArrayList<>();
 
-        return perguntaRepository.findAllByTipoAndAtivaTrueOrderByIdAsc(TipoPergunta.DESEMPATE)
-                .stream()
-                .filter(pergunta -> discriminacao(pergunta, primeira, segunda) > 0)
-                .sorted(Comparator
-                        .comparingInt((Pergunta pergunta) -> discriminacao(pergunta, primeira, segunda))
-                        .reversed()
-                        .thenComparing(Pergunta::getCodigo))
-                .limit(TOTAL_PERGUNTAS_DESEMPATE)
-                .toList();
+        while (selecionadas.size() < totalPerguntas && !disponiveis.isEmpty()) {
+            Pergunta melhorPergunta = disponiveis.stream()
+                    .filter(pergunta -> discriminacaoTotal(pergunta, areasCandidatas) > 0)
+                    .sorted(Comparator
+                            .comparingInt((Pergunta pergunta) -> paresNovosCobertos(pergunta, paresPendentes))
+                            .reversed()
+                            .thenComparing(Comparator.comparingInt(
+                                    (Pergunta pergunta) -> discriminacaoTotal(pergunta, areasCandidatas)
+                            ).reversed())
+                            .thenComparing(Pergunta::getCodigo))
+                    .findFirst()
+                    .orElse(null);
+
+            if (melhorPergunta == null) {
+                break;
+            }
+
+            selecionadas.add(melhorPergunta);
+            disponiveis.remove(melhorPergunta);
+            paresPendentes.removeIf(par -> discriminacao(melhorPergunta, par.primeira(), par.segunda()) > 0);
+        }
+
+        return List.copyOf(selecionadas);
     }
 
     @Transactional(readOnly = true)
@@ -254,6 +280,28 @@ public class QuizService {
         return Math.abs(pergunta.getPeso(primeira) - pergunta.getPeso(segunda));
     }
 
+    private int discriminacaoTotal(Pergunta pergunta, List<AreaTi> areas) {
+        return paresEntre(areas).stream()
+                .mapToInt(par -> discriminacao(pergunta, par.primeira(), par.segunda()))
+                .sum();
+    }
+
+    private int paresNovosCobertos(Pergunta pergunta, List<ParAreas> paresPendentes) {
+        return (int) paresPendentes.stream()
+                .filter(par -> discriminacao(pergunta, par.primeira(), par.segunda()) > 0)
+                .count();
+    }
+
+    private List<ParAreas> paresEntre(List<AreaTi> areas) {
+        List<ParAreas> pares = new ArrayList<>();
+        for (int primeira = 0; primeira < areas.size(); primeira++) {
+            for (int segunda = primeira + 1; segunda < areas.size(); segunda++) {
+                pares.add(new ParAreas(areas.get(primeira), areas.get(segunda)));
+            }
+        }
+        return pares;
+    }
+
     private List<String> identificarDestaques(List<Resposta> respostas) {
         Map<String, Long> frequencias = respostas.stream()
                 .filter(resposta -> resposta.getValor() != null && resposta.getValor() > 0)
@@ -285,5 +333,8 @@ public class QuizService {
     }
 
     private record RespostaCalculada(Pergunta pergunta, Integer valor) {
+    }
+
+    private record ParAreas(AreaTi primeira, AreaTi segunda) {
     }
 }

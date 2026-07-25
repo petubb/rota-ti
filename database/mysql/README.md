@@ -29,8 +29,8 @@ database/mysql/02-seed-perguntas.sql
 
 O segundo script deve retornar:
 
-- `12` perguntas `BASE` ativas;
-- `6` perguntas `BASE` arquivadas;
+- `16` perguntas `BASE` ativas;
+- `2` perguntas `BASE` arquivadas;
 - `6` perguntas `DESEMPATE` ativas;
 - a quantidade total de pesos cadastrados.
 
@@ -68,7 +68,7 @@ database/mysql/06-quiz-curto.sql
 database/mysql/02-seed-perguntas.sql
 ```
 
-O script `06` adiciona a coluna `ativa` em `perguntas` e amplia o limite de pesos para `-3` a `3`. Depois, o script `02` marca 12 perguntas principais como ativas, arquiva as demais e atualiza os pesos. Nenhum usuario, conta, resposta ou resultado e apagado.
+O script `06` adiciona a coluna `ativa` em `perguntas` e amplia o limite de pesos para `-3` a `3`. Depois, o script `02` marca 16 perguntas principais como ativas, arquiva as demais e atualiza os pesos. Nenhum usuario, conta, resposta ou resultado e apagado.
 
 Para adicionar o nome do estudante no inicio do quiz, execute:
 

@@ -122,6 +122,31 @@ public class Pergunta {
         return this;
     }
 
+    public void atualizarDefinicao(Pergunta definicao) {
+        texto = definicao.texto;
+        categoria = definicao.categoria;
+        areaSlug = definicao.areaSlug;
+        tipo = definicao.tipo;
+        ativa = definicao.ativa;
+        pesos.removeIf(pesoAtual -> definicao.pesos.stream()
+                .noneMatch(pesoDefinido -> pesoDefinido.getAreaSlug().equals(pesoAtual.getAreaSlug())));
+        definicao.pesos.forEach(pesoDefinido -> {
+            PerguntaPeso pesoAtual = pesos.stream()
+                    .filter(item -> item.getAreaSlug().equals(pesoDefinido.getAreaSlug()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (pesoAtual != null) {
+                pesoAtual.atualizarPeso(pesoDefinido.getPeso());
+                return;
+            }
+
+            AreaTi area = AreaTi.fromSlug(pesoDefinido.getAreaSlug())
+                    .orElseThrow(() -> new IllegalArgumentException("Area invalida na definicao da pergunta."));
+            adicionarPeso(area, pesoDefinido.getPeso());
+        });
+    }
+
     public int getPeso(AreaTi area) {
         return pesos.stream()
                 .filter(item -> item.getAreaSlug().equals(area.getSlug()))

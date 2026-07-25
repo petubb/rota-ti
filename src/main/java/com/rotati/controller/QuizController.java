@@ -138,7 +138,7 @@ public class QuizController {
         List<Pergunta> perguntasDesempate = quizService.buscarPerguntasPorIds(idsDesempate);
         if (!quizService.perguntasRespondidas(perguntasDesempate, submission)) {
             model.addAttribute("perguntas", perguntasDesempate);
-            model.addAttribute("erroDesempate", "Responda as duas perguntas para concluir seu resultado.");
+            model.addAttribute("erroDesempate", "Responda todas as perguntas de ajuste para concluir seu resultado.");
             return "quiz-desempate";
         }
 

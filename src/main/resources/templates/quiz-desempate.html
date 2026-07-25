@@ -23,8 +23,11 @@
 <main class="quiz-main">
     <section class="quiz-intro" aria-labelledby="quiz-title">
         <p class="eyebrow">Ajuste final</p>
-        <h1 id="quiz-title">Duas rotas ficaram bem pr&oacute;ximas.</h1>
-        <p>Responda s&oacute; mais duas perguntas para o resultado refletir melhor suas prefer&ecirc;ncias.</p>
+        <h1 id="quiz-title">Algumas rotas ficaram bem pr&oacute;ximas.</h1>
+        <p>
+            Responda s&oacute; mais <strong th:text="${#lists.size(perguntas)}">2</strong>
+            perguntas para o resultado refletir melhor suas prefer&ecirc;ncias.
+        </p>
     </section>
 
     <form class="quiz-form quiz-wizard" th:action="@{/quiz/desempate}" th:object="${submission}" method="post"
@@ -39,23 +42,25 @@
         </div>
 
         <p class="error block quiz-global-error" th:if="${erroDesempate}" th:text="${erroDesempate}">
-            Responda as duas perguntas.
+            Responda todas as perguntas de ajuste.
         </p>
 
         <div class="quiz-stage">
             <div class="question-list">
-                <fieldset class="question quiz-step quiz-question-step" th:each="pergunta, status : ${perguntas}"
-                          data-quiz-step data-question-step th:attr="data-question-number=${status.count}">
-                    <legend tabindex="-1">
+                <section class="question quiz-step quiz-question-step" th:each="pergunta, status : ${perguntas}"
+                         data-quiz-step data-question-step role="radiogroup"
+                         th:attr="data-question-number=${status.count},aria-labelledby=|quiz-question-${pergunta.id}|">
+                    <div class="quiz-question-heading">
                         <span class="quiz-step-number" th:text="|Ajuste ${status.count} de ${#lists.size(perguntas)}|">Ajuste 1 de 2</span>
-                        <span class="quiz-question-text" th:text="${pergunta.texto}">Pergunta</span>
-                    </legend>
+                        <h2 class="quiz-question-text" tabindex="-1" th:id="|quiz-question-${pergunta.id}|"
+                            th:text="${pergunta.texto}">Pergunta</h2>
+                    </div>
                     <div class="quiz-answer-list">
                         <label class="quiz-answer">
                             <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="-2" required>
                             <span class="quiz-answer-control" aria-hidden="true"></span>
                             <span class="quiz-answer-copy">
-                                <strong>Prefiro a outra</strong>
+                                <strong>Discordo totalmente</strong>
                                 <small>A outra dire&ccedil;&atilde;o combina bem mais</small>
                             </span>
                         </label>
@@ -63,7 +68,7 @@
                             <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="-1" required>
                             <span class="quiz-answer-control" aria-hidden="true"></span>
                             <span class="quiz-answer-copy">
-                                <strong>Um pouco a outra</strong>
+                                <strong>Discordo parcialmente</strong>
                                 <small>Eu tenderia para a outra op&ccedil;&atilde;o</small>
                             </span>
                         </label>
@@ -71,7 +76,7 @@
                             <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="0" required>
                             <span class="quiz-answer-control" aria-hidden="true"></span>
                             <span class="quiz-answer-copy">
-                                <strong>Equilibrado</strong>
+                                <strong>Nem concordo, nem discordo</strong>
                                 <small>As duas possibilidades combinam comigo</small>
                             </span>
                         </label>
@@ -79,7 +84,7 @@
                             <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="1" required>
                             <span class="quiz-answer-control" aria-hidden="true"></span>
                             <span class="quiz-answer-copy">
-                                <strong>Um pouco esta</strong>
+                                <strong>Concordo parcialmente</strong>
                                 <small>Eu tenderia para esta dire&ccedil;&atilde;o</small>
                             </span>
                         </label>
@@ -87,12 +92,12 @@
                             <input type="radio" th:name="${'respostas[' + pergunta.id + ']'}" value="2" required>
                             <span class="quiz-answer-control" aria-hidden="true"></span>
                             <span class="quiz-answer-copy">
-                                <strong>Prefiro esta</strong>
+                                <strong>Concordo totalmente</strong>
                                 <small>Esta dire&ccedil;&atilde;o combina bem mais</small>
                             </span>
                         </label>
                     </div>
-                </fieldset>
+                </section>
             </div>
         </div>
 
