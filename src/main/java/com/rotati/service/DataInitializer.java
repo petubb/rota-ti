@@ -45,7 +45,7 @@ public class DataInitializer implements CommandLineRunner {
                         "Quando recebo muitas informacoes, gosto de organiza-las em tabelas ou relatorios.",
                         "analise",
                         AreaTi.DADOS,
-                        peso(AreaTi.DADOS, 3), peso(AreaTi.GESTAO, 1)
+                        peso(AreaTi.DADOS, 3), peso(AreaTi.GESTAO, 1), peso(AreaTi.IA, 1)
                 ),
                 base(
                         "BASE_DADOS_PADROES",
@@ -66,7 +66,7 @@ public class DataInitializer implements CommandLineRunner {
                         "Costumo perceber quando algo parece fora do normal em um sistema ou conta digital.",
                         "detalhe",
                         AreaTi.SEGURANCA,
-                        peso(AreaTi.SEGURANCA, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.INFRAESTRUTURA, 1)
+                        peso(AreaTi.SEGURANCA, 3), peso(AreaTi.INFRAESTRUTURA, 1)
                 ),
                 base(
                         "BASE_INFRA_CONFIGURAR",
@@ -80,7 +80,7 @@ public class DataInitializer implements CommandLineRunner {
                         "Tenho satisfacao em manter sistemas estaveis, organizados e funcionando.",
                         "organizacao",
                         AreaTi.INFRAESTRUTURA,
-                        peso(AreaTi.INFRAESTRUTURA, 3), peso(AreaTi.GESTAO, 1)
+                        peso(AreaTi.INFRAESTRUTURA, 3), peso(AreaTi.GESTAO, 1), peso(AreaTi.SEGURANCA, 1)
                 ),
                 base(
                         "BASE_UX_INTERFACES",
@@ -94,8 +94,7 @@ public class DataInitializer implements CommandLineRunner {
                         "Gosto de entender o que as pessoas precisam.",
                         "empatia",
                         AreaTi.UX_UI,
-                        peso(AreaTi.UX_UI, 3), peso(AreaTi.GESTAO, 1), peso(AreaTi.DADOS, 1),
-                        peso(AreaTi.GAME_DESIGN, 1)
+                        peso(AreaTi.UX_UI, 3), peso(AreaTi.GESTAO, 1), peso(AreaTi.GAME_DESIGN, 1)
                 ),
                 base(
                         "BASE_GAME_MECANICAS",
@@ -116,7 +115,7 @@ public class DataInitializer implements CommandLineRunner {
                         "Tenho curiosidade sobre inteligencia artificial e automacao.",
                         "curiosidade",
                         AreaTi.IA,
-                        peso(AreaTi.IA, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.DESENVOLVIMENTO, 1)
+                        peso(AreaTi.IA, 3), peso(AreaTi.DESENVOLVIMENTO, 1)
                 ),
                 base(
                         "BASE_IA_EXPERIMENTAR",
@@ -131,7 +130,7 @@ public class DataInitializer implements CommandLineRunner {
                         "Gosto de organizar tarefas e ajudar um grupo a avancar.",
                         "lideranca",
                         AreaTi.GESTAO,
-                        peso(AreaTi.GESTAO, 3)
+                        peso(AreaTi.GESTAO, 3), peso(AreaTi.INFRAESTRUTURA, 1)
                 ),
                 base(
                         "BASE_GESTAO_COMUNICAR",

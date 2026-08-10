@@ -37,6 +37,13 @@ ON DUPLICATE KEY UPDATE
     tipo = VALUES(tipo),
     ativa = VALUES(ativa);
 
+DELETE pp
+FROM pergunta_pesos pp
+JOIN perguntas p ON p.id = pp.pergunta_id
+WHERE (p.codigo = 'BASE_SEG_DETALHES' AND pp.area_slug = 'dados-bi')
+   OR (p.codigo = 'BASE_UX_USUARIOS' AND pp.area_slug = 'dados-bi')
+   OR (p.codigo = 'BASE_IA_CURIOSIDADE' AND pp.area_slug = 'dados-bi');
+
 INSERT INTO pergunta_pesos (pergunta_id, area_slug, peso)
 SELECT p.id, dados.area_slug, dados.peso
 FROM perguntas p
@@ -49,23 +56,23 @@ JOIN (
     UNION ALL SELECT 'BASE_DEV_LOGICA', 'game-design', 1
     UNION ALL SELECT 'BASE_DADOS_ORGANIZAR', 'dados-bi', 3
     UNION ALL SELECT 'BASE_DADOS_ORGANIZAR', 'gestao-ti', 1
+    UNION ALL SELECT 'BASE_DADOS_ORGANIZAR', 'inteligencia-artificial', 1
     UNION ALL SELECT 'BASE_DADOS_PADROES', 'dados-bi', 3
     UNION ALL SELECT 'BASE_DADOS_PADROES', 'inteligencia-artificial', 1
     UNION ALL SELECT 'BASE_DADOS_PADROES', 'seguranca-cibernetica', 1
     UNION ALL SELECT 'BASE_SEG_INVESTIGAR', 'seguranca-cibernetica', 3
     UNION ALL SELECT 'BASE_SEG_INVESTIGAR', 'infraestrutura-redes', 1
     UNION ALL SELECT 'BASE_SEG_DETALHES', 'seguranca-cibernetica', 3
-    UNION ALL SELECT 'BASE_SEG_DETALHES', 'dados-bi', 1
     UNION ALL SELECT 'BASE_SEG_DETALHES', 'infraestrutura-redes', 1
     UNION ALL SELECT 'BASE_INFRA_CONFIGURAR', 'infraestrutura-redes', 3
     UNION ALL SELECT 'BASE_INFRA_CONFIGURAR', 'seguranca-cibernetica', 1
     UNION ALL SELECT 'BASE_INFRA_ESTABILIDADE', 'infraestrutura-redes', 3
     UNION ALL SELECT 'BASE_INFRA_ESTABILIDADE', 'gestao-ti', 1
+    UNION ALL SELECT 'BASE_INFRA_ESTABILIDADE', 'seguranca-cibernetica', 1
     UNION ALL SELECT 'BASE_UX_INTERFACES', 'ux-ui-design', 3
     UNION ALL SELECT 'BASE_UX_INTERFACES', 'desenvolvimento-software', 1
     UNION ALL SELECT 'BASE_UX_USUARIOS', 'ux-ui-design', 3
     UNION ALL SELECT 'BASE_UX_USUARIOS', 'gestao-ti', 1
-    UNION ALL SELECT 'BASE_UX_USUARIOS', 'dados-bi', 1
     UNION ALL SELECT 'BASE_UX_USUARIOS', 'game-design', 1
     UNION ALL SELECT 'BASE_GAME_MECANICAS', 'game-design', 3
     UNION ALL SELECT 'BASE_GAME_MECANICAS', 'desenvolvimento-software', 1
@@ -74,13 +81,13 @@ JOIN (
     UNION ALL SELECT 'BASE_GAME_BALANCEAMENTO', 'dados-bi', 1
     UNION ALL SELECT 'BASE_GAME_BALANCEAMENTO', 'ux-ui-design', 1
     UNION ALL SELECT 'BASE_IA_CURIOSIDADE', 'inteligencia-artificial', 3
-    UNION ALL SELECT 'BASE_IA_CURIOSIDADE', 'dados-bi', 1
     UNION ALL SELECT 'BASE_IA_CURIOSIDADE', 'desenvolvimento-software', 1
     UNION ALL SELECT 'BASE_IA_EXPERIMENTAR', 'inteligencia-artificial', 3
     UNION ALL SELECT 'BASE_IA_EXPERIMENTAR', 'dados-bi', 1
     UNION ALL SELECT 'BASE_IA_EXPERIMENTAR', 'desenvolvimento-software', 1
     UNION ALL SELECT 'BASE_IA_EXPERIMENTAR', 'game-design', 1
     UNION ALL SELECT 'BASE_GESTAO_LIDERAR', 'gestao-ti', 3
+    UNION ALL SELECT 'BASE_GESTAO_LIDERAR', 'infraestrutura-redes', 1
     UNION ALL SELECT 'BASE_GESTAO_COMUNICAR', 'gestao-ti', 3
     UNION ALL SELECT 'BASE_GESTAO_COMUNICAR', 'ux-ui-design', 1
     UNION ALL SELECT 'BASE_PERSISTENCIA', 'desenvolvimento-software', 1

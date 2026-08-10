@@ -87,6 +87,15 @@ database/mysql/02-seed-perguntas.sql
 
 O script `08` amplia o intervalo de respostas para `-2` a `2`. Depois, o script `02` atualiza os textos simplificados das perguntas. Nenhum usuario, conta, resposta ou resultado e apagado.
 
+Para aplicar o ajuste fino de balanceamento das areas do quiz, execute:
+
+```text
+database/mysql/09-balanceamento-quiz.sql
+database/mysql/02-seed-perguntas.sql
+```
+
+O script `09` altera apenas pesos de perguntas. Ele remove pesos secundarios que diluiam a area de Dados / BI e adiciona pesos secundarios em areas relacionadas para deixar a distribuicao mais equilibrada. Nenhum usuario, conta, resposta ou resultado e apagado.
+
 ## 3. Conferir no DBeaver
 
 Atualize a arvore da conexao. O banco `rotati` deve conter:
