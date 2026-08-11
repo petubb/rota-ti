@@ -7,6 +7,7 @@ import com.rotati.dto.PlanoCarreiraView;
 import com.rotati.dto.ProfissaoAreaView;
 import com.rotati.dto.ReferenciaAreaView;
 import com.rotati.dto.SalarioAreaView;
+import com.rotati.dto.TrilhaEstudoView;
 import com.rotati.model.AreaTi;
 import org.springframework.stereotype.Service;
 
@@ -252,6 +253,49 @@ public class DetalheAreaService {
             ))
     );
 
+    private final Map<String, List<TrilhaEstudoView>> trilhasEstudo = Map.ofEntries(
+            Map.entry("desenvolvimento-software", List.of(
+                    trilha("Comece por aqui", "Logica e web basica", "Entenda variaveis, condicoes, repeticao, HTML, CSS e Git para conseguir criar algo visivel.", "Monte uma pagina pessoal simples com apresentacao, lista de interesses e link para o GitHub."),
+                    trilha("Depois aprenda", "Backend, banco e APIs", "Estude HTTP, rotas, formularios, validacao, SQL e como uma tela conversa com o servidor.", "Crie um cadastro de tarefas com salvar, listar e excluir dados."),
+                    trilha("Pratique com um mini-projeto", "Sistema pequeno completo", "Junte tela, regra de negocio, banco de dados e README explicando o que o sistema resolve.", "Construa uma agenda de estudos ou controle de chamados simples para uma escola.")
+            )),
+            Map.entry("dados-bi", List.of(
+                    trilha("Comece por aqui", "Planilhas e perguntas certas", "Treine filtros, formulas, tabelas dinamicas e o habito de transformar duvidas em indicadores.", "Organize uma planilha de gastos, notas ou presenca e gere tres conclusoes."),
+                    trilha("Depois aprenda", "SQL e visualizacao", "Aprenda consultas, agrupamentos, relacoes entre tabelas e graficos que contam uma historia clara.", "Monte um painel no Power BI ou Looker Studio com dados publicos."),
+                    trilha("Pratique com um mini-projeto", "Dashboard com narrativa", "Escolha um problema, explique os dados usados, mostre indicadores e escreva uma conclusao curta.", "Crie um dashboard sobre cursos, escolas ou empregos na regiao usando uma base simples.")
+            )),
+            Map.entry("seguranca-cibernetica", List.of(
+                    trilha("Comece por aqui", "Redes, Linux e responsabilidade", "Entenda IP, DNS, HTTP, usuarios, permissoes e a diferenca entre aprender seguranca e invadir sistemas.", "Monte um glossario de seguranca com exemplos do dia a dia."),
+                    trilha("Depois aprenda", "Boas praticas e vulnerabilidades", "Estude senhas, autenticacao, backup, logs, OWASP Top 10 e como reduzir riscos em sistemas reais.", "Faca um checklist de seguranca para um site pequeno."),
+                    trilha("Pratique com um mini-projeto", "Laboratorio defensivo", "Use ambientes permitidos para observar logs, testar configuracoes e documentar correcao de falhas.", "Configure uma VM Linux local e registre usuarios, permissoes e alertas basicos.")
+            )),
+            Map.entry("infraestrutura-redes", List.of(
+                    trilha("Comece por aqui", "Suporte, hardware e sistemas", "Aprenda componentes do computador, instalacao de programas, backup, usuarios e atendimento organizado.", "Crie um checklist de atendimento para problemas comuns de computador."),
+                    trilha("Depois aprenda", "Redes e servidores", "Estude IP, DNS, DHCP, Wi-Fi, compartilhamento de arquivos, Linux e Windows Server em nivel introdutorio.", "Desenhe o mapa de uma rede domestica ou escolar com equipamentos e conexoes."),
+                    trilha("Pratique com um mini-projeto", "Laboratorio documentado", "Monte um ambiente simples, teste conexao, usuarios, backup e documente como recuperar o servico.", "Crie um guia de configuracao de rede local com passo a passo e prints.")
+            )),
+            Map.entry("ux-ui-design", List.of(
+                    trilha("Comece por aqui", "Clareza visual e acessibilidade", "Estude hierarquia, contraste, alinhamento, tipografia, cores e leitura em celular.", "Redesenhe uma tela simples melhorando espacamento, contraste e tamanho dos textos."),
+                    trilha("Depois aprenda", "Figma, fluxo e pesquisa", "Aprenda componentes, prototipos clicaveis, perguntas de entrevista e teste rapido com usuarios.", "Prototipe uma tela de cadastro e teste com duas pessoas."),
+                    trilha("Pratique com um mini-projeto", "Caso de UX completo", "Mostre problema, publico, ideias, prototipo, feedback recebido e melhoria feita.", "Crie um fluxo de inscricao para um evento escolar com telas e justificativas.")
+            )),
+            Map.entry("game-design", List.of(
+                    trilha("Comece por aqui", "Mecanicas e regras", "Analise jogos conhecidos observando objetivo, recompensa, dificuldade, feedback e ritmo.", "Escreva a ficha de um jogo simples com regra, vitoria e derrota."),
+                    trilha("Depois aprenda", "Engine e prototipacao", "Use Godot, Unity ou Construct para testar movimentacao, colisao, fases e menus basicos.", "Crie um prototipo de uma fase com inicio, desafio e fim."),
+                    trilha("Pratique com um mini-projeto", "Jogo pequeno jogavel", "Publique uma experiencia curta, teste com pessoas e ajuste a dificuldade com base no feedback.", "Monte um quiz com fases, pontuacao e tela final explicando o resultado.")
+            )),
+            Map.entry("inteligencia-artificial", List.of(
+                    trilha("Comece por aqui", "Python e dados", "Aprenda listas, funcoes, tabelas, graficos e como limpar informacoes antes de pensar em IA.", "Leia uma base CSV publica e gere tres graficos simples."),
+                    trilha("Depois aprenda", "Modelos e metricas", "Estude classificacao, regressao, treino, teste, erro e limites de modelos simples.", "Treine um modelo didatico e explique quando ele acerta e quando erra."),
+                    trilha("Pratique com um mini-projeto", "IA aplicada com cuidado", "Escolha um problema pequeno, documente dados, resultado, risco e uso responsavel.", "Crie um classificador simples de textos ou imagens usando dataset publico.")
+            )),
+            Map.entry("gestao-ti", List.of(
+                    trilha("Comece por aqui", "Projetos e comunicacao", "Entenda escopo, prazo, risco, prioridade, reunioes curtas e escrita clara de demandas.", "Transforme uma ideia de sistema em lista de requisitos simples."),
+                    trilha("Depois aprenda", "Scrum, Kanban e produto", "Aprenda backlog, tarefas, fluxo de trabalho, criterios de aceite e acompanhamento de entrega.", "Organize um quadro Kanban para um projeto escolar ou voluntario."),
+                    trilha("Pratique com um mini-projeto", "Entrega acompanhada", "Conduza um projeto pequeno registrando decisoes, tarefas, prazos, dificuldades e resultado.", "Coordene uma melhoria no Rota TI ficticia e apresente o plano para o grupo.")
+            ))
+    );
+
     private final Map<String, List<FormacaoLocalView>> formacoes = Map.ofEntries(
             Map.entry("desenvolvimento-software", List.of(
                     formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Boa base para logica, programacao, sistemas e continuidade em graduacao.", IFRO_CACOAL_CURSOS),
@@ -315,6 +359,7 @@ public class DetalheAreaService {
                 detalhe.getReferencias(),
                 profissoes.getOrDefault(slug, List.of()),
                 formacoes.getOrDefault(slug, List.of()),
+                trilhasEstudo.getOrDefault(slug, List.of()),
                 detalhe.getFerramentas()
         );
     }
@@ -351,6 +396,10 @@ public class DetalheAreaService {
 
     private static ProfissaoAreaView profissao(String titulo, String nivel, String descricao) {
         return new ProfissaoAreaView(titulo, nivel, descricao);
+    }
+
+    private static TrilhaEstudoView trilha(String etapa, String titulo, String descricao, String pratica) {
+        return new TrilhaEstudoView(etapa, titulo, descricao, pratica);
     }
 
     private static FormacaoLocalView formacao(

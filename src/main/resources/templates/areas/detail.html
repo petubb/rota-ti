@@ -30,7 +30,7 @@
                 <p th:text="${detalheArea.mercado}">Contexto da area.</p>
                 <div class="actions area-detail-actions">
                     <a class="button primary" th:href="@{/quiz}">Descobrir se combina comigo</a>
-                    <a class="text-link" href="#plano-carreira">Ver plano de carreira <span aria-hidden="true">&rarr;</span></a>
+                    <a class="text-link" href="#trilha-estudo">Ver trilha de estudo <span aria-hidden="true">&rarr;</span></a>
                 </div>
             </div>
 
@@ -76,6 +76,31 @@
                     <li th:each="ferramenta : ${detalheArea.ferramentas}" th:text="${ferramenta}">Ferramenta</li>
                 </ul>
             </article>
+        </div>
+    </section>
+
+    <section class="area-detail-section area-study-section" id="trilha-estudo" aria-labelledby="study-title">
+        <div class="area-detail-container">
+            <div class="area-section-heading">
+                <div>
+                    <p class="eyebrow">Trilha de estudo</p>
+                    <h2 id="study-title">Comece pequeno, avance com base e pratique em um projeto</h2>
+                </div>
+                <p>Uma sequ&ecirc;ncia simples para quem ainda est&aacute; descobrindo a &aacute;rea e quer saber o que estudar sem se perder.</p>
+            </div>
+
+            <div class="area-study-track">
+                <article class="area-study-card" th:each="etapa, status : ${detalheArea.trilhaEstudo}">
+                    <span th:text="|0${status.count}|">01</span>
+                    <small th:text="${etapa.etapa}">Comece por aqui</small>
+                    <h3 th:text="${etapa.titulo}">Tema</h3>
+                    <p th:text="${etapa.descricao}">Descri&ccedil;&atilde;o.</p>
+                    <div class="area-study-practice">
+                        <strong>Pr&aacute;tica sugerida</strong>
+                        <p th:text="${etapa.pratica}">Mini-projeto.</p>
+                    </div>
+                </article>
+            </div>
         </div>
     </section>
 

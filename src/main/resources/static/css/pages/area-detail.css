@@ -162,6 +162,87 @@
     font-weight: 800;
 }
 
+.area-study-section {
+    background: #fff;
+}
+
+.area-study-track {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.area-study-card {
+    display: grid;
+    gap: 12px;
+    min-height: 330px;
+    padding: 26px;
+    border: 1px solid #d9e4e8;
+    border-top: 4px solid var(--primary);
+    border-radius: 8px;
+    background: #fff;
+}
+
+.area-study-card:nth-child(2) {
+    border-top-color: var(--coral);
+}
+
+.area-study-card:nth-child(3) {
+    border-top-color: var(--accent);
+}
+
+.area-study-card > span {
+    display: inline-grid;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #e7f2ee;
+    color: var(--primary-dark);
+    font-weight: 900;
+    place-items: center;
+}
+
+.area-study-card small {
+    color: var(--coral);
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.area-study-card h3 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 1.2rem;
+    line-height: 1.22;
+}
+
+.area-study-card > p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+.area-study-practice {
+    align-self: end;
+    margin-top: 10px;
+    padding-top: 16px;
+    border-top: 1px solid #e0e8ec;
+}
+
+.area-study-practice strong {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--primary-dark);
+    font-size: 0.74rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.area-study-practice p {
+    margin: 0;
+    color: #455768;
+    font-size: 0.9rem;
+}
+
 .area-section-heading {
     display: grid;
     grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.75fr);
@@ -300,7 +381,8 @@
     }
 
     .area-overview-grid,
-    .area-career-plan {
+    .area-career-plan,
+    .area-study-track {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
@@ -327,13 +409,15 @@
 
     .area-salary-panel,
     .area-info-block,
+    .area-study-card,
     .area-career-plan li,
     .area-reference-card {
         padding: 20px;
     }
 
     .area-overview-grid,
-    .area-career-plan {
+    .area-career-plan,
+    .area-study-track {
         grid-template-columns: 1fr;
     }
 
