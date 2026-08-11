@@ -113,7 +113,11 @@
                         <strong th:text="${#numbers.formatDecimal(item.compatibilidade, 1, 0)} + '%'">75%</strong>
                     </div>
                     <h3 th:text="${item.area.titulo}">&Aacute;rea</h3>
-                    <p th:text="${item.area.perfil}">Perfil</p>
+                    <p class="result-related-profile" th:text="${item.area.perfil}">Perfil</p>
+                    <p class="result-related-reason">
+                        <strong>Por que apareceu:</strong>
+                        <span th:text="${item.justificativa}">Ela apareceu porque suas respostas tambem indicaram interesse nessa area.</span>
+                    </p>
                     <div class="result-rank-track" aria-hidden="true"><span></span></div>
                     <a th:href="@{/area/{slug}(slug=${item.area.slug})}">Conhecer &aacute;rea <span aria-hidden="true">&rarr;</span></a>
                 </article>

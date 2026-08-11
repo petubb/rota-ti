@@ -1,6 +1,7 @@
 package com.rotati.service;
 
 import com.rotati.dto.AreaScore;
+import com.rotati.dto.AreaRelacionadaView;
 import com.rotati.dto.QuizSubmission;
 import com.rotati.dto.ResultadoView;
 import com.rotati.model.AreaTi;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -227,6 +229,7 @@ public class QuizService {
                 usuario,
                 principal,
                 ranking,
+                montarAreasRelacionadas(ranking, principal, respostas),
                 identificarDestaques(respostas),
                 classificarConfianca(ranking)
         );
@@ -319,6 +322,64 @@ public class QuizService {
                 .toList();
 
         return destaques.isEmpty() ? List.of("Interesses ainda equilibrados") : destaques;
+    }
+
+    private List<AreaRelacionadaView> montarAreasRelacionadas(
+            List<AreaScore> ranking,
+            AreaScore principal,
+            List<Resposta> respostas
+    ) {
+        return ranking.stream()
+                .filter(item -> item.getArea() != principal.getArea())
+                .limit(3)
+                .map(item -> new AreaRelacionadaView(
+                        item,
+                        explicarAreaRelacionada(item.getArea(), respostas)
+                ))
+                .toList();
+    }
+
+    private String explicarAreaRelacionada(AreaTi area, List<Resposta> respostas) {
+        List<String> sinais = sinaisDaArea(area, respostas);
+        if (sinais.isEmpty()) {
+            return "Ela ficou proxima porque suas respostas tambem combinam com esse perfil.";
+        }
+        if (sinais.size() == 1) {
+            return "Ela apareceu por causa do seu interesse em " + sinais.getFirst() + ".";
+        }
+        return "Ela apareceu porque suas respostas tambem indicaram "
+                + sinais.get(0)
+                + " e "
+                + sinais.get(1)
+                + ".";
+    }
+
+    private List<String> sinaisDaArea(AreaTi area, List<Resposta> respostas) {
+        Map<String, Integer> pontosPorCategoria = new HashMap<>();
+
+        for (Resposta resposta : respostas) {
+            int valor = resposta.getValor() == null ? 0 : resposta.getValor();
+            for (PerguntaPeso peso : resposta.getPergunta().getPesos()) {
+                if (!peso.getAreaSlug().equals(area.getSlug())) {
+                    continue;
+                }
+
+                int contribuicao = valor * peso.getPeso();
+                if (contribuicao <= 0) {
+                    continue;
+                }
+
+                pontosPorCategoria.merge(resposta.getPergunta().getCategoria(), contribuicao, Integer::sum);
+            }
+        }
+
+        return pontosPorCategoria.entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed()
+                        .thenComparing(Map.Entry::getKey))
+                .limit(2)
+                .map(entry -> ROTULOS_CATEGORIAS.getOrDefault(entry.getKey(), entry.getKey()))
+                .toList();
     }
 
     private String classificarConfianca(List<AreaScore> ranking) {

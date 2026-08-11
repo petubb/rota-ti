@@ -223,8 +223,8 @@
 
 .result-rank-card {
     position: relative;
-    min-height: 290px;
-    padding: 24px;
+    min-height: 345px;
+    padding: 24px 24px 68px;
     border: 1px solid var(--line);
     border-top: 4px solid var(--primary);
     border-radius: 8px;
@@ -268,10 +268,32 @@
 }
 
 .result-rank-card p {
-    min-height: 48px;
     margin: 0;
     color: var(--muted);
     font-size: 0.9rem;
+}
+
+.result-rank-card .result-related-profile {
+    min-height: 44px;
+    font-weight: 750;
+}
+
+.result-rank-card .result-related-reason {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    color: #455768;
+    font-size: 0.86rem;
+    line-height: 1.5;
+}
+
+.result-related-reason strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--primary-dark);
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
 }
 
 .result-rank-track {
@@ -1014,7 +1036,7 @@
     }
 
     .result-rank-card {
-        min-height: 255px;
+        min-height: 0;
     }
 
     .result-fit-layout {

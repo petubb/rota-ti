@@ -11,6 +11,7 @@ public class ResultadoView {
     private final Usuario usuario;
     private final AreaScore principal;
     private final List<AreaScore> ranking;
+    private final List<AreaRelacionadaView> outrosCaminhos;
     private final List<String> destaquesPerfil;
     private final String confianca;
 
@@ -22,10 +23,38 @@ public class ResultadoView {
             List<String> destaquesPerfil,
             String confianca
     ) {
+        this(
+                resultado,
+                usuario,
+                principal,
+                ranking,
+                ranking.stream()
+                        .filter(item -> item.getArea() != principal.getArea())
+                        .limit(3)
+                        .map(item -> new AreaRelacionadaView(
+                                item,
+                                "Ela ficou proxima porque suas respostas tambem combinam com esse perfil."
+                        ))
+                        .toList(),
+                destaquesPerfil,
+                confianca
+        );
+    }
+
+    public ResultadoView(
+            Resultado resultado,
+            Usuario usuario,
+            AreaScore principal,
+            List<AreaScore> ranking,
+            List<AreaRelacionadaView> outrosCaminhos,
+            List<String> destaquesPerfil,
+            String confianca
+    ) {
         this.resultado = resultado;
         this.usuario = usuario;
         this.principal = principal;
         this.ranking = ranking;
+        this.outrosCaminhos = outrosCaminhos;
         this.destaquesPerfil = destaquesPerfil;
         this.confianca = confianca;
     }
@@ -50,11 +79,8 @@ public class ResultadoView {
         return ranking.stream().limit(3).toList();
     }
 
-    public List<AreaScore> getOutrosCaminhos() {
-        return ranking.stream()
-                .filter(item -> item.getArea() != principal.getArea())
-                .limit(3)
-                .toList();
+    public List<AreaRelacionadaView> getOutrosCaminhos() {
+        return outrosCaminhos;
     }
 
     public List<String> getDestaquesPerfil() {
