@@ -312,15 +312,17 @@ if (wizard) {
     wizard.addEventListener("keydown", (event) => {
         if (
             event.key !== "Enter"
-            || event.target.matches("input[type='radio']")
             || event.target.closest("[data-school-combobox]")
+            || event.target.closest("button, a")
         ) {
             return;
         }
 
+        event.preventDefault();
         if (currentStep < steps.length - 1) {
-            event.preventDefault();
             nextButton.click();
+        } else {
+            submitButton.click();
         }
     });
 
