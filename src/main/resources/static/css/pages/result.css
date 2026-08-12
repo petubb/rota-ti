@@ -460,6 +460,266 @@
     line-height: 1.4;
 }
 
+.result-roadmap-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.42fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.guided-roadmap-preview,
+.guided-roadmap-full {
+    display: grid;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.guided-roadmap-preview li,
+.guided-roadmap-full li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1fr);
+    gap: 18px;
+    padding: 22px;
+    border: 1px solid #d6e3e4;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 14px 34px rgba(23, 51, 77, 0.07);
+}
+
+.guided-roadmap-preview li::before,
+.guided-roadmap-full li::before {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: var(--primary);
+    content: "";
+}
+
+.guided-roadmap-preview li:nth-child(2)::before,
+.guided-roadmap-full li:nth-child(2)::before,
+.guided-roadmap-full li:nth-child(5)::before {
+    background: var(--coral);
+}
+
+.guided-roadmap-preview li:nth-child(3)::before,
+.guided-roadmap-full li:nth-child(3)::before,
+.guided-roadmap-full li:nth-child(6)::before {
+    background: var(--accent);
+}
+
+.guided-roadmap-preview li > span,
+.guided-roadmap-full li > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--navy);
+    border-radius: 50%;
+    background: #f0f8f6;
+    color: var(--primary-dark);
+    font-size: 0.82rem;
+    font-weight: 900;
+}
+
+.guided-roadmap-preview small,
+.guided-roadmap-full small {
+    color: var(--coral);
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.guided-roadmap-preview h3,
+.guided-roadmap-full h3 {
+    margin: 7px 0 8px;
+    color: var(--navy);
+    font-size: 1.22rem;
+    line-height: 1.16;
+}
+
+.guided-roadmap-preview p,
+.guided-roadmap-full p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+.guided-roadmap-preview ul,
+.guided-roadmap-full ul {
+    display: grid;
+    gap: 8px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.guided-roadmap-preview ul li,
+.guided-roadmap-full ul li {
+    display: block;
+    min-height: 0;
+    padding: 0 0 0 18px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    color: #455768;
+    font-size: 0.88rem;
+}
+
+.guided-roadmap-preview ul li::before,
+.guided-roadmap-full ul li::before {
+    inset: 0 auto auto 0;
+    width: auto;
+    background: transparent;
+    color: var(--primary);
+    content: "\2713";
+}
+
+.result-roadmap-summary {
+    position: sticky;
+    top: 92px;
+    padding: 24px;
+    border: 1px solid #d6e3e4;
+    border-radius: 8px;
+    background: #f8fcfb;
+    box-shadow: 0 16px 36px rgba(23, 51, 77, 0.08);
+}
+
+.result-roadmap-summary > span {
+    color: var(--primary-dark);
+    font-size: 0.74rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.result-roadmap-summary > strong {
+    display: block;
+    margin-top: 8px;
+    color: var(--navy);
+    font-size: 1.3rem;
+    line-height: 1.16;
+}
+
+.result-roadmap-summary dl {
+    display: grid;
+    gap: 18px;
+    margin: 22px 0 0;
+}
+
+.result-roadmap-summary dt {
+    margin-bottom: 7px;
+    color: var(--coral);
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.result-roadmap-summary dd {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin: 0;
+    color: #455768;
+    font-size: 0.9rem;
+}
+
+.result-roadmap-summary dd > span {
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: #eaf4f1;
+    color: var(--primary-dark);
+    font-size: 0.74rem;
+    font-weight: 850;
+}
+
+.result-projects-preview,
+.area-practice-projects {
+    margin-top: 46px;
+}
+
+.result-projects-heading,
+.area-project-heading {
+    margin-bottom: 18px;
+}
+
+.result-projects-heading h3 {
+    margin: 6px 0 0;
+    color: var(--navy);
+    font-size: 1.55rem;
+    line-height: 1.12;
+}
+
+.practice-project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.practice-project-card {
+    display: grid;
+    gap: 10px;
+    min-height: 230px;
+    padding: 22px;
+    border: 1px solid #d6e3e4;
+    border-top: 4px solid var(--primary);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 14px 34px rgba(23, 51, 77, 0.07);
+}
+
+.practice-project-card:nth-child(2) {
+    border-top-color: var(--coral);
+}
+
+.practice-project-card:nth-child(3) {
+    border-top-color: var(--accent);
+}
+
+.practice-project-card > span {
+    width: fit-content;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: #e7f2ee;
+    color: var(--primary-dark);
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.practice-project-card h3,
+.practice-project-card h4 {
+    margin: 8px 0 0;
+    color: var(--navy);
+    font-size: 1.14rem;
+    line-height: 1.18;
+}
+
+.practice-project-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.practice-project-card small {
+    align-self: end;
+    padding-top: 12px;
+    border-top: 1px solid #e7eeeb;
+    color: #455768;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+.guided-roadmap-full {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.guided-roadmap-full li {
+    min-height: 320px;
+}
+
 .result-career-facts {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1064,6 +1324,19 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .result-roadmap-layout,
+    .guided-roadmap-full {
+        grid-template-columns: 1fr;
+    }
+
+    .result-roadmap-summary {
+        position: static;
+    }
+
+    .practice-project-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .result-discovery-layout {
         grid-template-columns: 1fr;
     }
@@ -1151,9 +1424,28 @@
     .career-role-grid,
     .formation-grid,
     .online-resource-grid,
+    .practice-project-grid,
     .result-roadmap,
     .result-career-facts {
         grid-template-columns: 1fr;
+    }
+
+    .guided-roadmap-preview li,
+    .guided-roadmap-full li {
+        grid-template-columns: 42px minmax(0, 1fr);
+        gap: 14px;
+        padding: 18px;
+    }
+
+    .guided-roadmap-preview li > span,
+    .guided-roadmap-full li > span {
+        width: 38px;
+        height: 38px;
+        font-size: 0.72rem;
+    }
+
+    .guided-roadmap-full li {
+        min-height: 0;
     }
 
     .result-rank-card:last-child {

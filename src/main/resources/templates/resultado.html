@@ -167,39 +167,66 @@
         <div class="result-container">
             <div class="result-section-heading roadmap-heading">
                 <div>
-                    <p class="eyebrow">Plano inicial</p>
-                    <h2 id="roadmap-title">Uma rota pr&aacute;tica para sair do interesse e chegar &agrave; experi&ecirc;ncia</h2>
+                    <p class="eyebrow">Roadmap inicial</p>
+                    <h2 id="roadmap-title">O que fazer primeiro para transformar interesse em pr&aacute;tica</h2>
                 </div>
-                <a class="result-text-link" th:href="@{/area/{slug}(slug=${resultadoView.principal.area.slug})}">Ver roadmap completo</a>
+                <a class="result-text-link" th:href="@{/area/{slug}(slug=${resultadoView.principal.area.slug})} + '#plano-carreira'">Ver roadmap completo</a>
             </div>
 
-            <ol class="result-roadmap">
-                <li th:each="passo, status : ${resultadoView.principal.area.roadmap}">
-                    <span th:text="|0${status.count}|">01</span>
-                    <p th:text="${passo}">Passo</p>
-                </li>
-            </ol>
+            <div class="result-roadmap-layout">
+                <ol class="guided-roadmap-preview">
+                    <li th:each="etapa, status : ${detalheArea.roadmapResumo}">
+                        <span th:text="|0${status.count}|">01</span>
+                        <div>
+                            <small th:text="|${etapa.nivel} - ${etapa.tempo}|">Iniciante - 0-2 meses</small>
+                            <h3 th:text="${etapa.titulo}">Fundamentos</h3>
+                            <p th:text="${etapa.objetivo}">Objetivo da etapa.</p>
+                            <ul>
+                                <li th:each="passo, passoStatus : ${etapa.passos}" th:if="${passoStatus.index < 2}" th:text="${passo}">Passo</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ol>
 
-            <div class="result-career-facts">
-                <article>
-                    <span>Faixa de refer&ecirc;ncia</span>
-                    <p th:text="${detalheArea.salario.resumo}">Faixa salarial</p>
-                    <small th:text="${detalheArea.salario.observacao}">Observacao sobre salario.</small>
-                    <ul class="salary-source-list" aria-label="Fontes da faixa salarial">
-                        <li th:each="fonte : ${detalheArea.salario.fontes}">
-                            <a th:href="${fonte.url}" target="_blank" rel="noopener noreferrer">
-                                <span th:text="${fonte.titulo}">Fonte</span>
-                                <span aria-hidden="true">&nearr;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </article>
-                <article>
-                    <span>Estudos para come&ccedil;ar</span>
-                    <ul>
-                        <li th:each="curso : ${resultadoView.principal.area.cursos}" th:text="${curso}">Curso</li>
-                    </ul>
-                </article>
+                <aside class="result-roadmap-summary" aria-label="Resumo rapido da rota">
+                    <span>Resumo da rota</span>
+                    <strong th:text="${resultadoView.principal.area.titulo}">Area</strong>
+                    <dl>
+                        <div>
+                            <dt>Faixa de referencia</dt>
+                            <dd th:text="${detalheArea.salario.resumo}">Faixa salarial</dd>
+                        </div>
+                        <div>
+                            <dt>Habilidades</dt>
+                            <dd>
+                                <span th:each="habilidade, status : ${resultadoView.principal.area.habilidades}"
+                                      th:if="${status.index < 4}" th:text="${habilidade}">Habilidade</span>
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>Possiveis cargos</dt>
+                            <dd>
+                                <span th:each="profissao, status : ${detalheArea.profissoes}"
+                                      th:if="${status.index < 3}" th:text="${profissao.titulo}">Cargo</span>
+                            </dd>
+                        </div>
+                    </dl>
+                </aside>
+            </div>
+
+            <div class="result-projects-preview" th:if="${not #lists.isEmpty(detalheArea.projetosPraticos)}">
+                <div class="result-projects-heading">
+                    <p class="eyebrow">Para praticar</p>
+                    <h3>Projetos pequenos para testar essa rota</h3>
+                </div>
+                <div class="practice-project-grid">
+                    <article class="practice-project-card" th:each="projeto : ${detalheArea.projetosPraticos}">
+                        <span th:text="${projeto.nivel}">Iniciante</span>
+                        <h4 th:text="${projeto.titulo}">Projeto</h4>
+                        <p th:text="${projeto.descricao}">Descricao.</p>
+                        <small th:text="${projeto.entregavel}">Entregavel.</small>
+                    </article>
+                </div>
             </div>
         </div>
     </section>

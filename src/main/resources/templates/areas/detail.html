@@ -103,13 +103,27 @@
         <div class="area-detail-container">
             <div class="area-section-heading">
                 <div>
-                    <p class="eyebrow">Planejamento</p>
-                    <h2 id="plan-title">Um caminho pratico para come&ccedil;ar nessa rota</h2>
+                    <p class="eyebrow">Roadmap completo</p>
+                    <h2 id="plan-title">Um caminho pratico para evoluir nessa rota</h2>
                 </div>
-                <p>O objetivo n&atilde;o &eacute; decorar tudo de uma vez. &Eacute; sair da curiosidade para um projeto real, com passos pequenos e demonstr&aacute;veis.</p>
+                <p>Use as etapas como guia. A ordem ajuda, mas voc&ecirc; pode voltar, revisar e adaptar conforme tiver contato com projetos reais.</p>
             </div>
 
-            <ol class="area-career-plan">
+            <ol class="guided-roadmap-full" th:if="${not #lists.isEmpty(detalheArea.roadmapCompleto)}">
+                <li th:each="etapa, status : ${detalheArea.roadmapCompleto}">
+                    <span th:text="|0${status.count}|">01</span>
+                    <div>
+                        <small th:text="|${etapa.nivel} - ${etapa.tempo}|">Iniciante - 0-2 meses</small>
+                        <h3 th:text="${etapa.titulo}">Etapa</h3>
+                        <p th:text="${etapa.objetivo}">Objetivo.</p>
+                        <ul>
+                            <li th:each="passo : ${etapa.passos}" th:text="${passo}">Passo</li>
+                        </ul>
+                    </div>
+                </li>
+            </ol>
+
+            <ol class="area-career-plan" th:if="${#lists.isEmpty(detalheArea.roadmapCompleto)}">
                 <li th:each="passo, status : ${detalheArea.planoCarreira}">
                     <span th:text="|0${status.count}|">01</span>
                     <small th:text="${passo.periodo}">0-2 meses</small>
@@ -117,6 +131,25 @@
                     <p th:text="${passo.descricao}">Descricao.</p>
                 </li>
             </ol>
+
+            <div class="area-practice-projects" th:if="${not #lists.isEmpty(detalheArea.projetosPraticos)}">
+                <div class="area-section-heading area-project-heading">
+                    <div>
+                        <p class="eyebrow">Portfolio</p>
+                        <h2>Projetos para praticar</h2>
+                    </div>
+                    <p>Projetos pequenos ajudam a transformar estudo em evidencia para apresentar em escola, entrevista ou GitHub.</p>
+                </div>
+
+                <div class="practice-project-grid">
+                    <article class="practice-project-card" th:each="projeto : ${detalheArea.projetosPraticos}">
+                        <span th:text="${projeto.nivel}">Iniciante</span>
+                        <h3 th:text="${projeto.titulo}">Projeto</h3>
+                        <p th:text="${projeto.descricao}">Descricao.</p>
+                        <small th:text="${projeto.entregavel}">Entregavel.</small>
+                    </article>
+                </div>
+            </div>
         </div>
     </section>
 

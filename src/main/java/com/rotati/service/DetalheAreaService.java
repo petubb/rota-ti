@@ -5,8 +5,10 @@ import com.rotati.dto.FonteSalarioView;
 import com.rotati.dto.FormacaoLocalView;
 import com.rotati.dto.PlanoCarreiraView;
 import com.rotati.dto.ProfissaoAreaView;
+import com.rotati.dto.ProjetoPraticoView;
 import com.rotati.dto.RecursoOnlineView;
 import com.rotati.dto.ReferenciaAreaView;
+import com.rotati.dto.RoadmapEtapaView;
 import com.rotati.dto.SalarioAreaView;
 import com.rotati.model.AreaTi;
 import org.springframework.stereotype.Service;
@@ -221,7 +223,7 @@ public class DetalheAreaService {
     private final Map<String, List<ProfissaoAreaView>> profissoes = Map.ofEntries(
             Map.entry("desenvolvimento-software", List.of(
                     profissao("Desenvolvedor(a) Web", "Entrada", "Cria sites, telas e sistemas web usando HTML, CSS, JavaScript e frameworks."),
-                    profissao("Desenvolvedor(a) Backend", "Evolucao", "Constrói APIs, regras de negocio, integracoes e acesso a banco de dados."),
+                    profissao("Desenvolvedor(a) Backend", "Evolucao", "Constroi APIs, regras de negocio, integracoes e acesso a banco de dados."),
                     profissao("Desenvolvedor(a) Mobile", "Evolucao", "Desenvolve aplicativos para celular e integra recursos do aparelho com servicos online."),
                     profissao("QA / Testador(a) de Software", "Entrada", "Testa funcionalidades, registra falhas e ajuda o time a entregar sistemas mais confiaveis.")
             )),
@@ -363,6 +365,260 @@ public class DetalheAreaService {
             ))
     );
 
+    private final Map<String, List<RoadmapEtapaView>> roadmaps = Map.ofEntries(
+            Map.entry("desenvolvimento-software", List.of(
+                    etapa("Iniciante", "Fundamentos de programacao", "0-2 meses", "Entender como transformar uma ideia em instrucoes simples.",
+                            "Pratique variaveis, condicionais, repeticao e funcoes.",
+                            "Resolva exercicios pequenos antes de tentar projetos grandes.",
+                            "Use Git para salvar cada tentativa e entender historico de codigo."),
+                    etapa("Iniciante", "Web e banco de dados", "2-4 meses", "Criar telas e guardar informacoes de forma organizada.",
+                            "Monte paginas com HTML, CSS e JavaScript basico.",
+                            "Aprenda SQL, tabelas, chaves e consultas simples.",
+                            "Conecte uma tela a dados simulados antes de usar banco real."),
+                    etapa("Intermediario", "Backend com MVC", "4-6 meses", "Criar regras de negocio e organizar o projeto em camadas.",
+                            "Estude Controller, Service, Repository e Model.",
+                            "Crie rotas para listar, cadastrar, editar e remover dados.",
+                            "Valide formularios e trate erros de forma amigavel."),
+                    etapa("Intermediario", "Projeto completo", "6-8 meses", "Juntar interface, banco, autenticacao e regras reais.",
+                            "Implemente login, cadastro e permissoes basicas.",
+                            "Use MySQL ou PostgreSQL para persistir dados.",
+                            "Escreva README explicando problema, solucao e como rodar."),
+                    etapa("Avancado inicial", "Qualidade e deploy", "8-10 meses", "Preparar o projeto para ser apresentado e usado por outras pessoas.",
+                            "Adicione testes para regras importantes.",
+                            "Separe configuracoes de ambiente e senhas em variaveis.",
+                            "Publique uma versao online e monitore erros comuns."),
+                    etapa("Carreira", "Portfolio e vaga inicial", "10-12 meses", "Mostrar capacidade de entregar uma solucao simples de ponta a ponta.",
+                            "Escolha 2 ou 3 projetos para destacar.",
+                            "Treine explicar escolhas tecnicas em linguagem simples.",
+                            "Busque estagio, vaga junior ou projetos voluntarios.")
+            )),
+            Map.entry("dados-bi", List.of(
+                    etapa("Iniciante", "Planilhas e perguntas", "0-2 meses", "Aprender a organizar dados e fazer perguntas melhores.",
+                            "Treine filtros, tabelas dinamicas e formulas essenciais.",
+                            "Transforme uma pergunta em indicador mensuravel.",
+                            "Limpe duplicidades, nomes inconsistentes e campos vazios."),
+                    etapa("Iniciante", "SQL para analise", "2-4 meses", "Consultar dados sem depender de tudo pronto em planilha.",
+                            "Estude SELECT, WHERE, ORDER BY, GROUP BY e JOIN.",
+                            "Crie consultas para responder perguntas de negocio.",
+                            "Documente a origem dos dados e o significado das colunas."),
+                    etapa("Intermediario", "Visualizacao e dashboards", "4-6 meses", "Apresentar dados de forma clara para tomada de decisao.",
+                            "Monte paineis com poucos indicadores relevantes.",
+                            "Use graficos adequados para comparacao, evolucao e proporcao.",
+                            "Escreva conclusoes curtas junto dos dashboards."),
+                    etapa("Intermediario", "Python para dados", "6-8 meses", "Automatizar limpeza, analise e visualizacao.",
+                            "Pratique Pandas, leitura de CSV e tratamento de dados.",
+                            "Crie graficos com bibliotecas simples.",
+                            "Compare resultados de planilha, SQL e Python."),
+                    etapa("Avancado inicial", "Cases e storytelling", "8-10 meses", "Transformar analise em uma narrativa convincente.",
+                            "Escolha uma base publica e explique o problema.",
+                            "Mostre metodo, limitacoes e recomendacoes.",
+                            "Publique o case com imagens e arquivos organizados."),
+                    etapa("Carreira", "Rotina profissional", "10-12 meses", "Preparar portfolio para estagio, BI ou analise de dados.",
+                            "Monte 2 dashboards e 1 analise escrita.",
+                            "Treine apresentar achados para pessoas nao tecnicas.",
+                            "Estude vagas e compare requisitos recorrentes.")
+            )),
+            Map.entry("seguranca-cibernetica", List.of(
+                    etapa("Iniciante", "Redes e sistemas", "0-2 meses", "Entender a base tecnica que a seguranca protege.",
+                            "Estude IP, DNS, HTTP, portas e protocolos comuns.",
+                            "Pratique terminal, permissoes e comandos basicos no Linux.",
+                            "Aprenda como senhas, usuarios e acessos funcionam."),
+                    etapa("Iniciante", "Boas praticas defensivas", "2-4 meses", "Reduzir riscos comuns no dia a dia.",
+                            "Estude autenticacao forte, backups, atualizacoes e logs.",
+                            "Entenda phishing, engenharia social e vazamento de dados.",
+                            "Crie uma checklist simples de protecao para usuarios."),
+                    etapa("Intermediario", "Aplicacoes web seguras", "4-6 meses", "Reconhecer vulnerabilidades em sistemas web.",
+                            "Estude OWASP Top 10 com exemplos didaticos.",
+                            "Aprenda validacao de entrada, autorizacao e controle de sessao.",
+                            "Analise riscos em um pequeno projeto proprio."),
+                    etapa("Intermediario", "Laboratorios legais", "6-8 meses", "Praticar investigacao sem invadir sistemas reais.",
+                            "Use CTFs iniciantes e ambientes autorizados.",
+                            "Registre o que testou, evidencias e correcao sugerida.",
+                            "Separe aprendizado ofensivo de comportamento anti-etico."),
+                    etapa("Avancado inicial", "Monitoramento e resposta", "8-10 meses", "Pensar como uma equipe SOC ou suporte de seguranca.",
+                            "Leia logs e identifique eventos suspeitos.",
+                            "Monte um fluxo simples de resposta a incidente.",
+                            "Documente prioridade, impacto e acao recomendada."),
+                    etapa("Carreira", "Especializacao inicial", "10-12 meses", "Escolher uma porta de entrada para a area.",
+                            "Compare SOC, redes, DevSecOps e testes autorizados.",
+                            "Monte portfolio com estudos, laboratorios e relatorios.",
+                            "Busque estagio, suporte com foco em seguranca ou trilhas Cisco.")
+            )),
+            Map.entry("infraestrutura-redes", List.of(
+                    etapa("Iniciante", "Hardware e suporte", "0-2 meses", "Entender computadores, sistemas e atendimento ao usuario.",
+                            "Revise componentes, armazenamento, drivers e perifericos.",
+                            "Pratique instalacao, configuracao e manutencao basica.",
+                            "Aprenda a registrar chamados com clareza."),
+                    etapa("Iniciante", "Redes essenciais", "2-4 meses", "Entender como dispositivos se conectam.",
+                            "Estude IP, mascara, gateway, DNS, DHCP e Wi-Fi.",
+                            "Monte desenhos simples de rede domestica e escolar.",
+                            "Pratique diagnostico com ping, tracert e ipconfig."),
+                    etapa("Intermediario", "Sistemas operacionais", "4-6 meses", "Operar ambientes Windows e Linux com seguranca.",
+                            "Crie usuarios, grupos, permissoes e pastas compartilhadas.",
+                            "Estude servicos, processos, logs e atualizacoes.",
+                            "Automatize tarefas simples com PowerShell ou Bash."),
+                    etapa("Intermediario", "Servidores e virtualizacao", "6-8 meses", "Simular ambientes profissionais em laboratorio.",
+                            "Use maquinas virtuais para testar cenarios.",
+                            "Configure backups, acesso remoto e servicos basicos.",
+                            "Documente cada configuracao feita."),
+                    etapa("Avancado inicial", "Cloud e monitoramento", "8-10 meses", "Conhecer infraestrutura moderna e observabilidade.",
+                            "Estude conceitos de nuvem, regioes, maquinas e armazenamento.",
+                            "Crie alertas simples e acompanhe disponibilidade.",
+                            "Compare custo, seguranca e escalabilidade."),
+                    etapa("Carreira", "Operacao profissional", "10-12 meses", "Preparar entrada em suporte, redes ou infraestrutura.",
+                            "Monte um portfolio de laboratorio com prints e diagramas.",
+                            "Estude certificacoes iniciais e requisitos de vagas.",
+                            "Treine explicar problemas tecnicos com linguagem simples.")
+            )),
+            Map.entry("ux-ui-design", List.of(
+                    etapa("Iniciante", "Fundamentos visuais", "0-2 meses", "Criar telas mais claras e acessiveis.",
+                            "Estude hierarquia, contraste, espacamento e tipografia.",
+                            "Analise interfaces que voce usa todos os dias.",
+                            "Refaca telas simples apenas para treino visual."),
+                    etapa("Iniciante", "Figma e componentes", "2-4 meses", "Transformar ideias em prototipos navegaveis.",
+                            "Aprenda frames, auto layout, estilos e componentes.",
+                            "Monte um pequeno design system.",
+                            "Crie fluxos com estados de erro, vazio e sucesso."),
+                    etapa("Intermediario", "Pesquisa com usuarios", "4-6 meses", "Entender pessoas antes de desenhar a solucao.",
+                            "Prepare perguntas abertas e entrevistas curtas.",
+                            "Mapeie dores, objetivos e contexto de uso.",
+                            "Evite decidir apenas por gosto pessoal."),
+                    etapa("Intermediario", "Prototipo e validacao", "6-8 meses", "Testar se a interface resolve o problema.",
+                            "Crie prototipos clicaveis.",
+                            "Observe usuarios tentando completar tarefas.",
+                            "Ajuste a tela com base em comportamento real."),
+                    etapa("Avancado inicial", "Acessibilidade e produto", "8-10 meses", "Pensar em uso real, inclusao e impacto.",
+                            "Revise contraste, foco, leitura e tamanho de toque.",
+                            "Conecte decisao visual a objetivo do produto.",
+                            "Documente alternativas e motivos das escolhas."),
+                    etapa("Carreira", "Portfolio narrativo", "10-12 meses", "Mostrar processo, nao apenas tela bonita.",
+                            "Conte problema, pesquisa, decisao e resultado.",
+                            "Inclua antes/depois e aprendizados.",
+                            "Monte 2 cases completos para apresentar.")
+            )),
+            Map.entry("game-design", List.of(
+                    etapa("Iniciante", "Linguagem dos jogos", "0-2 meses", "Entender mecanicas, regras e experiencia.",
+                            "Analise objetivos, recompensas, dificuldade e feedback.",
+                            "Escreva pequenas fichas sobre jogos conhecidos.",
+                            "Separe gosto pessoal de decisao de design."),
+                    etapa("Iniciante", "Prototipos rapidos", "2-4 meses", "Testar ideias sem depender de producao grande.",
+                            "Crie jogos de papel ou uma tela digital simples.",
+                            "Use Godot, Unity ou ferramenta visual iniciante.",
+                            "Foque em uma mecanica por vez."),
+                    etapa("Intermediario", "Level e narrativa", "4-6 meses", "Guiar o jogador com ritmo e progressao.",
+                            "Planeje fases com curva de dificuldade.",
+                            "Use tutorial dentro da experiencia.",
+                            "Escreva contexto, objetivo e consequencia das escolhas."),
+                    etapa("Intermediario", "Playtest", "6-8 meses", "Melhorar o jogo observando pessoas jogando.",
+                            "Convide jogadores e nao explique tudo antes.",
+                            "Anote travas, confusoes e momentos divertidos.",
+                            "Ajuste regras com base em evidencias."),
+                    etapa("Avancado inicial", "Publicacao pequena", "8-10 meses", "Colocar um jogo jogavel no mundo.",
+                            "Prepare pagina do projeto, imagens e controles.",
+                            "Publique em uma plataforma apropriada.",
+                            "Colete feedback e planeje uma versao melhor."),
+                    etapa("Carreira", "Portfolio jogavel", "10-12 meses", "Mostrar criatividade com prova pratica.",
+                            "Selecione 2 ou 3 jogos pequenos.",
+                            "Explique sua funcao em cada projeto.",
+                            "Participe de game jams e colabore com outras pessoas.")
+            )),
+            Map.entry("inteligencia-artificial", List.of(
+                    etapa("Iniciante", "Python e dados", "0-2 meses", "Construir a base antes de falar em modelo.",
+                            "Pratique Python, listas, funcoes e notebooks.",
+                            "Aprenda Pandas para ler e limpar dados.",
+                            "Use graficos simples para entender padroes."),
+                    etapa("Iniciante", "Matematica na medida", "2-4 meses", "Entender o suficiente para nao usar IA no escuro.",
+                            "Revise media, desvio, porcentagem e correlacao.",
+                            "Entenda treino, teste, erro e metrica.",
+                            "Nao trave em matematica avancada no inicio."),
+                    etapa("Intermediario", "Machine learning basico", "4-6 meses", "Treinar modelos simples e medir resultado.",
+                            "Pratique classificacao e regressao.",
+                            "Compare modelos simples antes de buscar complexidade.",
+                            "Explique onde o modelo erra e por que isso importa."),
+                    etapa("Intermediario", "Projeto aplicado", "6-8 meses", "Resolver um problema pequeno com dados reais.",
+                            "Escolha uma base publica com objetivo claro.",
+                            "Documente limpeza, modelo, metrica e conclusao.",
+                            "Mostre limites e cuidados eticos."),
+                    etapa("Avancado inicial", "IA em produto", "8-10 meses", "Integrar IA a uma solucao utilizavel.",
+                            "Consuma uma API ou modelo pronto com responsabilidade.",
+                            "Crie uma interface simples para testar o resultado.",
+                            "Adicione alertas sobre erro, vies e privacidade."),
+                    etapa("Carreira", "Portfolio e foco", "10-12 meses", "Decidir se a porta de entrada sera dados, automacao ou ML.",
+                            "Monte 2 projetos explicaveis e bem documentados.",
+                            "Estude vagas junior e requisitos recorrentes.",
+                            "Treine explicar IA sem prometer milagre.")
+            )),
+            Map.entry("gestao-ti", List.of(
+                    etapa("Iniciante", "Base de projetos", "0-2 meses", "Entender como uma demanda vira entrega.",
+                            "Estude escopo, prazo, risco, prioridade e partes interessadas.",
+                            "Aprenda a escrever tarefas claras.",
+                            "Observe como times organizam combinados."),
+                    etapa("Iniciante", "Metodos ageis", "2-4 meses", "Organizar trabalho sem virar burocracia.",
+                            "Estude Scrum e Kanban com exemplos simples.",
+                            "Monte um quadro de tarefas para um projeto pequeno.",
+                            "Acompanhe fluxo, bloqueios e entregas."),
+                    etapa("Intermediario", "Comunicacao e requisitos", "4-6 meses", "Traduzir necessidade em acao tecnica.",
+                            "Pratique entrevistas com usuarios.",
+                            "Escreva historias, criterios de aceite e prioridade.",
+                            "Valide entendimento antes de executar."),
+                    etapa("Intermediario", "Produto e indicadores", "6-8 meses", "Conectar tecnologia a valor.",
+                            "Defina objetivo, publico e metrica de sucesso.",
+                            "Compare impacto e esforco antes de priorizar.",
+                            "Crie relatorios simples de progresso."),
+                    etapa("Avancado inicial", "Lideranca em pratica", "8-10 meses", "Ajudar pessoas a trabalhar melhor juntas.",
+                            "Facilite reunioes curtas e objetivas.",
+                            "Remova bloqueios e registre decisoes.",
+                            "Cuide do alinhamento sem controlar tudo."),
+                    etapa("Carreira", "Portfolio de gestao", "10-12 meses", "Mostrar organizacao, comunicacao e resultado.",
+                            "Documente um projeto com problema, plano e entrega.",
+                            "Inclua quadros, atas, metricas e aprendizados.",
+                            "Busque estagio, suporte coordenado ou analise de requisitos.")
+            ))
+    );
+
+    private final Map<String, List<ProjetoPraticoView>> projetosPraticos = Map.ofEntries(
+            Map.entry("desenvolvimento-software", List.of(
+                    projeto("Sistema de cadastro simples", "Iniciante", "Crie um CRUD com formulario, validacao e listagem.", "Repositorio com README, prints e instrucoes de execucao."),
+                    projeto("API com banco de dados", "Intermediario", "Monte uma API para salvar, buscar e atualizar registros.", "Endpoints documentados e scripts SQL do banco."),
+                    projeto("Aplicacao com login", "Avancado inicial", "Adicione autenticacao, permissoes e historico de usuario.", "Deploy online e explicacao da arquitetura MVC.")
+            )),
+            Map.entry("dados-bi", List.of(
+                    projeto("Dashboard escolar ou comercial", "Iniciante", "Organize uma base e mostre indicadores principais.", "Painel com 4 a 6 graficos e conclusao escrita."),
+                    projeto("Analise com SQL", "Intermediario", "Crie perguntas e responda usando consultas com JOIN e agrupamento.", "Arquivo SQL comentado e resumo dos achados."),
+                    projeto("Case em Python", "Avancado inicial", "Limpe dados, gere graficos e explique recomendacoes.", "Notebook publicado com problema, metodo e conclusao.")
+            )),
+            Map.entry("seguranca-cibernetica", List.of(
+                    projeto("Checklist de seguranca", "Iniciante", "Crie uma checklist para contas, senhas, backup e dispositivos.", "Documento claro para usuarios nao tecnicos."),
+                    projeto("Analise de logs simulados", "Intermediario", "Leia eventos e classifique comportamentos suspeitos.", "Relatorio com evidencias e acao recomendada."),
+                    projeto("Revisao de seguranca em app proprio", "Avancado inicial", "Avalie login, permissoes, validacao e exposicao de dados.", "Lista de riscos, impacto e melhorias implementadas.")
+            )),
+            Map.entry("infraestrutura-redes", List.of(
+                    projeto("Mapa de rede pequena", "Iniciante", "Desenhe a rede de uma casa, escola ou pequeno negocio.", "Diagrama com IPs, equipamentos e pontos de melhoria."),
+                    projeto("Laboratorio com maquinas virtuais", "Intermediario", "Configure usuarios, pastas, backup e acesso remoto.", "Relatorio com prints e passo a passo."),
+                    projeto("Monitoramento simples", "Avancado inicial", "Acompanhe disponibilidade de um servico ou maquina.", "Painel ou log com alertas e explicacao do processo.")
+            )),
+            Map.entry("ux-ui-design", List.of(
+                    projeto("Redesign de uma tela ruim", "Iniciante", "Escolha uma tela confusa e redesenhe com melhor hierarquia.", "Antes/depois com justificativas de design."),
+                    projeto("Fluxo de cadastro acessivel", "Intermediario", "Prototipe cadastro com erro, sucesso e recuperacao.", "Prototipo navegavel e checklist de acessibilidade."),
+                    projeto("Case de produto pequeno", "Avancado inicial", "Pesquise usuarios e proponha melhoria para um problema real.", "Case com pesquisa, decisao, prototipo e aprendizados.")
+            )),
+            Map.entry("game-design", List.of(
+                    projeto("Jogo de uma mecanica", "Iniciante", "Crie um jogo pequeno baseado em uma unica regra principal.", "Versao jogavel e explicacao da mecanica."),
+                    projeto("Fase com progressao", "Intermediario", "Planeje uma fase que ensina, desafia e recompensa.", "Mapa da fase, objetivo e criterios de dificuldade."),
+                    projeto("Playtest documentado", "Avancado inicial", "Teste o jogo com pessoas e registre ajustes.", "Relatorio com feedback, mudancas e nova versao.")
+            )),
+            Map.entry("inteligencia-artificial", List.of(
+                    projeto("Classificador simples", "Iniciante", "Use uma base publica para classificar categorias.", "Notebook com limpeza, treino, metrica e conclusao."),
+                    projeto("Previsao com regressao", "Intermediario", "Treine um modelo para prever um valor numerico simples.", "Comparacao entre modelo e baseline."),
+                    projeto("Demo com IA explicada", "Avancado inicial", "Crie uma interface simples para testar um modelo ou API.", "Projeto online com aviso de limites, vies e privacidade.")
+            )),
+            Map.entry("gestao-ti", List.of(
+                    projeto("Quadro Kanban de projeto", "Iniciante", "Organize um projeto pequeno com tarefas, responsaveis e status.", "Print do quadro e resumo de decisoes."),
+                    projeto("Documento de requisitos", "Intermediario", "Converse com usuarios e transforme necessidade em historias.", "Backlog priorizado com criterios de aceite."),
+                    projeto("Relatorio de entrega", "Avancado inicial", "Acompanhe prazo, risco, bloqueios e resultados de uma entrega.", "Relatorio final com metricas e aprendizados.")
+            ))
+    );
+
     public DetalheAreaView buscarPorSlug(String slug) {
         DetalheAreaView detalhe = detalhes.get(slug);
         if (detalhe == null) {
@@ -376,6 +632,8 @@ public class DetalheAreaService {
                 profissoes.getOrDefault(slug, List.of()),
                 formacoes.getOrDefault(slug, List.of()),
                 recursosOnline.getOrDefault(slug, List.of()),
+                roadmaps.getOrDefault(slug, List.of()),
+                projetosPraticos.getOrDefault(slug, List.of()),
                 detalhe.getFerramentas()
         );
     }
@@ -404,6 +662,20 @@ public class DetalheAreaService {
 
     private static PlanoCarreiraView plano(String periodo, String titulo, String descricao) {
         return new PlanoCarreiraView(periodo, titulo, descricao);
+    }
+
+    private static RoadmapEtapaView etapa(
+            String nivel,
+            String titulo,
+            String tempo,
+            String objetivo,
+            String... passos
+    ) {
+        return new RoadmapEtapaView(nivel, titulo, tempo, objetivo, List.of(passos));
+    }
+
+    private static ProjetoPraticoView projeto(String titulo, String nivel, String descricao, String entregavel) {
+        return new ProjetoPraticoView(titulo, nivel, descricao, entregavel);
     }
 
     private static ReferenciaAreaView referencia(String tipo, String titulo, String descricao, String url) {
