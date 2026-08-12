@@ -170,7 +170,8 @@
                     <p class="eyebrow">Roadmap inicial</p>
                     <h2 id="roadmap-title">O que fazer primeiro para transformar interesse em pr&aacute;tica</h2>
                 </div>
-                <a class="result-text-link" th:href="@{/area/{slug}(slug=${resultadoView.principal.area.slug})} + '#plano-carreira'">Ver roadmap completo</a>
+                <a class="button primary roadmap-open-button"
+                   th:href="@{/area/{slug}/roadmap(slug=${resultadoView.principal.area.slug})}">Abrir meu roadmap</a>
             </div>
 
             <div class="result-roadmap-layout">

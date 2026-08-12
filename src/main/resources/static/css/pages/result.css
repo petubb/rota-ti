@@ -420,6 +420,11 @@
     grid-template-columns: minmax(0, 1fr) auto;
 }
 
+.roadmap-open-button {
+    align-self: end;
+    white-space: nowrap;
+}
+
 .result-roadmap {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));

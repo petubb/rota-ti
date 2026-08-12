@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" th:content="|Roadmap completo de ${area.titulo}, com etapas, checklist e materiais para estudar.|">
+    <title th:text="'Roadmap de ' + ${area.titulo} + ' | Rota TI'">Roadmap | Rota TI</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script defer th:src="@{/js/roadmap.js}"></script>
+</head>
+<body class="roadmap-page">
+<header class="site-header roadmap-header">
+    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
+        <span class="brand-mark" aria-hidden="true">RT</span>
+        <span>Rota TI<small>Orienta&ccedil;&atilde;o profissional</small></span>
+    </a>
+    <nav>
+        <a th:href="@{/areas}">&Aacute;reas</a>
+        <a th:href="@{/quiz}">Quiz</a>
+        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
+    </nav>
+</header>
+
+<main data-roadmap th:attr="data-roadmap-slug=${area.slug},data-roadmap-total=${roadmap.totalPassos}">
+    <section class="roadmap-hero" aria-labelledby="roadmap-title">
+        <div class="roadmap-container roadmap-hero-grid">
+            <div>
+                <a class="roadmap-back-link" th:href="@{/area/{slug}(slug=${area.slug})}">
+                    <span aria-hidden="true">&larr;</span> Voltar para a &aacute;rea
+                </a>
+                <p class="eyebrow">Roadmap guiado</p>
+                <h1 id="roadmap-title" th:text="${area.titulo}">Desenvolvimento de Software</h1>
+                <p class="roadmap-lead" th:text="${area.descricao}">Descri&ccedil;&atilde;o da &aacute;rea.</p>
+                <p>Abra cada etapa, estude as explica&ccedil;&otilde;es e marque o que voc&ecirc; j&aacute; praticou. N&atilde;o &eacute; uma corrida: o progresso serve para mostrar seu pr&oacute;ximo passo.</p>
+                <div class="actions roadmap-hero-actions">
+                    <a class="button primary" href="#etapas">Come&ccedil;ar o roadmap</a>
+                    <a class="button secondary" th:href="@{/quiz}">Refazer o quiz</a>
+                </div>
+            </div>
+
+            <aside class="roadmap-hero-summary" aria-label="Resumo da trilha">
+                <span>Vis&atilde;o geral</span>
+                <strong th:text="|${roadmap.etapas.size()} etapas|">6 etapas</strong>
+                <dl>
+                    <div>
+                        <dt>Marcos pr&aacute;ticos</dt>
+                        <dd th:text="${roadmap.totalPassos}">18</dd>
+                    </div>
+                    <div>
+                        <dt>Tempo sugerido</dt>
+                        <dd>10 a 12 meses</dd>
+                    </div>
+                    <div>
+                        <dt>Do n&iacute;vel</dt>
+                        <dd>Iniciante &agrave; carreira</dd>
+                    </div>
+                </dl>
+            </aside>
+        </div>
+    </section>
+
+    <section class="roadmap-content" id="etapas" aria-labelledby="steps-title">
+        <div class="roadmap-container">
+            <div class="roadmap-section-heading">
+                <div>
+                    <p class="eyebrow">Sua trilha</p>
+                    <h2 id="steps-title">Estude uma etapa de cada vez</h2>
+                </div>
+                <p>Os tempos s&atilde;o refer&ecirc;ncias. Voc&ecirc; pode avan&ccedil;ar mais r&aacute;pido, revisar assuntos ou adaptar a ordem conforme seus projetos.</p>
+            </div>
+
+            <div class="roadmap-workspace">
+                <aside class="roadmap-progress-panel" aria-labelledby="progress-title">
+                    <span class="eyebrow">Seu progresso</span>
+                    <strong id="progress-title"><span data-roadmap-completed>0</span> de <span th:text="${roadmap.totalPassos}">18</span> marcos</strong>
+                    <div class="roadmap-progress-track" role="progressbar" aria-label="Progresso geral do roadmap"
+                         aria-valuemin="0" th:attr="aria-valuemax=${roadmap.totalPassos}" aria-valuenow="0"
+                         data-roadmap-progress>
+                        <span data-roadmap-progress-bar></span>
+                    </div>
+                    <p><span data-roadmap-percent>0%</span> conclu&iacute;do nesta rota.</p>
+                    <nav class="roadmap-stage-nav" aria-label="Atalhos das etapas">
+                        <a th:each="etapa, status : ${roadmap.etapas}"
+                           th:href="|#${etapa.codigo}|"
+                           th:text="|0${status.count} ${etapa.titulo}|">01 Fundamentos</a>
+                    </nav>
+                    <button type="button" class="roadmap-reset-button" data-roadmap-reset>Limpar meu progresso</button>
+                    <p class="roadmap-save-note">As marca&ccedil;&otilde;es ficam salvas somente neste navegador.</p>
+                    <p class="roadmap-live-status" aria-live="polite" data-roadmap-status></p>
+                </aside>
+
+                <ol class="roadmap-stage-list">
+                    <li class="roadmap-stage" th:each="etapa, status : ${roadmap.etapas}"
+                        th:id="${etapa.codigo}" th:attr="data-roadmap-stage=${etapa.codigo}">
+                        <details th:attr="open=${status.first ? 'open' : null}">
+                            <summary>
+                                <span class="roadmap-stage-number" th:text="|0${status.count}|">01</span>
+                                <span class="roadmap-stage-title">
+                                    <small th:text="|${etapa.nivel} - ${etapa.tempo}|">Iniciante - 0-2 meses</small>
+                                    <strong th:text="${etapa.titulo}">Fundamentos</strong>
+                                    <span th:text="${etapa.objetivo}">Objetivo da etapa.</span>
+                                </span>
+                                <span class="roadmap-stage-progress" th:attr="data-stage-total=${etapa.passos.size()}">
+                                    <span data-stage-completed>0</span>/<span th:text="${etapa.passos.size()}">3</span>
+                                </span>
+                            </summary>
+
+                            <div class="roadmap-stage-body">
+                                <div class="roadmap-stage-explanation">
+                                    <p th:text="${etapa.explicacao}">Explica&ccedil;&atilde;o da etapa.</p>
+                                </div>
+
+                                <section class="roadmap-checklist" th:aria-labelledby="|checklist-${etapa.codigo}|"><h3 th:id="|checklist-${etapa.codigo}|">O que praticar nesta etapa</h3>
+                                    <ul>
+                                        <li th:each="passo, passoStatus : ${etapa.passos}">
+                                            <input type="checkbox"
+                                                   th:id="|roadmap-${area.slug}-${etapa.codigo}-passo-${passoStatus.count}|"
+                                                   th:attr="data-roadmap-check=|${etapa.codigo}-passo-${passoStatus.count}|">
+                                            <label th:for="|roadmap-${area.slug}-${etapa.codigo}-passo-${passoStatus.count}|">
+                                                <span th:text="${passo}">Passo da etapa.</span>
+                                                <small>Marque depois de praticar, n&atilde;o apenas depois de ler.</small>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </section>
+
+                                <aside class="roadmap-stage-challenge">
+                                    <span>Desafio da etapa</span>
+                                    <p th:text="${etapa.atividade}">Atividade pr&aacute;tica.</p>
+                                </aside>
+
+                                <section class="roadmap-resources" th:if="${not #lists.isEmpty(etapa.recursos)}"
+                                         th:aria-labelledby="|resources-${etapa.codigo}|"><h3 th:id="|resources-${etapa.codigo}|">Materiais para continuar</h3>
+                                    <div class="roadmap-resource-grid">
+                                        <a th:each="recurso : ${etapa.recursos}" th:href="${recurso.url}"
+                                           target="_blank" rel="noopener noreferrer">
+                                            <span th:text="${recurso.tipo}">Documenta&ccedil;&atilde;o</span>
+                                            <strong th:text="${recurso.titulo}">Material</strong>
+                                            <small th:text="${recurso.descricao}">Descri&ccedil;&atilde;o.</small>
+                                            <em>Abrir material <span aria-hidden="true">&nearr;</span></em>
+                                        </a>
+                                    </div>
+                                </section>
+                            </div>
+                        </details>
+                    </li>
+                </ol>
+            </div>
+
+            <noscript>
+                <p class="roadmap-noscript">Ative o JavaScript para salvar o checklist e acompanhar o progresso. Os conte&uacute;dos e links continuam dispon&iacute;veis sem ele.</p>
+            </noscript>
+        </div>
+    </section>
+
+    <section class="roadmap-finish-band" aria-labelledby="finish-title">
+        <div class="roadmap-container">
+            <p class="eyebrow">Depois da trilha</p>
+            <h2 id="finish-title">Transforme estudo em algo que voc&ecirc; possa mostrar</h2>
+            <p>Escolha um dos projetos sugeridos na p&aacute;gina da &aacute;rea, publique o processo e explique o que aprendeu. Um projeto pequeno conclu&iacute;do vale mais do que uma lista enorme apenas lida.</p>
+            <div class="actions">
+                <a class="button primary" th:href="@{/area/{slug}(slug=${area.slug})} + '#plano-carreira'">Ver projetos da &aacute;rea</a>
+                <a class="button secondary" th:href="@{/areas}">Explorar outra rota</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<th:block th:replace="~{fragments/site-footer :: footer}"></th:block>
+</body>
+</html>

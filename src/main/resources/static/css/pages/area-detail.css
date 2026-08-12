@@ -183,6 +183,16 @@
     color: var(--muted);
 }
 
+.area-section-action {
+    display: grid;
+    gap: 18px;
+    justify-items: start;
+}
+
+.area-section-action .button {
+    min-width: 210px;
+}
+
 .area-career-plan {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));

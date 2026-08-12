@@ -29,8 +29,8 @@
                 <p class="area-detail-lead" th:text="${area.descricao}">Descricao</p>
                 <p th:text="${detalheArea.mercado}">Contexto da area.</p>
                 <div class="actions area-detail-actions">
-                    <a class="button primary" th:href="@{/quiz}">Descobrir se combina comigo</a>
-                    <a class="text-link" href="#plano-carreira">Ver plano de carreira <span aria-hidden="true">&rarr;</span></a>
+                    <a class="button primary" th:href="@{/area/{slug}/roadmap(slug=${area.slug})}">Abrir roadmap desta rota</a>
+                    <a class="button secondary" th:href="@{/quiz}">Descobrir se combina comigo</a>
                 </div>
             </div>
 
@@ -106,7 +106,10 @@
                     <p class="eyebrow">Roadmap completo</p>
                     <h2 id="plan-title">Um caminho pratico para evoluir nessa rota</h2>
                 </div>
-                <p>Use as etapas como guia. A ordem ajuda, mas voc&ecirc; pode voltar, revisar e adaptar conforme tiver contato com projetos reais.</p>
+                <div class="area-section-action">
+                    <p>Use as etapas como guia. A ordem ajuda, mas voc&ecirc; pode voltar, revisar e adaptar conforme tiver contato com projetos reais.</p>
+                    <a class="button primary" th:href="@{/area/{slug}/roadmap(slug=${area.slug})}">Estudar com checklist</a>
+                </div>
             </div>
 
             <ol class="guided-roadmap-full" th:if="${not #lists.isEmpty(detalheArea.roadmapCompleto)}">
