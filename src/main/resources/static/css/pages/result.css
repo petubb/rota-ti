@@ -514,16 +514,28 @@
     break-inside: avoid;
 }
 
+.result-section.result-formation-section,
+.area-detail-section.area-formation-section,
+.result-section.result-online-section,
+.area-detail-section.area-online-section {
+    background: #fff8eb;
+}
+
 .result-formation-section,
 .area-formation-section {
-    border-block: 1px solid #d3e4e2;
-    background: linear-gradient(180deg, #edf6f3 0%, #f9fbf7 100%);
+    padding-bottom: 42px;
+    border-top: 1px solid #eadfc4;
 }
 
 .result-online-section,
 .area-online-section {
-    border-block: 1px solid #eadfc4;
-    background: linear-gradient(180deg, #fff8eb 0%, #f7fbfa 100%);
+    padding-top: 42px;
+    border-bottom: 1px solid #d3e4e2;
+}
+
+.result-formation-section + .result-online-section,
+.area-formation-section + .area-online-section {
+    margin-top: -1px;
 }
 
 .result-formation-section .result-section-heading,
