@@ -515,7 +515,8 @@
 }
 
 .result-formation-section,
-.area-formation-section {
+.area-formation-section,
+.result-online-section {
     background: #f7faf9;
 }
 
@@ -579,6 +580,83 @@
     align-self: end;
     color: var(--primary-dark);
     font-size: 0.86rem;
+    font-style: normal;
+    font-weight: 900;
+}
+
+.online-resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.online-resource-card {
+    display: grid;
+    gap: 10px;
+    min-height: 300px;
+    padding: 24px;
+    border: 1px solid #d8e3e7;
+    border-top: 4px solid var(--primary);
+    border-radius: 8px;
+    background: #fff;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.online-resource-card:nth-child(2) {
+    border-top-color: var(--coral);
+}
+
+.online-resource-card:nth-child(3) {
+    border-top-color: var(--accent);
+}
+
+.online-resource-card:hover {
+    border-color: #abc4cf;
+    box-shadow: 0 14px 32px rgba(23, 51, 77, 0.1);
+    transform: translateY(-2px);
+}
+
+.online-resource-card > span {
+    width: fit-content;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: #e7f2ee;
+    color: var(--primary-dark);
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.online-resource-card small {
+    color: var(--coral);
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.online-resource-card h3 {
+    margin: 6px 0 0;
+    color: var(--navy);
+    font-size: 1.18rem;
+    line-height: 1.2;
+}
+
+.online-resource-card strong {
+    color: #455768;
+    font-size: 0.9rem;
+}
+
+.online-resource-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.online-resource-card em {
+    align-self: end;
+    color: var(--primary-dark);
+    font-size: 0.85rem;
     font-style: normal;
     font-weight: 900;
 }
@@ -906,7 +984,8 @@
 
     .result-top-three,
     .career-role-grid,
-    .formation-grid {
+    .formation-grid,
+    .online-resource-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
@@ -1004,6 +1083,7 @@
     .result-top-three,
     .career-role-grid,
     .formation-grid,
+    .online-resource-grid,
     .result-roadmap,
     .result-career-facts {
         grid-template-columns: 1fr;

@@ -10,6 +10,7 @@ public class DetalheAreaView {
     private final List<ReferenciaAreaView> referencias;
     private final List<ProfissaoAreaView> profissoes;
     private final List<FormacaoLocalView> formacoes;
+    private final List<RecursoOnlineView> recursosOnline;
     private final List<String> ferramentas;
 
     public DetalheAreaView(
@@ -19,7 +20,7 @@ public class DetalheAreaView {
             List<ReferenciaAreaView> referencias,
             List<String> ferramentas
     ) {
-        this(salario, mercado, planoCarreira, referencias, List.of(), List.of(), ferramentas);
+        this(salario, mercado, planoCarreira, referencias, List.of(), List.of(), List.of(), ferramentas);
     }
 
     public DetalheAreaView(
@@ -31,12 +32,26 @@ public class DetalheAreaView {
             List<FormacaoLocalView> formacoes,
             List<String> ferramentas
     ) {
+        this(salario, mercado, planoCarreira, referencias, profissoes, formacoes, List.of(), ferramentas);
+    }
+
+    public DetalheAreaView(
+            SalarioAreaView salario,
+            String mercado,
+            List<PlanoCarreiraView> planoCarreira,
+            List<ReferenciaAreaView> referencias,
+            List<ProfissaoAreaView> profissoes,
+            List<FormacaoLocalView> formacoes,
+            List<RecursoOnlineView> recursosOnline,
+            List<String> ferramentas
+    ) {
         this.salario = salario;
         this.mercado = mercado;
         this.planoCarreira = List.copyOf(planoCarreira);
         this.referencias = List.copyOf(referencias);
         this.profissoes = List.copyOf(profissoes);
         this.formacoes = List.copyOf(formacoes);
+        this.recursosOnline = List.copyOf(recursosOnline);
         this.ferramentas = List.copyOf(ferramentas);
     }
 
@@ -62,6 +77,10 @@ public class DetalheAreaView {
 
     public List<FormacaoLocalView> getFormacoes() {
         return formacoes;
+    }
+
+    public List<RecursoOnlineView> getRecursosOnline() {
+        return recursosOnline;
     }
 
     public List<String> getFerramentas() {

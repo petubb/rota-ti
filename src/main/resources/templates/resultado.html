@@ -211,7 +211,7 @@
                     <p class="eyebrow">Perto de voc&ecirc;</p>
                     <h2 id="formation-title">Onde procurar forma&ccedil;&atilde;o na regi&atilde;o</h2>
                 </div>
-                <p>Confira os sites oficiais, editais e agendas. As ofertas mudam por semestre, unidade e disponibilidade de turma.</p>
+                <p>Confira sites oficiais e editais em Pimenta Bueno, Cacoal, Rolim de Moura e op&ccedil;&otilde;es EAD. As ofertas mudam por semestre e disponibilidade.</p>
             </div>
 
             <div class="formation-grid">
@@ -223,6 +223,30 @@
                     <small th:text="${formacao.modalidade}">Modalidade</small>
                     <p th:text="${formacao.descricao}">Descri&ccedil;&atilde;o.</p>
                     <em>Ver site <span aria-hidden="true">&nearr;</span></em>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="result-section result-online-section" aria-labelledby="result-online-title">
+        <div class="result-container">
+            <div class="result-section-heading">
+                <div>
+                    <p class="eyebrow">Para come&ccedil;ar hoje</p>
+                    <h2 id="result-online-title">Cursos e recursos gratuitos pela internet</h2>
+                </div>
+                <p>Uma sele&ccedil;&atilde;o de plataformas confi&aacute;veis para experimentar a rota sem esperar abrir uma turma presencial.</p>
+            </div>
+
+            <div class="online-resource-grid">
+                <a class="online-resource-card" th:each="recurso : ${detalheArea.recursosOnline}"
+                   th:href="${recurso.url}" target="_blank" rel="noopener noreferrer">
+                    <span th:text="${recurso.custo}">Gratuito</span>
+                    <small th:text="${recurso.tipo}">Curso online</small>
+                    <h3 th:text="${recurso.titulo}">Recurso</h3>
+                    <strong th:text="${recurso.plataforma}">Plataforma</strong>
+                    <p th:text="${recurso.descricao}">Descri&ccedil;&atilde;o.</p>
+                    <em>Acessar recurso <span aria-hidden="true">&nearr;</span></em>
                 </a>
             </div>
         </div>

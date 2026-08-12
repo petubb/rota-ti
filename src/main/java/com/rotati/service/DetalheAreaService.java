@@ -5,6 +5,7 @@ import com.rotati.dto.FonteSalarioView;
 import com.rotati.dto.FormacaoLocalView;
 import com.rotati.dto.PlanoCarreiraView;
 import com.rotati.dto.ProfissaoAreaView;
+import com.rotati.dto.RecursoOnlineView;
 import com.rotati.dto.ReferenciaAreaView;
 import com.rotati.dto.SalarioAreaView;
 import com.rotati.model.AreaTi;
@@ -28,6 +29,24 @@ public class DetalheAreaService {
     private static final String UNESC_SI_CACOAL = "https://vestibular.unescnet.br/PS_UNESC/Curso.aspx?Cidade=Cacoal&CursoId=84&CursoNome=sistemas-de-informacao&CursoUnidadeId=8801&MenuId=3&UF=RO";
     private static final String UNESC_ADS_CACOAL = "https://vestibular.unescnet.br/PS_UNESC/Curso.aspx?Cidade=Cacoal&CursoId=85&CursoNome=superior-de-tecnologia-em-analise-e-desenvolvimento-de-sistemas&CursoUnidadeId=8803&MenuId=4&UF=RO";
     private static final String CRUZEIRO_SUL_ROLIM_MOURA = "https://www.cruzeirodosulvirtual.com.br/polo/rolim-de-moura-centro-ro/";
+    private static final String MICROSOFT_LEARN = "https://learn.microsoft.com/pt-br/training/";
+    private static final String CISCO_NETACAD = "https://www.netacad.com/";
+    private static final String FUNDACAO_BRADESCO_ESCOLA_VIRTUAL = "https://fundacao.bradesco/como-atuamos/escola-virtual";
+    private static final String FUNDACAO_BRADESCO_FUNDAMENTOS_TI =
+            "https://www.ev.org.br/cursos/fundamentos-de-ti-hardware-e-software";
+    private static final String EVG_CATALOGO = "https://www.escolavirtual.gov.br/catalogo";
+    private static final String KAGGLE_LEARN = "https://www.kaggle.com/learn";
+    private static final String FIGMA_BEGINNERS =
+            "https://help.figma.com/hc/en-us/articles/30848209492887-Course-overview-Figma-Design-for-beginners-2025";
+    private static final String MATERIAL_DESIGN = "https://m3.material.io/";
+    private static final String W3C_WCAG = "https://www.w3.org/WAI/standards-guidelines/wcag/";
+    private static final String UNITY_LEARN = "https://learn.unity.com/";
+    private static final String GODOT_DOCS = "https://docs.godotengine.org/";
+    private static final String GLOBAL_GAME_JAM = "https://globalgamejam.org/";
+    private static final String GOOGLE_ML_CRASH_COURSE = "https://developers.google.com/machine-learning/crash-course";
+    private static final String GOOGLE_AI_SKILLS = "https://ai.google/learn-ai-skills/";
+    private static final String SCRUM_GUIDES = "https://scrumguides.org/";
+    private static final String ATLASSIAN_AGILE = "https://www.atlassian.com/agile";
 
     private final Map<String, DetalheAreaView> detalhes = Map.ofEntries(
             Map.entry("desenvolvimento-software", detalhe(
@@ -303,6 +322,49 @@ public class DetalheAreaService {
             ))
     );
 
+    private final Map<String, List<RecursoOnlineView>> recursosOnline = Map.ofEntries(
+            Map.entry("desenvolvimento-software", List.of(
+                    recursoOnline("Curso online", "Programacao e tecnologia", "Fundacao Bradesco Escola Virtual", "Gratuito", "Cursos introdutorios para comecar por logica, fundamentos de TI e programacao.", FUNDACAO_BRADESCO_ESCOLA_VIRTUAL),
+                    recursoOnline("Trilha guiada", "Modulos de desenvolvimento", "Microsoft Learn", "Gratuito", "Treinos curtos para praticar fundamentos, web, cloud e ferramentas usadas no mercado.", MICROSOFT_LEARN),
+                    recursoOnline("Curso online", "Programacao, Python e carreira tech", "Cisco Networking Academy", "Gratuito", "Cursos de tecnologia em ritmo proprio para fortalecer base antes de projetos maiores.", CISCO_NETACAD)
+            )),
+            Map.entry("dados-bi", List.of(
+                    recursoOnline("Curso pratico", "Python, Pandas e visualizacao", "Kaggle Learn", "Gratuito", "Mini-cursos curtos para praticar analise de dados direto em bases e notebooks.", KAGGLE_LEARN),
+                    recursoOnline("Trilha guiada", "Power BI e fundamentos de dados", "Microsoft Learn", "Gratuito", "Conteudos oficiais para dashboards, indicadores, dados e ferramentas Microsoft.", MICROSOFT_LEARN),
+                    recursoOnline("Catalogo publico", "Analise e ciencia de dados", "Escola Virtual Gov", "Gratuito com certificado", "Cursos abertos para dados, governo digital, informacao e transformacao digital.", EVG_CATALOGO)
+            )),
+            Map.entry("seguranca-cibernetica", List.of(
+                    recursoOnline("Curso online", "Redes e ciberseguranca", "Cisco Networking Academy", "Gratuito", "Cursos introdutorios de redes, seguranca, dispositivos e fundamentos digitais.", CISCO_NETACAD),
+                    recursoOnline("Guia tecnico", "OWASP Top 10", "OWASP", "Aberto", "Referencia importante para entender riscos comuns em aplicacoes web.", "https://owasp.org/www-project-top-ten/"),
+                    recursoOnline("Curso online", "Fundamentos de TI: Hardware e Software", "Fundacao Bradesco Escola Virtual", "Gratuito", "Base de informatica, sistemas operacionais e principios de seguranca da informacao.", FUNDACAO_BRADESCO_FUNDAMENTOS_TI)
+            )),
+            Map.entry("infraestrutura-redes", List.of(
+                    recursoOnline("Curso online", "Networking e dispositivos", "Cisco Networking Academy", "Gratuito", "Boa porta de entrada para redes, conectividade e suporte tecnico.", CISCO_NETACAD),
+                    recursoOnline("Curso online", "Fundamentos de TI: Hardware e Software", "Fundacao Bradesco Escola Virtual", "Gratuito", "Ajuda a revisar computador, sistemas, armazenamento e seguranca basica.", FUNDACAO_BRADESCO_FUNDAMENTOS_TI),
+                    recursoOnline("Trilha guiada", "Cloud, suporte e administracao", "Microsoft Learn", "Gratuito", "Modulos oficiais para entender nuvem, infraestrutura, Microsoft 365 e Azure.", MICROSOFT_LEARN)
+            )),
+            Map.entry("ux-ui-design", List.of(
+                    recursoOnline("Curso guiado", "Figma Design para iniciantes", "Figma Learn", "Aberto", "Curso oficial para praticar frames, componentes, prototipos e layout responsivo.", FIGMA_BEGINNERS),
+                    recursoOnline("Guia visual", "Material Design", "Google", "Aberto", "Sistema de design com componentes, padroes, acessibilidade e boas praticas de interface.", MATERIAL_DESIGN),
+                    recursoOnline("Referencia", "Acessibilidade digital", "W3C WAI", "Aberto", "Material para entender contraste, leitura, navegacao e inclusao em interfaces.", W3C_WCAG)
+            )),
+            Map.entry("game-design", List.of(
+                    recursoOnline("Curso e tutorial", "Unity Learn", "Unity", "Gratuito", "Cursos e tutoriais oficiais para criar cenas, mecanicas e primeiros jogos.", UNITY_LEARN),
+                    recursoOnline("Documentacao", "Godot Docs", "Godot Engine", "Aberto", "Documentacao oficial de uma engine gratuita e acessivel para prototipos pequenos.", GODOT_DOCS),
+                    recursoOnline("Comunidade", "Global Game Jam", "Global Game Jam", "Aberto", "Evento e comunidade para praticar prototipos, trabalho em equipe e criatividade.", GLOBAL_GAME_JAM)
+            )),
+            Map.entry("inteligencia-artificial", List.of(
+                    recursoOnline("Curso pratico", "Machine Learning Crash Course", "Google for Developers", "Gratuito", "Curso introdutorio com videos, visualizacoes interativas e exercicios praticos.", GOOGLE_ML_CRASH_COURSE),
+                    recursoOnline("Curso pratico", "Python, ML e ciencia de dados", "Kaggle Learn", "Gratuito", "Mini-cursos para praticar Python, dados, machine learning e etica em IA.", KAGGLE_LEARN),
+                    recursoOnline("Catalogo publico", "Inteligencia artificial e governo digital", "Escola Virtual Gov", "Gratuito com certificado", "Cursos abertos para experimentar IA, dados e transformacao digital.", EVG_CATALOGO)
+            )),
+            Map.entry("gestao-ti", List.of(
+                    recursoOnline("Guia oficial", "Scrum Guide", "Scrum.org", "Aberto", "Referencia curta para entender papeis, eventos e artefatos do Scrum.", SCRUM_GUIDES),
+                    recursoOnline("Guia pratico", "Agile Coach", "Atlassian", "Aberto", "Conteudos claros sobre Scrum, Kanban, planejamento, backlog e trabalho em equipe.", ATLASSIAN_AGILE),
+                    recursoOnline("Catalogo publico", "Gestao, lideranca e transformacao digital", "Escola Virtual Gov", "Gratuito com certificado", "Cursos abertos para comunicacao, lideranca, gestao publica e projetos.", EVG_CATALOGO)
+            ))
+    );
+
     public DetalheAreaView buscarPorSlug(String slug) {
         DetalheAreaView detalhe = detalhes.get(slug);
         if (detalhe == null) {
@@ -315,6 +377,7 @@ public class DetalheAreaService {
                 detalhe.getReferencias(),
                 profissoes.getOrDefault(slug, List.of()),
                 formacoes.getOrDefault(slug, List.of()),
+                recursosOnline.getOrDefault(slug, List.of()),
                 detalhe.getFerramentas()
         );
     }
@@ -362,5 +425,16 @@ public class DetalheAreaService {
             String url
     ) {
         return new FormacaoLocalView(titulo, instituicao, cidade, modalidade, descricao, url);
+    }
+
+    private static RecursoOnlineView recursoOnline(
+            String tipo,
+            String titulo,
+            String plataforma,
+            String custo,
+            String descricao,
+            String url
+    ) {
+        return new RecursoOnlineView(tipo, titulo, plataforma, custo, descricao, url);
     }
 }
