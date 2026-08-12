@@ -26,8 +26,6 @@ public class DetalheAreaService {
     private static final String SENAC_ROLIM_MOURA = "https://www.ro.senac.br/category/processo-seletivo/processo-seletivo-rolim-de-moura/";
     private static final String SENAI_RO = "https://portal.fiero.org.br/senai";
     private static final String SENAI_FUTURO_DIGITAL = "https://www.futuro.digital/senai-ro";
-    private static final String UNESC_SI_CACOAL = "https://vestibular.unescnet.br/PS_UNESC/Curso.aspx?Cidade=Cacoal&CursoId=84&CursoNome=sistemas-de-informacao&CursoUnidadeId=8801&MenuId=3&UF=RO";
-    private static final String UNESC_ADS_CACOAL = "https://vestibular.unescnet.br/PS_UNESC/Curso.aspx?Cidade=Cacoal&CursoId=85&CursoNome=superior-de-tecnologia-em-analise-e-desenvolvimento-de-sistemas&CursoUnidadeId=8803&MenuId=4&UF=RO";
     private static final String CRUZEIRO_SUL_ROLIM_MOURA = "https://www.cruzeirodosulvirtual.com.br/polo/rolim-de-moura-centro-ro/";
     private static final String MICROSOFT_LEARN = "https://learn.microsoft.com/pt-br/training/";
     private static final String CISCO_NETACAD = "https://www.netacad.com/";
@@ -274,13 +272,13 @@ public class DetalheAreaService {
     private final Map<String, List<FormacaoLocalView>> formacoes = Map.ofEntries(
             Map.entry("desenvolvimento-software", List.of(
                     formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Boa base para logica, programacao, sistemas e continuidade em graduacao.", IFRO_CACOAL_CURSOS),
-                    formacao("Analise e Desenvolvimento de Sistemas", "UNESC", "Cacoal", "Graduacao tecnologica", "Caminho direto para desenvolvimento, arquitetura de software e projetos reais.", UNESC_ADS_CACOAL),
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Forma base ampla em programacao, banco de dados, engenharia de software e gestao.", UNESC_SI_CACOAL),
-                    formacao("Informatica e cursos livres", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Opcao proxima para comecar por fundamentos, ferramentas e trilhas profissionais.", SENAC_INFORMATICA)
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Cacoal, Rolim de Moura e RO", "Livre/Tecnico", "Procure turmas de programacao, informatica, web e fundamentos de tecnologia.", SENAI_FUTURO_DIGITAL),
+                    formacao("Informatica e cursos livres", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Opcao proxima para comecar por fundamentos, ferramentas e trilhas profissionais.", SENAC_INFORMATICA),
+                    formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe cursos tecnicos, FIC e editais que podem abrir oportunidades em desenvolvimento.", IFRO_EAD)
             )),
             Map.entry("dados-bi", List.of(
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Ajuda a construir base em banco de dados, sistemas e leitura de negocio.", UNESC_SI_CACOAL),
                     formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Base util para SQL, logica, bancos e projetos com informacao estruturada.", IFRO_CACOAL_CURSOS),
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Cacoal, Rolim de Moura e RO", "Livre/Tecnico", "Procure turmas de informatica, dados, ferramentas digitais e fundamentos de tecnologia.", SENAI_FUTURO_DIGITAL),
                     formacao("Cursos de Informatica", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Procure turmas com planilhas, informatica, banco de dados ou ferramentas de produtividade.", SENAC_INFORMATICA),
                     formacao("Cursos EAD e polos", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Vale acompanhar editais e polos para oportunidades de formacao tecnica e continuada.", IFRO_EAD)
             )),
@@ -288,7 +286,7 @@ public class DetalheAreaService {
                     formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Base para redes, sistemas operacionais, programacao e manutencao segura.", IFRO_CACOAL_CURSOS),
                     formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Cacoal, Rolim de Moura e RO", "Tecnico/Livre", "Procure turmas de informatica, redes, IoT, manutencao e trilhas de tecnologia.", SENAI_FUTURO_DIGITAL),
                     formacao("Informatica", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Um comeco pratico para fundamentos antes de aprofundar em redes e seguranca.", SENAC_INFORMATICA),
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Aprofunda programacao, banco, sistemas e gestao, base boa para seguranca em software.", UNESC_SI_CACOAL)
+                    formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe cursos tecnicos, FIC e editais ligados a redes, informatica e tecnologia.", IFRO_EAD)
             )),
             Map.entry("infraestrutura-redes", List.of(
                     formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Caminho forte para suporte, manutencao, redes e sistemas.", IFRO_CACOAL_CURSOS),
@@ -299,26 +297,26 @@ public class DetalheAreaService {
             Map.entry("ux-ui-design", List.of(
                     formacao("Informatica e ferramentas digitais", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Comece por fundamentos digitais e procure turmas ligadas a design, web ou produtividade.", SENAC_PIMENTA_BUENO),
                     formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Pode ajudar com web, ferramentas visuais e fundamentos para prototipos digitais.", SENAI_FUTURO_DIGITAL),
-                    formacao("Analise e Desenvolvimento de Sistemas", "UNESC", "Cacoal", "Graduacao tecnologica", "Mesmo sendo mais tecnico, ajuda a entender produto, front-end e construcao de interfaces.", UNESC_ADS_CACOAL),
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Boa base para quem quer unir tecnologia, negocio, experiencia e produto.", UNESC_SI_CACOAL)
+                    formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe cursos que aproximem web, informatica, produto digital e ferramentas de criacao.", IFRO_EAD),
+                    formacao("Tecnologia a distancia", "Cruzeiro do Sul Virtual", "Rolim de Moura", "EAD/Polo", "Opcao EAD para quem precisa estudar perto de casa e fortalecer base em tecnologia.", CRUZEIRO_SUL_ROLIM_MOURA)
             )),
             Map.entry("game-design", List.of(
-                    formacao("Analise e Desenvolvimento de Sistemas", "UNESC", "Cacoal", "Graduacao tecnologica", "Base para programacao de jogos, logica, banco e projetos interativos.", UNESC_ADS_CACOAL),
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Ajuda a construir fundamentos de software antes de especializar em games.", UNESC_SI_CACOAL),
                     formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Procure trilhas de programacao, web, design digital ou fundamentos de tecnologia.", SENAI_FUTURO_DIGITAL),
-                    formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Ajuda a comecar por logica, programacao e projetos pequenos.", IFRO_CACOAL_CURSOS)
+                    formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Ajuda a comecar por logica, programacao e projetos pequenos.", IFRO_CACOAL_CURSOS),
+                    formacao("Informatica e cursos livres", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Boa entrada para fundamentos digitais antes de partir para engines e prototipos.", SENAC_INFORMATICA),
+                    formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe editais de tecnologia para fortalecer a base antes de especializar em jogos.", IFRO_EAD)
             )),
             Map.entry("inteligencia-artificial", List.of(
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Base ampla para dados, programacao, banco, sistemas e fundamentos para IA.", UNESC_SI_CACOAL),
-                    formacao("Analise e Desenvolvimento de Sistemas", "UNESC", "Cacoal", "Graduacao tecnologica", "Caminho pratico para programacao, APIs, dados e automacoes.", UNESC_ADS_CACOAL),
                     formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Primeiro passo para logica, programacao e organizacao de dados.", IFRO_CACOAL_CURSOS),
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Procure trilhas de programacao, dados, automacao e fundamentos de tecnologia.", SENAI_FUTURO_DIGITAL),
+                    formacao("Cursos de Informatica", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Ajuda a reforcar informatica, ferramentas digitais e base para estudar dados depois.", SENAC_INFORMATICA),
                     formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe cursos tecnicos, FIC e editais que podem abrir oportunidades em tecnologia.", IFRO_EAD)
             )),
             Map.entry("gestao-ti", List.of(
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Une tecnologia, processos, dados e gestao de solucoes para empresas.", UNESC_SI_CACOAL),
                     formacao("Gestao e Informatica", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Procure cursos de gestao, atendimento, informatica e processos administrativos.", SENAC_PIMENTA_BUENO),
                     formacao("Tecnologia a distancia", "Cruzeiro do Sul Virtual", "Rolim de Moura", "EAD/Polo", "Opcoes EAD de tecnologia podem ajudar quem precisa estudar perto de casa.", CRUZEIRO_SUL_ROLIM_MOURA),
-                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Bom para entender operacao, processos tecnicos e contexto de equipes.", SENAI_RO)
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Bom para entender operacao, processos tecnicos e contexto de equipes.", SENAI_RO),
+                    formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe oportunidades de tecnologia, gestao publica, processos e formacao continuada.", IFRO_EAD)
             ))
     );
 
