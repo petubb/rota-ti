@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Politica de privacidade e LGPD do Rota TI. Entenda quais dados sao coletados e como sao usados no projeto.">
+    <meta name="description" content="Politica de privacidade e LGPD do Rota TI. Entenda quais dados sao coletados, por que sao usados e quais sao seus direitos.">
     <title>Privacidade e LGPD | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
@@ -12,133 +12,166 @@
 
 <main>
     <section class="privacy-hero" aria-labelledby="privacy-title">
-        <div class="privacy-container">
-            <p class="eyebrow">Privacidade e LGPD</p>
-            <h1 id="privacy-title">Como o Rota TI cuida dos seus dados.</h1>
-            <p>
-                Esta pagina explica, de forma simples, quais informacoes sao usadas no projeto,
-                por que elas sao solicitadas e quais cuidados foram adotados para proteger quem
-                utiliza a plataforma.
-            </p>
+        <div class="privacy-container privacy-hero-grid">
+            <div>
+                <p class="eyebrow">Privacidade sem letras miudas</p>
+                <h1 id="privacy-title">Seus dados ajudam o quiz. Nada al&eacute;m disso.</h1>
+                <p class="privacy-hero-copy">
+                    Aqui voc&ecirc; encontra, em linguagem direta, o que o Rota TI registra, por que cada informa&ccedil;&atilde;o
+                    &eacute; necess&aacute;ria e como pedir acesso, corre&ccedil;&atilde;o ou exclus&atilde;o quando isso for aplic&aacute;vel.
+                </p>
+            </div>
+            <div class="privacy-commitment" aria-label="Compromissos principais">
+                <span>Em resumo</span>
+                <strong>Quiz livre. Conta opcional. Resultado orientativo.</strong>
+                <p>N&atilde;o vendemos dados e n&atilde;o publicamos seu resultado automaticamente.</p>
+                <a href="#seus-direitos">Conhecer meus direitos <span aria-hidden="true">&darr;</span></a>
+            </div>
         </div>
     </section>
 
-    <section class="privacy-section">
+    <section class="privacy-overview" aria-labelledby="privacy-overview-title">
+        <div class="privacy-container">
+            <p class="eyebrow">O essencial primeiro</p>
+            <h2 id="privacy-overview-title">Onde cada informa&ccedil;&atilde;o fica</h2>
+            <div class="privacy-overview-grid">
+                <article>
+                    <span class="privacy-overview-number">01</span>
+                    <h3>Ao responder o quiz</h3>
+                    <p>Nome, idade, escola e respostas s&atilde;o usados para gerar e registrar a recomenda&ccedil;&atilde;o.</p>
+                </article>
+                <article>
+                    <span class="privacy-overview-number">02</span>
+                    <h3>Se criar uma conta</h3>
+                    <p>Nome, e-mail e senha protegida permitem login, recupera&ccedil;&atilde;o e hist&oacute;rico de resultados.</p>
+                </article>
+                <article>
+                    <span class="privacy-overview-number">03</span>
+                    <h3>No roadmap</h3>
+                    <p>As marca&ccedil;&otilde;es ficam no seu pr&oacute;prio navegador e n&atilde;o s&atilde;o enviadas ao banco do Rota TI.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="privacy-body">
         <div class="privacy-container privacy-layout">
-            <aside class="privacy-summary" aria-label="Resumo da politica">
-                <span>Resumo rapido</span>
-                <ul>
-                    <li>O quiz pode ser feito sem cadastro.</li>
-                    <li>A conta e opcional para salvar historico.</li>
-                    <li>Senhas sao protegidas com BCrypt.</li>
-                    <li>Os dados ajudam a gerar resultados e estatisticas gerais.</li>
-                </ul>
+            <aside class="privacy-index" aria-label="Nesta pagina">
+                <span>Nesta p&aacute;gina</span>
+                <nav>
+                    <a href="#dados-coletados">Dados coletados</a>
+                    <a href="#como-usamos">Como usamos</a>
+                    <a href="#seguranca">Seguran&ccedil;a</a>
+                    <a href="#armazenamento">Armazenamento</a>
+                    <a href="#seus-direitos">Seus direitos</a>
+                    <a href="#contato">Contato</a>
+                </nav>
             </aside>
 
             <div class="privacy-content">
-                <article>
-                    <h2>1. Sobre esta politica</h2>
+                <section id="dados-coletados" class="privacy-topic" aria-labelledby="dados-title">
+                    <p class="privacy-topic-label">01 &middot; Coleta</p>
+                    <h2 id="dados-title">Coletamos somente o que sustenta a experi&ecirc;ncia</h2>
                     <p>
-                        O Rota TI e um projeto academico de orientacao profissional em tecnologia.
-                        A proposta e ajudar estudantes a refletirem sobre areas de TI que podem combinar
-                        com seus interesses. Esta politica foi escrita para apoiar a transparencia no uso
-                        dos dados, em alinhamento com a Lei Geral de Protecao de Dados Pessoais (LGPD).
+                        O quiz registra nome, idade, escola, respostas, &aacute;rea recomendada, pontua&ccedil;&atilde;o e,
+                        quando informada, a avalia&ccedil;&atilde;o de satisfa&ccedil;&atilde;o. Se voc&ecirc; optar pelo cadastro,
+                        tamb&eacute;m s&atilde;o registrados nome, e-mail e a representa&ccedil;&atilde;o protegida da senha.
                     </p>
-                </article>
+                    <div class="privacy-note">
+                        <strong>O que n&atilde;o pedimos</strong>
+                        <p>Documentos, endere&ccedil;o residencial, telefone, dados banc&aacute;rios ou informa&ccedil;&otilde;es sens&iacute;veis n&atilde;o fazem parte do fluxo do Rota TI.</p>
+                    </div>
+                </section>
 
-                <article>
-                    <h2>2. Quais dados podem ser coletados</h2>
-                    <p>Durante o uso do site, podem ser registrados os seguintes dados:</p>
-                    <ul>
-                        <li>nome informado no inicio do quiz;</li>
-                        <li>idade;</li>
-                        <li>escola;</li>
-                        <li>respostas do questionario;</li>
-                        <li>resultado gerado, area recomendada e pontuacao;</li>
-                        <li>avaliacao de satisfacao do resultado, quando preenchida;</li>
-                        <li>nome, e-mail e senha protegida, caso a pessoa crie uma conta.</li>
+                <section id="como-usamos" class="privacy-topic" aria-labelledby="uso-title">
+                    <p class="privacy-topic-label">02 &middot; Finalidade</p>
+                    <h2 id="uso-title">Cada dado tem uma fun&ccedil;&atilde;o definida</h2>
+                    <dl class="privacy-purpose-list">
+                        <div>
+                            <dt>Gerar sua rota</dt>
+                            <dd>As respostas alimentam a pontua&ccedil;&atilde;o e o desempate do question&aacute;rio.</dd>
+                        </div>
+                        <div>
+                            <dt>Guardar seu hist&oacute;rico</dt>
+                            <dd>A conta opcional vincula os resultados para mostrar sua evolu&ccedil;&atilde;o.</dd>
+                        </div>
+                        <div>
+                            <dt>Avaliar o projeto</dt>
+                            <dd>Dados agregados ajudam a entender afinidades por &aacute;rea e melhorar o quiz.</dd>
+                        </div>
+                        <div>
+                            <dt>Recuperar o acesso</dt>
+                            <dd>O e-mail permite enviar um link tempor&aacute;rio quando a senha for esquecida.</dd>
+                        </div>
+                    </dl>
+                    <p>
+                        A recomenda&ccedil;&atilde;o &eacute; automatizada a partir das respostas, mas n&atilde;o &eacute; diagn&oacute;stico
+                        psicol&oacute;gico nem decis&atilde;o profissional. Ela serve como ponto de partida para explora&ccedil;&atilde;o.
+                    </p>
+                </section>
+
+                <section id="seguranca" class="privacy-topic privacy-security" aria-labelledby="security-title">
+                    <p class="privacy-topic-label">03 &middot; Prote&ccedil;&atilde;o</p>
+                    <h2 id="security-title">Cuidados aplicados no sistema</h2>
+                    <ul class="privacy-security-list">
+                        <li><strong>BCrypt:</strong> a senha original n&atilde;o &eacute; armazenada nem pode ser recuperada pelo sistema.</li>
+                        <li><strong>Acesso separado:</strong> usu&aacute;rios comuns consultam seus resultados; o painel exige papel de administrador.</li>
+                        <li><strong>Recupera&ccedil;&atilde;o segura:</strong> tokens de senha s&atilde;o tempor&aacute;rios, de uso &uacute;nico e salvos como hash.</li>
+                        <li><strong>Prote&ccedil;&atilde;o web:</strong> formul&aacute;rios usam CSRF e respostas incluem cabe&ccedil;alhos de seguran&ccedil;a.</li>
                     </ul>
-                </article>
+                </section>
 
-                <article>
-                    <h2>3. Para que os dados sao usados</h2>
-                    <p>Os dados sao usados para:</p>
-                    <ul>
-                        <li>gerar o resultado personalizado do quiz;</li>
-                        <li>permitir que uma conta salve e consulte historico de resultados;</li>
-                        <li>mostrar estatisticas gerais no painel administrativo;</li>
-                        <li>melhorar o questionario e a experiencia do projeto;</li>
-                        <li>permitir recuperacao de senha por e-mail, quando necessario.</li>
+                <section id="armazenamento" class="privacy-topic" aria-labelledby="storage-title">
+                    <p class="privacy-topic-label">04 &middot; Armazenamento e servi&ccedil;os</p>
+                    <h2 id="storage-title">O funcionamento online depende de fornecedores t&eacute;cnicos</h2>
+                    <p>
+                        A aplica&ccedil;&atilde;o pode usar Render para hospedagem, Aiven para banco de dados e um provedor
+                        SMTP para e-mails de recupera&ccedil;&atilde;o. Esses servi&ccedil;os processam informa&ccedil;&otilde;es na medida
+                        necess&aacute;ria para manter a plataforma dispon&iacute;vel e executar suas fun&ccedil;&otilde;es.
+                    </p>
+                    <p>
+                        Contas e resultados permanecem armazenados enquanto o projeto estiver em opera&ccedil;&atilde;o ou
+                        at&eacute; uma solicita&ccedil;&atilde;o de exclus&atilde;o aplic&aacute;vel, respeitadas eventuais obriga&ccedil;&otilde;es legais
+                        e necessidades de seguran&ccedil;a. O cookie de sess&atilde;o &eacute; usado apenas para manter o login.
+                    </p>
+                    <p>
+                        O bot&atilde;o de compartilhamento somente prepara um texto ou abre o aplicativo escolhido.
+                        O Rota TI n&atilde;o publica nem envia mensagens sem uma a&ccedil;&atilde;o da pr&oacute;pria pessoa.
+                    </p>
+                </section>
+
+                <section id="seus-direitos" class="privacy-topic" aria-labelledby="rights-title">
+                    <p class="privacy-topic-label">05 &middot; Seus direitos</p>
+                    <h2 id="rights-title">Voc&ecirc; pode perguntar e solicitar mudan&ccedil;as</h2>
+                    <p>Nos limites e nas hip&oacute;teses da LGPD, o titular pode solicitar:</p>
+                    <ul class="privacy-rights-list">
+                        <li>confirma&ccedil;&atilde;o e acesso aos dados tratados;</li>
+                        <li>corre&ccedil;&atilde;o de informa&ccedil;&otilde;es incompletas ou desatualizadas;</li>
+                        <li>anonimiza&ccedil;&atilde;o, bloqueio ou elimina&ccedil;&atilde;o quando cab&iacute;vel;</li>
+                        <li>informa&ccedil;&otilde;es sobre uso e compartilhamento;</li>
+                        <li>explica&ccedil;&atilde;o sobre os crit&eacute;rios da recomenda&ccedil;&atilde;o automatizada.</li>
                     </ul>
                     <p>
-                        As estatisticas do dashboard sao apresentadas de forma geral, sem expor publicamente
-                        dados individuais dos estudantes.
+                        Para conhecer a lista completa e as condi&ccedil;&otilde;es de cada direito, consulte a
+                        <a href="https://www.gov.br/anpd/pt-br/assuntos/titular-de-dados-1/direito-dos-titulares"
+                           target="_blank" rel="noopener noreferrer">orienta&ccedil;&atilde;o oficial da ANPD</a>.
                     </p>
-                </article>
+                    <div class="privacy-note">
+                        <strong>Estudantes menores de idade</strong>
+                        <p>O uso deve observar o melhor interesse de crian&ccedil;as e adolescentes. Quando for exigido pela legisla&ccedil;&atilde;o, o fornecimento de dados deve ter participa&ccedil;&atilde;o e consentimento do respons&aacute;vel.</p>
+                    </div>
+                </section>
 
-                <article>
-                    <h2>4. Cadastro e login</h2>
-                    <p>
-                        O cadastro nao e obrigatorio para fazer o quiz. Ele existe para quem deseja salvar
-                        resultados e consultar o historico depois. Visitantes conseguem responder o quiz e
-                        visualizar o resultado sem criar conta.
-                    </p>
-                </article>
+                <section id="contato" class="privacy-contact" aria-labelledby="contact-title">
+                    <div>
+                        <p class="privacy-topic-label">06 &middot; Fale com o projeto</p>
+                        <h2 id="contact-title">Quer exercer um direito ou tirar uma d&uacute;vida?</h2>
+                        <p>Informe o e-mail usado na conta e descreva o pedido. A equipe poder&aacute; confirmar sua identidade antes de atender a solicita&ccedil;&atilde;o.</p>
+                    </div>
+                    <a class="button primary" href="mailto:pethrusabastos@gmail.com?subject=Privacidade%20e%20LGPD%20-%20Rota%20TI">Enviar solicita&ccedil;&atilde;o</a>
+                </section>
 
-                <article>
-                    <h2>5. Senhas e recuperacao</h2>
-                    <p>
-                        Senhas nao sao salvas em texto puro. O sistema armazena apenas um hash BCrypt, que
-                        e uma representacao de mao unica usada para validar o login sem recuperar a senha
-                        original. Na recuperacao de senha, o link enviado por e-mail usa token temporario,
-                        de uso unico e com expiracao.
-                    </p>
-                </article>
-
-                <article>
-                    <h2>6. Quem pode acessar os dados</h2>
-                    <p>
-                        Usuarios comuns acessam apenas seus proprios resultados salvos. A area administrativa
-                        exige permissao de administrador e serve para acompanhar metricas gerais do projeto,
-                        como quantidade de resultados por area e participacoes recentes.
-                    </p>
-                </article>
-
-                <article>
-                    <h2>7. Compartilhamento de resultado</h2>
-                    <p>
-                        A funcao de compartilhar resultado apenas prepara um texto para a propria pessoa enviar
-                        se quiser. O Rota TI nao publica automaticamente o resultado em redes sociais e nao envia
-                        mensagens em nome do usuario.
-                    </p>
-                </article>
-
-                <article>
-                    <h2>8. Direitos do titular</h2>
-                    <p>
-                        A pessoa que usa o sistema pode solicitar acesso, correcao ou remocao de dados vinculados
-                        a sua conta. Como este e um projeto academico, essas solicitacoes devem ser feitas a equipe
-                        responsavel pelo Rota TI durante o periodo de testes e apresentacao.
-                    </p>
-                </article>
-
-                <article>
-                    <h2>9. Limites da orientacao</h2>
-                    <p>
-                        O resultado do quiz e uma orientacao inicial baseada nas respostas informadas. Ele nao e
-                        diagnostico profissional, avaliacao psicologica ou decisao definitiva de carreira. O ideal
-                        e usar o resultado como ponto de partida para pesquisar, conversar e experimentar.
-                    </p>
-                </article>
-
-                <article>
-                    <h2>10. Atualizacoes</h2>
-                    <p>
-                        Esta politica pode ser ajustada conforme o projeto evoluir, especialmente se novas
-                        funcionalidades, relatorios ou formas de contato forem adicionadas ao site.
-                    </p>
-                    <p class="privacy-updated">Ultima atualizacao: julho de 2026.</p>
-                </article>
+                <p class="privacy-updated">&Uacute;ltima atualiza&ccedil;&atilde;o: 13 de agosto de 2026.</p>
             </div>
         </div>
     </section>
