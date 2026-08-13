@@ -4,7 +4,9 @@ import com.rotati.dto.AreaScore;
 import com.rotati.dto.QuizSubmission;
 import com.rotati.model.AreaTi;
 import com.rotati.model.Pergunta;
+import com.rotati.model.Resultado;
 import com.rotati.repository.PerguntaRepository;
+import com.rotati.repository.ResultadoRepository;
 import com.rotati.service.DataInitializer;
 import com.rotati.service.QuizService;
 import org.junit.jupiter.api.Test;
@@ -29,6 +31,9 @@ class QuizServiceTests {
 
     @Autowired
     private PerguntaRepository perguntaRepository;
+
+    @Autowired
+    private ResultadoRepository resultadoRepository;
 
     @Test
     void mantemDezesseisPerguntasPrincipaisEquilibradasEntreAsAreas() {
@@ -160,6 +165,19 @@ class QuizServiceTests {
         assertThat(scoreDaArea(submission, AreaTi.GAME_DESIGN))
                 .isGreaterThan(scoreDaArea(submission, AreaTi.DESENVOLVIMENTO))
                 .isGreaterThan(scoreDaArea(submission, AreaTi.UX_UI));
+    }
+
+    @Test
+    void resultadoReabertoPreservaCompatibilidadeRegistradaNaTentativa() {
+        List<Pergunta> perguntas = quizService.listarPerguntas();
+        QuizSubmission submission = submissionComValor(perguntas, 0);
+        Resultado resultado = quizService.processar(submission);
+
+        resultado.setScore(91.0);
+        resultadoRepository.save(resultado);
+
+        assertThat(quizService.buscarResultado(resultado.getId()).getPrincipal().getCompatibilidade())
+                .isEqualTo(91.0);
     }
 
     private QuizSubmission submissionComValor(List<Pergunta> perguntas, int valor) {

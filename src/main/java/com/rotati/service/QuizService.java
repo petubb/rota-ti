@@ -217,10 +217,15 @@ public class QuizService {
         List<AreaScore> ranking = calcularRanking(respostas.stream()
                 .map(resposta -> new RespostaCalculada(resposta.getPergunta(), resposta.getValor()))
                 .toList());
-        AreaScore principal = ranking.stream()
+        AreaScore principalRecalculado = ranking.stream()
                 .filter(score -> score.getArea().getSlug().equals(resultado.getAreaSlug()))
                 .findFirst()
                 .orElse(ranking.getFirst());
+        AreaScore principal = new AreaScore(
+                principalRecalculado.getArea(),
+                principalRecalculado.getPontos(),
+                resultado.getScore()
+        );
 
         return new ResultadoView(
                 resultado,
