@@ -4,13 +4,6 @@
     background: #f1f6f4;
 }
 
-.quiz-header {
-    min-height: 68px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background: rgba(255, 255, 255, 0.96);
-}
-
 .quiz-exit {
     margin-left: auto;
     color: var(--muted);
@@ -433,17 +426,6 @@
 }
 
 @media (max-width: 720px) {
-    .quiz-header {
-        align-items: center;
-        flex-direction: row;
-        min-height: 64px;
-        padding-inline: 16px;
-    }
-
-    .quiz-header .brand-lockup small {
-        display: none;
-    }
-
     .quiz-main {
         width: min(calc(100% - 28px), 980px);
         padding: 34px 0 52px;

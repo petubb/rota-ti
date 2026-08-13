@@ -9,17 +9,7 @@
     <script defer th:src="@{/js/result.js}"></script>
 </head>
 <body class="result-page">
-<header class="site-header result-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orienta&ccedil;&atilde;o profissional</small></span>
-    </a>
-    <nav aria-label="Navegacao do resultado">
-        <a th:href="@{/areas}">&Aacute;reas</a>
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-        <a class="button secondary result-header-action" th:href="@{/quiz}">Refazer teste</a>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('quiz')}"></th:block>
 
 <main>
     <p class="flash result-flash" th:if="${mensagem}" th:text="${mensagem}">Mensagem</p>

@@ -9,16 +9,7 @@
     <script defer th:src="@{/js/quiz.js}"></script>
 </head>
 <body class="quiz-page">
-<header class="site-header quiz-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orienta&ccedil;&atilde;o profissional</small></span>
-    </a>
-    <nav aria-label="Navegacao do questionario">
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-        <a class="quiz-exit" th:href="@{/quiz}">Recome&ccedil;ar</a>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('quiz')}"></th:block>
 
 <main class="quiz-main">
     <section class="quiz-intro" aria-labelledby="quiz-title">

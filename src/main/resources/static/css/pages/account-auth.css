@@ -27,11 +27,6 @@
     min-height: 100vh;
 }
 
-.auth-header,
-.account-header {
-    position: static;
-}
-
 .auth-main {
     display: grid;
     align-items: center;
@@ -592,11 +587,6 @@
 }
 
 @media (max-width: 720px) {
-    .auth-header {
-        align-items: center;
-        flex-direction: row;
-    }
-
     .auth-main {
         display: block;
         min-height: 0;

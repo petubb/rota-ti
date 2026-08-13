@@ -8,17 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body class="account-page">
-<header class="site-header account-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orientacao profissional</small></span>
-    </a>
-    <nav aria-label="Navegacao da conta">
-        <a th:href="@{/areas}">&Aacute;reas</a>
-        <a class="button primary header-cta" th:href="@{/quiz}">Novo teste</a>
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('evolucao')}"></th:block>
 
 <main class="account-main">
     <section class="account-heading" aria-labelledby="history-title">

@@ -8,12 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body class="auth-page">
-<header class="site-header auth-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orientacao profissional</small></span>
-    </a>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('entrar')}"></th:block>
 
 <main class="auth-main">
     <section class="auth-panel" aria-labelledby="nova-senha-title">

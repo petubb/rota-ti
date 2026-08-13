@@ -9,17 +9,7 @@
     <script defer th:src="@{/js/roadmap.js}"></script>
 </head>
 <body class="roadmap-page">
-<header class="site-header roadmap-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orienta&ccedil;&atilde;o profissional</small></span>
-    </a>
-    <nav>
-        <a th:href="@{/areas}">&Aacute;reas</a>
-        <a th:href="@{/quiz}">Quiz</a>
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('areas')}"></th:block>
 
 <main data-roadmap th:attr="data-roadmap-slug=${area.slug},data-roadmap-total=${roadmap.totalPassos}">
     <section class="roadmap-hero" aria-labelledby="roadmap-title">

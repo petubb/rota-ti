@@ -9,17 +9,7 @@
     <script th:src="@{/js/areas-explorer.js}" defer></script>
 </head>
 <body class="areas-page">
-<header class="site-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orienta&ccedil;&atilde;o profissional</small></span>
-    </a>
-    <nav>
-        <a th:href="@{/sobre}">Sobre</a>
-        <a th:href="@{/quiz}">Quiz</a>
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('areas')}"></th:block>
 
 <main class="areas-explorer" data-area-explorer>
     <section class="areas-explorer-hero" aria-labelledby="areas-title">

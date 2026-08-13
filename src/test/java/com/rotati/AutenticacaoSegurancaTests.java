@@ -44,6 +44,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -123,6 +124,17 @@ class AutenticacaoSegurancaTests {
         mockMvc.perform(get("/lgpd"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("privacidade"));
+    }
+
+    @Test
+    void navegacaoPrincipalPermaneceCompletaEDestacaPaginaAtual() throws Exception {
+        mockMvc.perform(get("/areas"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString(">Sobre</a>")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString(">&Aacute;reas</a>")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString(">Quiz</a>")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString(">Entrar</a>")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("aria-current=\"page\"")));
     }
 
     @Test

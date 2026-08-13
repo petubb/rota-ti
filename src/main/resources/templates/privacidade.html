@@ -8,18 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body class="privacy-page">
-<header class="site-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orientacao profissional</small></span>
-    </a>
-    <nav aria-label="Navegacao da politica de privacidade">
-        <a th:href="@{/sobre}">Sobre</a>
-        <a th:href="@{/areas}">&Aacute;reas</a>
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-        <a class="button primary header-cta" th:href="@{/quiz}">Fazer o teste</a>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('privacidade')}"></th:block>
 
 <main>
     <section class="privacy-hero" aria-labelledby="privacy-title">
