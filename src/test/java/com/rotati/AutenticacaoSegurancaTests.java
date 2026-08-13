@@ -2,6 +2,7 @@ package com.rotati;
 
 import com.rotati.dto.CadastroForm;
 import com.rotati.dto.QuizSubmission;
+import com.rotati.model.AreaTi;
 import com.rotati.model.Conta;
 import com.rotati.model.PapelConta;
 import com.rotati.model.Resultado;
@@ -236,6 +237,60 @@ class AutenticacaoSegurancaTests {
     }
 
     @Test
+    void contaResumeEComparaResultadosSalvosSemCriarNovosDados() throws Exception {
+        Conta conta = contaService.criarConta(novoCadastro(emailUnico()));
+        long resultadosAntesDaLeitura = resultadoRepository.count();
+        Resultado desenvolvimentoAntigo = resultadoSalvo(
+                conta, "desenvolvimento-software", 68.0, LocalDateTime.now().minusDays(30)
+        );
+        resultadoSalvo(conta, "desenvolvimento-software", 74.0, LocalDateTime.now().minusDays(10));
+        Resultado uxRecente = resultadoSalvo(
+                conta, "ux-ui-design", 81.0, LocalDateTime.now().minusDays(1)
+        );
+
+        var evolucao = resultadoContaService.buscarEvolucao(new ContaPrincipal(conta));
+
+        assertThat(evolucao.getTotalTestes()).isEqualTo(3);
+        assertThat(evolucao.getAreasExploradas()).isEqualTo(2);
+        assertThat(evolucao.getAreaRecorrente()).isEqualTo(AreaTi.DESENVOLVIMENTO);
+        assertThat(evolucao.getRecorrenciasDaArea()).isEqualTo(2);
+        assertThat(evolucao.getMaisRecente().getId()).isEqualTo(uxRecente.getId());
+        assertThat(evolucao.getResultados().getLast().getId()).isEqualTo(desenvolvimentoAntigo.getId());
+        assertThat(evolucao.isPossuiComparacao()).isTrue();
+        assertThat(evolucao.isManteveAreaRecente()).isFalse();
+        assertThat(resultadoRepository.count()).isEqualTo(resultadosAntesDaLeitura + 3);
+
+        mockMvc.perform(get("/minha-conta/resultados").with(user(new ContaPrincipal(conta))))
+                .andExpect(status().isOk())
+                .andExpect(view().name("conta/resultados"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.model()
+                        .attribute("evolucao", org.hamcrest.Matchers.notNullValue()));
+    }
+
+    @Test
+    void evolucaoDiferenciaContaVaziaPrimeiroResultadoEAumentoNaMesmaRota() {
+        Conta conta = contaService.criarConta(novoCadastro(emailUnico()));
+        ContaPrincipal principal = new ContaPrincipal(conta);
+
+        var evolucaoVazia = resultadoContaService.buscarEvolucao(principal);
+        assertThat(evolucaoVazia.isVazia()).isTrue();
+        assertThat(evolucaoVazia.isPossuiComparacao()).isFalse();
+
+        resultadoSalvo(conta, "seguranca-cibernetica", 65.0, LocalDateTime.now().minusDays(8));
+        var primeiroRegistro = resultadoContaService.buscarEvolucao(principal);
+        assertThat(primeiroRegistro.isVazia()).isFalse();
+        assertThat(primeiroRegistro.getTotalTestes()).isEqualTo(1);
+        assertThat(primeiroRegistro.isPossuiComparacao()).isFalse();
+
+        resultadoSalvo(conta, "seguranca-cibernetica", 78.0, LocalDateTime.now().minusDays(1));
+        var comparacao = resultadoContaService.buscarEvolucao(principal);
+        assertThat(comparacao.isManteveAreaRecente()).isTrue();
+        assertThat(comparacao.isScoreRecenteSubiu()).isTrue();
+        assertThat(comparacao.isScoreRecenteCaiu()).isFalse();
+        assertThat(comparacao.getVariacaoScoreRecenteAbsoluta()).isEqualTo(13.0);
+    }
+
+    @Test
     void paginaDoResultadoSoRenderizaNaSessaoCriadora() throws Exception {
         QuizSubmission submission = new QuizSubmission();
         submission.setNome("Pessoa Teste");
@@ -350,6 +405,14 @@ class AutenticacaoSegurancaTests {
         form.setSenha(SENHA_FORTE);
         form.setConfirmarSenha(SENHA_FORTE);
         return form;
+    }
+
+    private Resultado resultadoSalvo(Conta conta, String areaSlug, double score, LocalDateTime data) {
+        Usuario usuario = usuarioRepository.save(new Usuario("Pessoa Teste", 18, "Escola Teste"));
+        Resultado resultado = new Resultado(usuario, areaSlug, score);
+        resultado.setConta(conta);
+        ReflectionTestUtils.setField(resultado, "createdAt", data);
+        return resultadoRepository.save(resultado);
     }
 
     private String emailUnico() {

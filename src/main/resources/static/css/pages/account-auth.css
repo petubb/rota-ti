@@ -43,8 +43,8 @@
 .auth-panel {
     display: grid;
     grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1fr);
-    gap: 64px;
-    width: min(900px, 100%);
+    gap: 72px;
+    width: min(1040px, 100%);
     margin: 0 auto;
 }
 
@@ -61,10 +61,46 @@
     letter-spacing: 0;
 }
 
-.auth-heading > p:last-child,
-.account-heading > p:last-child,
-.account-empty p {
+.auth-heading > p:not(.eyebrow),
+.account-heading > div > p:last-child,
+.account-empty > p:not(.eyebrow) {
     color: var(--muted);
+}
+
+.auth-benefit-list {
+    display: grid;
+    gap: 0;
+    margin: 30px 0 0;
+    padding: 0;
+    border-top: 1px solid #cfdddf;
+    list-style: none;
+}
+
+.auth-benefit-list li {
+    display: grid;
+    gap: 4px;
+    padding: 17px 0 17px 22px;
+    border-bottom: 1px solid #cfdddf;
+    border-left: 3px solid var(--primary);
+}
+
+.auth-benefit-list li:nth-child(2) {
+    border-left-color: var(--coral);
+}
+
+.auth-benefit-list li:nth-child(3) {
+    border-left-color: var(--accent);
+}
+
+.auth-benefit-list strong {
+    color: var(--navy);
+    font-size: 0.94rem;
+}
+
+.auth-benefit-list span {
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
 }
 
 .auth-form {
@@ -158,18 +194,223 @@
 }
 
 .account-main {
-    width: min(980px, calc(100% - 32px));
+    width: min(1120px, calc(100% - 32px));
     margin: 0 auto;
     padding: 64px 0 88px;
 }
 
 .account-heading {
-    max-width: 720px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 48px;
+    align-items: end;
     margin-bottom: 42px;
+}
+
+.account-heading > div {
+    max-width: 760px;
+}
+
+.account-heading > .button {
+    margin-bottom: 4px;
 }
 
 .account-heading h1 span {
     color: var(--primary-dark);
+}
+
+.account-overview {
+    display: grid;
+    grid-template-columns: 0.7fr 0.7fr 1.25fr;
+    gap: 14px;
+    margin-bottom: 72px;
+}
+
+.account-overview > div {
+    display: grid;
+    align-content: start;
+    min-height: 172px;
+    padding: 22px;
+    border: 1px solid #d3e0e2;
+    border-top: 4px solid var(--primary);
+    border-radius: 8px;
+    background: #fff;
+}
+
+.account-overview > div:nth-child(2) {
+    border-top-color: var(--coral);
+}
+
+.account-overview > div:nth-child(3) {
+    border-top-color: var(--accent);
+}
+
+.account-overview span {
+    color: #617486;
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.account-overview strong {
+    margin-top: 16px;
+    color: var(--navy);
+    font-size: 2.45rem;
+    line-height: 1;
+}
+
+.account-overview .account-overview-area {
+    font-size: clamp(1.18rem, 2.2vw, 1.62rem);
+    line-height: 1.16;
+}
+
+.account-overview small {
+    align-self: end;
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 0.78rem;
+}
+
+.account-section-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.55fr);
+    gap: 44px;
+    align-items: end;
+    margin-bottom: 28px;
+}
+
+.account-section-heading h2,
+.account-baseline h2 {
+    margin: 7px 0 0;
+    color: var(--navy);
+    font-size: clamp(1.75rem, 3.2vw, 2.45rem);
+    line-height: 1.08;
+}
+
+.account-section-heading > p,
+.account-baseline p {
+    margin: 0;
+    color: var(--muted);
+}
+
+.account-comparison {
+    margin-bottom: 80px;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.comparison-result {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-height: 238px;
+    padding: 25px;
+    border: 1px solid #d4dfe3;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.comparison-result::before {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: #aab9c1;
+    content: "";
+}
+
+.comparison-result.is-current::before {
+    background: var(--primary);
+}
+
+.comparison-result > span {
+    color: var(--primary-dark);
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.comparison-result time {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 720;
+}
+
+.comparison-result h3 {
+    grid-column: 1 / -1;
+    align-self: end;
+    margin: 34px 0 7px;
+    color: var(--navy);
+    font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+    line-height: 1.14;
+}
+
+.comparison-result p {
+    grid-column: 1;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.88rem;
+}
+
+.comparison-result > strong {
+    grid-column: 2;
+    grid-row: 3 / span 2;
+    align-self: end;
+    color: var(--coral);
+    font-size: 2.15rem;
+    line-height: 1;
+}
+
+.comparison-insight {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 24px;
+    margin-top: 14px;
+    padding: 22px 24px;
+    border-left: 4px solid var(--accent);
+    background: #fff8ea;
+}
+
+.comparison-insight > span {
+    color: #7b531b;
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.comparison-insight p {
+    margin: 0;
+    color: #455768;
+}
+
+.comparison-insight strong {
+    color: var(--navy);
+}
+
+.account-baseline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 44px;
+    align-items: center;
+    margin-bottom: 72px;
+    padding: 30px;
+    border-top: 4px solid var(--primary);
+    background: #eaf4f1;
+}
+
+.account-baseline > div {
+    max-width: 720px;
+}
+
+.account-baseline p:not(.eyebrow) {
+    margin-top: 12px;
+}
+
+.account-history {
+    padding-top: 4px;
 }
 
 .history-list {
@@ -188,7 +429,7 @@
     border-radius: 8px;
 }
 
-.history-item h2 {
+.history-item h3 {
     margin: 5px 0 2px;
     color: var(--navy);
     font-size: 1.35rem;
@@ -204,6 +445,23 @@
 .history-date {
     font-size: 0.8rem;
     font-weight: 700;
+}
+
+.history-item-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.history-current {
+    padding: 4px 7px;
+    border-radius: 999px;
+    background: #e5f2ee;
+    color: var(--primary-dark);
+    font-size: 0.66rem;
+    font-weight: 900;
+    text-transform: uppercase;
 }
 
 .history-score {
@@ -224,13 +482,21 @@
 }
 
 .account-empty {
-    padding: 36px 0;
-    border-top: 1px solid var(--line);
+    max-width: 760px;
+    padding: 38px;
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--primary);
+    border-radius: 8px;
+    background: #fff;
 }
 
 .account-empty h2 {
-    margin: 0;
+    margin: 8px 0 0;
     font-size: 1.65rem;
+}
+
+.account-empty .button {
+    margin-top: 16px;
 }
 
 .error-main {
@@ -363,6 +629,54 @@
 
     .auth-form {
         padding: 22px;
+    }
+
+    .auth-benefit-list {
+        margin-top: 24px;
+    }
+
+    .account-main {
+        padding-top: 42px;
+    }
+
+    .account-heading,
+    .account-section-heading,
+    .account-baseline,
+    .comparison-insight {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .account-heading > .button,
+    .account-baseline > .button {
+        width: 100%;
+    }
+
+    .account-overview,
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .account-overview {
+        margin-bottom: 56px;
+    }
+
+    .account-overview > div {
+        min-height: 140px;
+    }
+
+    .account-comparison {
+        margin-bottom: 62px;
+    }
+
+    .comparison-result {
+        min-height: 220px;
+        padding: 21px;
+    }
+
+    .account-baseline,
+    .account-empty {
+        padding: 24px;
     }
 
     .history-item,

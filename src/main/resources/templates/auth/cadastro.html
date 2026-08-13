@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Crie uma conta para salvar seus resultados no Rota TI.">
+    <meta name="description" content="Crie uma conta opcional para salvar, comparar e acompanhar seus resultados no Rota TI.">
     <title>Criar conta | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
@@ -19,9 +19,14 @@
 <main class="auth-main">
     <section class="auth-panel" aria-labelledby="cadastro-title">
         <div class="auth-heading">
-            <p class="eyebrow">Salvar sua rota</p>
-            <h1 id="cadastro-title">Crie sua conta.</h1>
-            <p>Se voce chegou pelo resultado, ele sera salvo automaticamente depois do cadastro.</p>
+            <p class="eyebrow">Acompanhar sua jornada</p>
+            <h1 id="cadastro-title">Guarde mais do que um resultado.</h1>
+            <p>Com a conta, cada nova tentativa ajuda voc&ecirc; a observar como seus interesses mudam com novas experi&ecirc;ncias.</p>
+            <ul class="auth-benefit-list" aria-label="O que a conta oferece">
+                <li><strong>Salve a tentativa atual</strong><span>Se voc&ecirc; chegou pelo resultado, ele ser&aacute; vinculado depois do cadastro.</span></li>
+                <li><strong>Compare com os pr&oacute;ximos testes</strong><span>A conta destaca sua rota recente, &aacute;reas exploradas e caminhos recorrentes.</span></li>
+                <li><strong>Continue no seu ritmo</strong><span>O resultado &eacute; uma fotografia do momento, n&atilde;o uma escolha definitiva.</span></li>
+            </ul>
         </div>
 
         <form class="auth-form" th:action="@{/cadastro}" th:object="${cadastroForm}" method="post">
@@ -47,7 +52,7 @@
             <button class="button primary" type="submit">Criar conta e continuar</button>
         </form>
 
-        <p class="auth-alternative">Ja tem uma conta? <a th:href="@{/entrar}">Entrar</a></p>
+        <p class="auth-alternative">J&aacute; tem uma conta? <a th:href="@{/entrar}">Entrar</a>. Prefere testar primeiro? <a th:href="@{/quiz}">Fazer o quiz sem cadastro</a>.</p>
     </section>
 </main>
 

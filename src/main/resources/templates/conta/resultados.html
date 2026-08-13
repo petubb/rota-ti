@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Historico pessoal de resultados do Rota TI.">
-    <title>Meus resultados | Rota TI</title>
+    <meta name="description" content="Acompanhe e compare seu historico pessoal de resultados no Rota TI.">
+    <title>Minha evolu&ccedil;&atilde;o | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body class="account-page">
@@ -14,7 +14,7 @@
         <span>Rota TI<small>Orientacao profissional</small></span>
     </a>
     <nav aria-label="Navegacao da conta">
-        <a th:href="@{/areas}">Areas</a>
+        <a th:href="@{/areas}">&Aacute;reas</a>
         <a class="button primary header-cta" th:href="@{/quiz}">Novo teste</a>
         <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
     </nav>
@@ -22,32 +22,129 @@
 
 <main class="account-main">
     <section class="account-heading" aria-labelledby="history-title">
-        <p class="eyebrow">Sua conta</p>
-        <h1 id="history-title">Resultados de <span th:text="${contaLogada.nome}">voce</span></h1>
-        <p>Suas rotas ficam reunidas aqui para comparar como seus interesses evoluem.</p>
+        <div>
+            <p class="eyebrow">Sua jornada</p>
+            <h1 id="history-title">Evolu&ccedil;&atilde;o de <span th:text="${contaLogada.nome}">voc&ecirc;</span></h1>
+            <p>Cada resultado registra um momento. Compare suas tentativas para perceber interesses recorrentes e novas possibilidades.</p>
+        </div>
+        <a class="button primary" th:href="@{/quiz}">Fazer um novo teste</a>
     </section>
 
     <p class="flash" th:if="${mensagem}" th:text="${mensagem}">Mensagem</p>
 
-    <section class="account-empty" th:if="${#lists.isEmpty(resultados)}" aria-label="Nenhum resultado salvo">
-        <h2>Voce ainda nao salvou um resultado.</h2>
-        <p>O teste e livre e leva poucos minutos.</p>
+    <section class="account-empty" th:if="${evolucao.vazia}" aria-label="Nenhum resultado salvo">
+        <p class="eyebrow">Seu ponto de partida</p>
+        <h2>Voc&ecirc; ainda n&atilde;o salvou um resultado.</h2>
+        <p>Fa&ccedil;a o teste para descobrir sua primeira rota. Depois, novas tentativas poder&atilde;o ser comparadas aqui.</p>
         <a class="button primary" th:href="@{/quiz}">Fazer meu primeiro teste</a>
     </section>
 
-    <section class="history-list" th:unless="${#lists.isEmpty(resultados)}" aria-label="Resultados salvos">
-        <article class="history-item" th:each="resultado : ${resultados}">
+    <th:block th:unless="${evolucao.vazia}">
+        <section class="account-overview" aria-label="Resumo da evolucao">
             <div>
-                <span class="history-date" th:text="${#temporals.format(resultado.createdAt, 'dd/MM/yyyy HH:mm')}">24/06/2026 10:00</span>
-                <h2 th:text="${resultado.area.titulo}">Area recomendada</h2>
-                <p th:text="${resultado.area.perfil}">Perfil da area</p>
+                <span>Testes salvos</span>
+                <strong th:text="${evolucao.totalTestes}">3</strong>
+                <small th:text="${evolucao.totalTestes == 1
+                        ? 'primeiro registro da sua jornada'
+                        : 'tentativas na sua jornada'}">tentativas na sua jornada</small>
             </div>
-            <div class="history-score">
-                <strong th:text="${#numbers.formatDecimal(resultado.score, 1, 0)} + '%'">82%</strong>
-                <a th:href="@{/resultado/{id}(id=${resultado.id})}">Abrir resultado <span aria-hidden="true">&rarr;</span></a>
+            <div>
+                <span>&Aacute;reas exploradas</span>
+                <strong th:text="${evolucao.areasExploradas}">2</strong>
+                <small th:text="${evolucao.areasExploradas == 1
+                        ? 'rota que j&aacute; apareceu'
+                        : 'rotas que j&aacute; apareceram'}">rotas que j&aacute; apareceram</small>
             </div>
-        </article>
-    </section>
+            <div>
+                <span>Rota mais recorrente</span>
+                <strong class="account-overview-area" th:text="${evolucao.areaRecorrente.titulo}">Desenvolvimento</strong>
+                <small th:text="${evolucao.recorrenciasDaArea == 1
+                        ? 'Apareceu em 1 teste'
+                        : 'Apareceu em ' + evolucao.recorrenciasDaArea + ' testes'}">Apareceu em 2 testes</small>
+            </div>
+        </section>
+
+        <section class="account-comparison" th:if="${evolucao.possuiComparacao}" aria-labelledby="comparison-title">
+            <div class="account-section-heading">
+                <div>
+                    <p class="eyebrow">Tentativas recentes</p>
+                    <h2 id="comparison-title">O que mudou desde o teste anterior?</h2>
+                </div>
+                <p>Compare como um retrato do momento. Mudan&ccedil;as n&atilde;o significam acerto ou erro.</p>
+            </div>
+
+            <div class="comparison-grid">
+                <article class="comparison-result is-current">
+                    <span>Resultado mais recente</span>
+                    <time th:datetime="${evolucao.maisRecente.createdAt}"
+                          th:text="${#temporals.format(evolucao.maisRecente.createdAt, 'dd/MM/yyyy')}">13/08/2026</time>
+                    <h3 th:text="${evolucao.maisRecente.area.titulo}">Area atual</h3>
+                    <p th:text="${evolucao.maisRecente.area.perfil}">Perfil</p>
+                    <strong th:text="${#numbers.formatDecimal(evolucao.maisRecente.score, 1, 0)} + '%'">82%</strong>
+                </article>
+                <article class="comparison-result">
+                    <span>Teste anterior</span>
+                    <time th:datetime="${evolucao.anterior.createdAt}"
+                          th:text="${#temporals.format(evolucao.anterior.createdAt, 'dd/MM/yyyy')}">20/07/2026</time>
+                    <h3 th:text="${evolucao.anterior.area.titulo}">Area anterior</h3>
+                    <p th:text="${evolucao.anterior.area.perfil}">Perfil</p>
+                    <strong th:text="${#numbers.formatDecimal(evolucao.anterior.score, 1, 0)} + '%'">75%</strong>
+                </article>
+            </div>
+
+            <div class="comparison-insight" th:if="${evolucao.manteveAreaRecente}">
+                <span>Leitura da compara&ccedil;&atilde;o</span>
+                <p>A rota principal se manteve em <strong th:text="${evolucao.maisRecente.area.titulo}">Area</strong>.
+                    <th:block th:if="${evolucao.scoreRecenteSubiu}">A compatibilidade subiu
+                        <strong th:text="${#numbers.formatDecimal(evolucao.variacaoScoreRecenteAbsoluta, 1, 0)} + ' pontos percentuais'">6 pontos percentuais</strong>.</th:block>
+                    <th:block th:if="${evolucao.scoreRecenteCaiu}">A compatibilidade caiu
+                        <strong th:text="${#numbers.formatDecimal(evolucao.variacaoScoreRecenteAbsoluta, 1, 0)} + ' pontos percentuais'">6 pontos percentuais</strong>.</th:block>
+                    <th:block th:if="${evolucao.scoreRecenteEstavel}">A compatibilidade permaneceu no mesmo n&iacute;vel.</th:block>
+                </p>
+            </div>
+            <div class="comparison-insight" th:unless="${evolucao.manteveAreaRecente}">
+                <span>Leitura da compara&ccedil;&atilde;o</span>
+                <p>Sua rota principal mudou de <strong th:text="${evolucao.anterior.area.titulo}">Area anterior</strong> para
+                    <strong th:text="${evolucao.maisRecente.area.titulo}">Area atual</strong>. Isso pode refletir novos interesses, experi&ecirc;ncias ou prioridades.</p>
+            </div>
+        </section>
+
+        <section class="account-baseline" th:unless="${evolucao.possuiComparacao}" aria-labelledby="baseline-title">
+            <div>
+                <p class="eyebrow">Primeiro registro</p>
+                <h2 id="baseline-title">Este resultado &eacute; seu ponto de partida.</h2>
+                <p>Quando voc&ecirc; refizer o quiz, mostraremos aqui o que mudou e o que continuou aparecendo.</p>
+            </div>
+            <a class="button secondary" th:href="@{/quiz}">Refazer quando fizer sentido</a>
+        </section>
+
+        <section class="account-history" aria-labelledby="all-results-title">
+            <div class="account-section-heading">
+                <div>
+                    <p class="eyebrow">Hist&oacute;rico completo</p>
+                    <h2 id="all-results-title">Todas as suas tentativas</h2>
+                </div>
+                <p>Abra qualquer resultado para rever a explica&ccedil;&atilde;o, o roadmap e os pr&oacute;ximos passos.</p>
+            </div>
+            <div class="history-list" aria-label="Resultados salvos">
+                <article class="history-item" th:each="resultado, status : ${resultados}">
+                    <div>
+                        <div class="history-item-meta">
+                            <span class="history-current" th:if="${status.first}">Mais recente</span>
+                            <time class="history-date" th:datetime="${resultado.createdAt}"
+                                  th:text="${#temporals.format(resultado.createdAt, 'dd/MM/yyyy HH:mm')}">24/06/2026 10:00</time>
+                        </div>
+                        <h3 th:text="${resultado.area.titulo}">Area recomendada</h3>
+                        <p th:text="${resultado.area.perfil}">Perfil da area</p>
+                    </div>
+                    <div class="history-score">
+                        <strong th:text="${#numbers.formatDecimal(resultado.score, 1, 0)} + '%'">82%</strong>
+                        <a th:href="@{/resultado/{id}(id=${resultado.id})}">Abrir resultado <span aria-hidden="true">&rarr;</span></a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </th:block>
 </main>
 
 <th:block th:replace="~{fragments/site-footer :: footer}"></th:block>

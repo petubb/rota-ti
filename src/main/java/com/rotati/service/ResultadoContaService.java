@@ -1,5 +1,6 @@
 package com.rotati.service;
 
+import com.rotati.dto.EvolucaoContaView;
 import com.rotati.dto.ResultadoHistoricoView;
 import com.rotati.model.AreaTi;
 import com.rotati.model.Conta;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
@@ -108,8 +111,13 @@ public class ResultadoContaService {
 
     @Transactional(readOnly = true)
     public List<ResultadoHistoricoView> listarHistorico(ContaPrincipal principal) {
+        return buscarEvolucao(principal).getResultados();
+    }
+
+    @Transactional(readOnly = true)
+    public EvolucaoContaView buscarEvolucao(ContaPrincipal principal) {
         Conta conta = buscarConta(principal.getId());
-        return resultadoRepository.findByContaOrderByCreatedAtDesc(conta)
+        List<ResultadoHistoricoView> resultados = resultadoRepository.findByContaOrderByCreatedAtDesc(conta)
                 .stream()
                 .map(resultado -> new ResultadoHistoricoView(
                         resultado.getId(),
@@ -119,6 +127,26 @@ public class ResultadoContaService {
                         resultado.getCreatedAt()
                 ))
                 .toList();
+
+        if (resultados.isEmpty()) {
+            return new EvolucaoContaView(List.of(), 0, null, 0);
+        }
+
+        Map<AreaTi, Long> recorrencias = new LinkedHashMap<>();
+        resultados.forEach(resultado -> recorrencias.merge(resultado.getArea(), 1L, Long::sum));
+        long maiorRecorrencia = recorrencias.values().stream().mapToLong(Long::longValue).max().orElse(0);
+        AreaTi areaRecorrente = resultados.stream()
+                .map(ResultadoHistoricoView::getArea)
+                .filter(area -> recorrencias.get(area) == maiorRecorrencia)
+                .findFirst()
+                .orElse(resultados.getFirst().getArea());
+
+        return new EvolucaoContaView(
+                resultados,
+                recorrencias.size(),
+                areaRecorrente,
+                maiorRecorrencia
+        );
     }
 
     @Transactional(readOnly = true)
