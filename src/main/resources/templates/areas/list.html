@@ -48,13 +48,30 @@
                     <button type="button" class="area-filter" data-area-filter="pessoas" aria-pressed="false">Trabalhar com pessoas</button>
                 </div>
 
-                <label class="area-search-field">
-                    <span>Buscar nas rotas</span>
+                <div class="area-search-field">
+                    <label for="area-search">Buscar nas rotas</label>
                     <span class="area-search-control">
-                        <input type="search" placeholder="Ex.: Python, design, suporte..." autocomplete="off" data-area-search>
+                        <input id="area-search" type="search" placeholder="Ex.: Python, design, suporte..."
+                               autocomplete="off" aria-controls="area-search-suggestions" aria-expanded="false"
+                               data-area-search>
                         <button type="button" class="area-search-clear" aria-label="Limpar busca" title="Limpar busca" data-area-search-clear hidden>&times;</button>
                     </span>
-                </label>
+                    <div id="area-search-suggestions" class="area-search-suggestions"
+                         aria-label="Sugest&otilde;es de busca" data-area-search-suggestions hidden>
+                        <span>Voc&ecirc; pode buscar por:</span>
+                        <div>
+                            <button type="button" data-area-search-suggestion="programa&ccedil;&atilde;o">Programa&ccedil;&atilde;o</button>
+                            <button type="button" data-area-search-suggestion="dados">Dados</button>
+                            <button type="button" data-area-search-suggestion="seguran&ccedil;a">Seguran&ccedil;a</button>
+                            <button type="button" data-area-search-suggestion="redes">Redes</button>
+                            <button type="button" data-area-search-suggestion="design">Design</button>
+                            <button type="button" data-area-search-suggestion="jogos">Jogos</button>
+                            <button type="button" data-area-search-suggestion="intelig&ecirc;ncia artificial">Intelig&ecirc;ncia Artificial</button>
+                            <button type="button" data-area-search-suggestion="gest&atilde;o">Gest&atilde;o</button>
+                            <button type="button" data-area-search-suggestion="suporte">Suporte</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <p class="area-results-count" aria-live="polite" data-area-results-count>8 rotas encontradas</p>
