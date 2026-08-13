@@ -194,8 +194,12 @@
                     <strong th:text="${resultadoView.principal.area.titulo}">Area</strong>
                     <dl>
                         <div>
-                            <dt>Faixa de referencia</dt>
-                            <dd th:text="${detalheArea.salario.resumo}">Faixa salarial</dd>
+                            <dt>Estimativa salarial</dt>
+                            <dd class="result-salary-summary">
+                                <strong th:text="${detalheArea.salario.resumo}">Faixa salarial</strong>
+                                <small th:text="|${detalheArea.salario.cargoReferencia} - ${detalheArea.salario.escopo}|">Cargo - Brasil</small>
+                                <a th:href="@{/area/{slug}(slug=${resultadoView.principal.area.slug})} + '#salario'">Ver metodologia e fontes</a>
+                            </dd>
                         </div>
                         <div>
                             <dt>Habilidades</dt>

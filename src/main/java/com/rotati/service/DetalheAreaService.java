@@ -1,6 +1,7 @@
 package com.rotati.service;
 
 import com.rotati.dto.DetalheAreaView;
+import com.rotati.dto.FaixaSalarioView;
 import com.rotati.dto.FonteSalarioView;
 import com.rotati.dto.FormacaoLocalView;
 import com.rotati.dto.PlanoCarreiraView;
@@ -21,6 +22,10 @@ public class DetalheAreaService {
 
     private static final String ROBERT_HALF_TECNOLOGIA =
             "https://www.roberthalf.com/br/pt/insights/guia-salarial/tecnologia";
+    private static final String ROBERT_HALF_METODOLOGIA =
+            "https://www.roberthalf.com/br/pt/insights/salary-guide";
+    private static final String CAGED_MICRODADOS =
+            "https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/estatisticas-trabalho/microdados-rais-e-caged";
     private static final String IFRO_CACOAL_CURSOS = "https://portal.ifro.edu.br/cacoal/cursos";
     private static final String IFRO_EAD = "https://portal.ifro.edu.br/educacaoadistancia-nav";
     private static final String SENAC_INFORMATICA = "https://www.ro.senac.br/categoria-produto/area_de_atuacao/informatica/";
@@ -51,11 +56,20 @@ public class DetalheAreaService {
     private final Map<String, DetalheAreaView> detalhes = Map.ofEntries(
             Map.entry("desenvolvimento-software", detalhe(
                     salario(
-                            "R$ 3.400 a R$ 9.500 por mes entre vagas junior e pleno em grandes mercados.",
-                            "Use como referencia inicial. A remuneracao muda bastante por cidade, stack, senioridade e modelo remoto.",
-                            fonte("Glassdoor - Desenvolvedor de Software Junior", "https://www.glassdoor.com/Salaries/s%C3%A3o-paulo-desenvolvedor-de-software-junior-i-salary-SRCH_IL.0%2C9_IM1009_KO10%2C44.htm"),
-                            fonte("Glassdoor - Desenvolvedor de Software Pleno", "https://www.glassdoor.com/Salaries/sao-paulo-brazil-desenvolvedor-de-software-pleno-salary-SRCH_IL.0%2C16_IM1009_KO17%2C48.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 6.050 a R$ 20.900 por mes",
+                            "Desenvolvedor(a) Back-End",
+                            "Brasil",
+                            "Guia Salarial 2026",
+                            "Projecoes de contratacao",
+                            "Stack, experiencia, porte da empresa, cidade e modelo remoto podem alterar bastante a remuneracao.",
+                            metodologiaRobertHalf(),
+                            List.of(
+                                    faixa("Junior", "R$ 6.050 a R$ 8.750", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Pleno", "R$ 9.500 a R$ 15.900", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Senior", "R$ 12.400 a R$ 20.900", "Entre os percentis 25 e 75 do nivel")
+                            ),
+                            fonte("Robert Half - Desenvolvimento", "Faixas nacionais por senioridade para desenvolvimento Back-End em 2026.", "https://www.roberthalf.com/br/pt/vagas-detalhes/desenvolvedora-full-stack-pleno"),
+                            fonte("Robert Half - metodologia do guia", "Explica percentis, salarios de entrada e itens que nao entram no calculo.", ROBERT_HALF_METODOLOGIA)
                     ),
                     "Area forte para quem gosta de construir produtos, resolver problemas em etapas e aprender continuamente.",
                     List.of(
@@ -73,10 +87,20 @@ public class DetalheAreaService {
             )),
             Map.entry("dados-bi", detalhe(
                     salario(
-                            "R$ 3.200 a R$ 6.600 por mes para Analista de Dados Junior no Brasil.",
-                            "BI cresce quando a pessoa junta SQL, visualizacao, negocio e comunicacao com areas nao tecnicas.",
-                            fonte("Glassdoor - Analista de Dados Junior", "https://www.glassdoor.com.br/Sal%C3%A1rios/analista-de-dados-junior-sal%C3%A1rio-SRCH_KO0%2C24.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 5.600 a R$ 18.250 por mes",
+                            "Analista de Business Intelligence (BI)",
+                            "Brasil",
+                            "Guia Salarial 2026",
+                            "Projecoes de contratacao",
+                            "SQL, visualizacao, conhecimento do negocio e comunicacao ajudam a ampliar as oportunidades.",
+                            metodologiaRobertHalf(),
+                            List.of(
+                                    faixa("Junior", "R$ 5.600 a R$ 9.000", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Pleno", "R$ 7.650 a R$ 12.850", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Senior", "R$ 10.900 a R$ 18.250", "Entre os percentis 25 e 75 do nivel")
+                            ),
+                            fonte("Robert Half - Business Intelligence", "Faixas nacionais por senioridade para Analista de BI em 2026.", "https://www.roberthalf.com/br/pt/vagas-detalhes/analista-de-bi-pleno"),
+                            fonte("Portal Salario - Analista de BI", "Contraponto com salario-base CLT calculado a partir do CAGED/MTE.", "https://www.salario.com.br/profissao/analista-de-bi-business-intelligence/")
                     ),
                     "Boa rota para quem gosta de organizar informacoes, fazer perguntas e transformar numeros em decisao.",
                     List.of(
@@ -94,10 +118,20 @@ public class DetalheAreaService {
             )),
             Map.entry("seguranca-cibernetica", detalhe(
                     salario(
-                            "R$ 3.200 a R$ 5.800 por mes em cargos junior de Seguranca da Informacao.",
-                            "Certificacoes, experiencia com redes e pratica em laboratorio costumam acelerar a evolucao salarial.",
-                            fonte("Glassdoor - Analista de Seguranca da Informacao Jr", "https://www.glassdoor.com.br/Sal%C3%A1rios/analista-de-seguranca-da-informacao-jr-sal%C3%A1rio-SRCH_KO0%2C38.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 6.200 a R$ 19.000 por mes",
+                            "Analista de Seguranca da Informacao",
+                            "Brasil",
+                            "Guia Salarial 2026",
+                            "Projecoes de contratacao",
+                            "Redes, cloud, certificacoes e pratica defensiva costumam diferenciar profissionais da area.",
+                            metodologiaRobertHalf(),
+                            List.of(
+                                    faixa("Junior", "R$ 6.200 a R$ 10.400", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Pleno", "R$ 8.500 a R$ 14.300", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Senior", "R$ 11.300 a R$ 19.000", "Entre os percentis 25 e 75 do nivel")
+                            ),
+                            fonte("Robert Half - Seguranca da Informacao", "Faixas nacionais relacionadas a PenTest e analistas de seguranca em 2026.", "https://www.roberthalf.com/br/pt/vagas-detalhes/pentester"),
+                            fonte("Portal Salario - Seguranca da Informacao", "Contraponto com salario-base CLT calculado a partir do CAGED/MTE.", "https://www.salario.com.br/profissao/analista-em-seguranca-da-informacao-cbo-212320/")
                     ),
                     "Area indicada para quem gosta de investigar, proteger sistemas e pensar em riscos antes que eles virem problema.",
                     List.of(
@@ -115,10 +149,20 @@ public class DetalheAreaService {
             )),
             Map.entry("infraestrutura-redes", detalhe(
                     salario(
-                            "R$ 2.600 a R$ 4.800 por mes para Analista de Infraestrutura Jr no Brasil.",
-                            "Cloud, automacao e certificacoes podem abrir caminho para faixas mais altas dentro de infraestrutura.",
-                            fonte("Glassdoor - Analista de Infraestrutura Jr", "https://www.glassdoor.com.br/Sal%C3%A1rios/analista-de-infraestrutura-jr-sal%C3%A1rio-SRCH_KO0%2C29.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 4.400 a R$ 15.750 por mes",
+                            "Analista de Infraestrutura",
+                            "Brasil",
+                            "Guia Salarial 2026",
+                            "Projecoes de contratacao",
+                            "Cloud, automacao, disponibilidade de plantao e certificacoes podem mudar a faixa praticada.",
+                            metodologiaRobertHalf(),
+                            List.of(
+                                    faixa("Junior", "R$ 4.400 a R$ 7.450", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Pleno", "R$ 6.400 a R$ 10.600", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Senior", "R$ 9.400 a R$ 15.750", "Entre os percentis 25 e 75 do nivel")
+                            ),
+                            fonte("Robert Half - Infraestrutura", "Faixas nacionais por senioridade para Analista de Infraestrutura em 2026.", "https://www.roberthalf.com/br/pt/vagas-detalhes/analista-de-infraestrutura-pleno"),
+                            fonte("Robert Half - panorama de Tecnologia", "Contexto de contratacao, especializacoes e mercado de Tecnologia em 2026.", ROBERT_HALF_TECNOLOGIA)
                     ),
                     "Rota para quem gosta de manter ambientes funcionando, diagnosticar falhas e cuidar da base tecnica das empresas.",
                     List.of(
@@ -136,10 +180,20 @@ public class DetalheAreaService {
             )),
             Map.entry("ux-ui-design", detalhe(
                     salario(
-                            "R$ 2.600 a R$ 5.300 por mes para UI/UX Designer Junior no Brasil.",
-                            "Portfolio com processo, pesquisa e prototipos pesa muito na avaliacao de candidatos iniciantes.",
-                            fonte("Glassdoor - UI/UX Designer Junior", "https://www.glassdoor.com.br/Sal%C3%A1rios/ui-ux-designer-junior-sal%C3%A1rio-SRCH_KO0%2C21.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 2.000 a R$ 4.220 no intervalo central",
+                            "Designer de UX",
+                            "Brasil - vinculos CLT",
+                            "jul/2025 a jun/2026",
+                            "Salarios-base observados",
+                            "Portfolio, pesquisa, produto, porte da empresa e localidade explicam parte da ampla variacao da area.",
+                            metodologiaCaged(),
+                            List.of(
+                                    faixa("Quartil inferior", "R$ 2.000", "25% dos registros ficam ate este valor"),
+                                    faixa("Mediana", "R$ 2.761", "Metade dos registros fica abaixo e metade acima"),
+                                    faixa("Quartil superior", "R$ 4.220", "25% dos registros ficam acima deste valor")
+                            ),
+                            fonte("Portal Salario - Designer de UX", "Quartis e mediana de salario-base CLT a partir de microdados do CAGED/MTE.", "https://www.salario.com.br/profissao/designer-ux-cbo-262410/"),
+                            fonte("MTE - microdados RAIS e CAGED", "Origem oficial dos microdados de trabalho formal usados na consolidacao.", CAGED_MICRODADOS)
                     ),
                     "Area para quem junta empatia, organizacao visual e vontade de testar solucoes com pessoas reais.",
                     List.of(
@@ -157,10 +211,20 @@ public class DetalheAreaService {
             )),
             Map.entry("game-design", detalhe(
                     salario(
-                            "R$ 2.400 a R$ 3.300 por mes para Junior Game Designer no Brasil.",
-                            "O mercado de jogos varia muito por estudio, contrato, publicacao independente e experiencia com engines.",
-                            fonte("Glassdoor - Game Designer Junior", "https://www.glassdoor.com.br/Sal%C3%A1rios/game-designer-junior-sal%C3%A1rio-SRCH_KO0%2C20.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 2.398 a R$ 7.000 no intervalo central",
+                            "Designer de Games",
+                            "Brasil - vinculos CLT",
+                            "jul/2025 a jun/2026",
+                            "Salarios-base observados",
+                            "A amostra formal e menor e nao representa bem trabalho independente, participacao em receita ou contratos internacionais.",
+                            metodologiaCaged(),
+                            List.of(
+                                    faixa("Quartil inferior", "R$ 2.398", "25% dos registros ficam ate este valor"),
+                                    faixa("Mediana", "R$ 3.555", "Metade dos registros fica abaixo e metade acima"),
+                                    faixa("Quartil superior", "R$ 7.000", "25% dos registros ficam acima deste valor")
+                            ),
+                            fonte("Portal Salario - Designer de Games", "Quartis e mediana de salario-base CLT a partir de 1.312 movimentacoes formais.", "https://www.salario.com.br/profissao/designer-de-games-cbo-317120/"),
+                            fonte("MTE - microdados RAIS e CAGED", "Origem oficial dos microdados de trabalho formal usados na consolidacao.", CAGED_MICRODADOS)
                     ),
                     "Boa rota para quem gosta de regras, narrativa, prototipos rapidos e iteracao constante com jogadores.",
                     List.of(
@@ -178,10 +242,20 @@ public class DetalheAreaService {
             )),
             Map.entry("inteligencia-artificial", detalhe(
                     salario(
-                            "R$ 5.200 a R$ 8.800 por mes para Junior Data Scientist no Brasil.",
-                            "IA costuma exigir uma base mais forte em dados, estatistica, Python e avaliacao de modelos.",
-                            fonte("Glassdoor - Junior Data Scientist", "https://www.glassdoor.com.br/Sal%C3%A1rios/junior-data-scientist-sal%C3%A1rio-SRCH_KO0%2C21.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 6.518 a R$ 14.000 no intervalo central",
+                            "Cientista de Dados",
+                            "Brasil - vinculos CLT",
+                            "jul/2025 a jun/2026",
+                            "Salarios-base observados",
+                            "A referencia usa Ciencia de Dados como cargo comparavel; funcoes de IA variam conforme especializacao e maturidade da empresa.",
+                            metodologiaCaged(),
+                            List.of(
+                                    faixa("Quartil inferior", "R$ 6.518", "25% dos registros ficam ate este valor"),
+                                    faixa("Mediana", "R$ 9.582", "Metade dos registros fica abaixo e metade acima"),
+                                    faixa("Quartil superior", "R$ 14.000", "25% dos registros ficam acima deste valor")
+                            ),
+                            fonte("Portal Salario - Cientista de Dados", "Quartis e mediana de salario-base CLT a partir de microdados do CAGED/MTE.", "https://www.salario.com.br/profissao/cientista-de-dados-data-scientist/"),
+                            fonte("Robert Half - Ciencia de Dados", "Projecao nacional complementar para Especialista/Cientista de Dados em 2026.", "https://www.roberthalf.com/br/pt/vagas-detalhes/especialistacientista-de-dados")
                     ),
                     "Caminho para quem gosta de testar hipoteses, lidar com incerteza e transformar dados em sistemas inteligentes.",
                     List.of(
@@ -199,10 +273,20 @@ public class DetalheAreaService {
             )),
             Map.entry("gestao-ti", detalhe(
                     salario(
-                            "R$ 3.700 a R$ 9.100 por mes para Gerente de Projetos Junior no Brasil.",
-                            "Gestao em TI valoriza comunicacao, leitura de negocio, organizacao e experiencia previa em projetos.",
-                            fonte("Glassdoor - Gerente de Projetos Junior", "https://www.glassdoor.com.br/Sal%C3%A1rios/gerente-de-projetos-junior-sal%C3%A1rio-SRCH_KO0%2C26.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 8.488 a R$ 17.500 no intervalo central",
+                            "Gerente de Projetos de TI",
+                            "Brasil - vinculos CLT",
+                            "jul/2025 a jun/2026",
+                            "Salarios-base observados",
+                            "Gerencia normalmente exige experiencia previa. Funcoes de entrada na rota, como PMO ou apoio de projetos, tendem a pagar menos.",
+                            metodologiaCaged(),
+                            List.of(
+                                    faixa("Quartil inferior", "R$ 8.488", "25% dos registros ficam ate este valor"),
+                                    faixa("Mediana", "R$ 12.360", "Metade dos registros fica abaixo e metade acima"),
+                                    faixa("Quartil superior", "R$ 17.500", "25% dos registros ficam acima deste valor")
+                            ),
+                            fonte("Portal Salario - Gerente de Projetos de TI", "Quartis e mediana de salario-base CLT a partir de 13.344 movimentacoes formais.", "https://www.salario.com.br/profissao/gerente-de-projetos-de-tecnologia-da-informacao-cbo-142520/"),
+                            fonte("Robert Half - Gerente de Projetos", "Projecao nacional complementar por percentis de contratacao em 2026.", "https://www.roberthalf.com/br/pt/vagas-detalhes/gerente-de-projetos")
                     ),
                     "Rota para quem gosta de coordenar pessoas, alinhar prioridades e transformar necessidade em entrega organizada.",
                     List.of(
@@ -652,12 +736,44 @@ public class DetalheAreaService {
         return new DetalheAreaView(salario, mercado, planoCarreira, referencias, ferramentas);
     }
 
-    private static SalarioAreaView salario(String resumo, String observacao, FonteSalarioView... fontes) {
-        return new SalarioAreaView(resumo, observacao, List.of(fontes));
+    private static SalarioAreaView salario(
+            String resumo,
+            String cargoReferencia,
+            String escopo,
+            String competencia,
+            String natureza,
+            String observacao,
+            String metodologia,
+            List<FaixaSalarioView> faixas,
+            FonteSalarioView... fontes
+    ) {
+        return new SalarioAreaView(
+                resumo,
+                cargoReferencia,
+                escopo,
+                competencia,
+                natureza,
+                observacao,
+                metodologia,
+                faixas,
+                List.of(fontes)
+        );
     }
 
-    private static FonteSalarioView fonte(String titulo, String url) {
-        return new FonteSalarioView(titulo, url);
+    private static FaixaSalarioView faixa(String rotulo, String valor, String leitura) {
+        return new FaixaSalarioView(rotulo, valor, leitura);
+    }
+
+    private static FonteSalarioView fonte(String titulo, String descricao, String url) {
+        return new FonteSalarioView(titulo, descricao, url);
+    }
+
+    private static String metodologiaRobertHalf() {
+        return "Valores mensais brutos de entrada, sem bonus ou beneficios. As faixas mostram o intervalo entre os percentis 25 e 75 de cada nivel; nao sao piso nem promessa salarial.";
+    }
+
+    private static String metodologiaCaged() {
+        return "Salario-base mensal de vinculos CLT, sem bonus, comissoes ou adicionais. Os quartis mostram a distribuicao nacional e nao equivalem automaticamente a junior, pleno e senior.";
     }
 
     private static PlanoCarreiraView plano(String periodo, String titulo, String descricao) {

@@ -34,21 +34,16 @@
                 </div>
             </div>
 
-            <aside class="area-salary-panel" aria-label="Faixa salarial e fontes">
-                <span>Faixa salarial</span>
-                <strong th:text="${detalheArea.salario.resumo}">R$ 0 a R$ 0</strong>
-                <p th:text="${detalheArea.salario.observacao}">Observacao.</p>
-                <div class="salary-sources">
-                    <span>Fontes</span>
-                    <ul>
-                        <li th:each="fonte : ${detalheArea.salario.fontes}">
-                            <a th:href="${fonte.url}" target="_blank" rel="noopener noreferrer">
-                                <span th:text="${fonte.titulo}">Fonte</span>
-                                <span aria-hidden="true">&nearr;</span>
-                            </a>
-                        </li>
-                    </ul>
+            <aside class="area-salary-panel" aria-label="Resumo da estimativa salarial">
+                <div class="area-salary-labels">
+                    <span th:text="${detalheArea.salario.natureza}">Natureza dos dados</span>
+                    <small th:text="${detalheArea.salario.escopo}">Brasil</small>
                 </div>
+                <span>Estimativa mensal de refer&ecirc;ncia</span>
+                <strong th:text="${detalheArea.salario.resumo}">R$ 0 a R$ 0</strong>
+                <p>Refer&ecirc;ncia: <b th:text="${detalheArea.salario.cargoReferencia}">Cargo</b></p>
+                <small class="area-salary-period" th:text="|Dados: ${detalheArea.salario.competencia}|">Dados: 2026</small>
+                <a class="area-salary-details-link" href="#salario">Entender os valores e as fontes <span aria-hidden="true">&darr;</span></a>
             </aside>
         </div>
     </section>
@@ -57,6 +52,7 @@
         <div class="area-detail-container">
             <a href="#visao-geral">Perfil e rotina</a>
             <a href="#profissoes">Profiss&otilde;es</a>
+            <a href="#salario">Sal&aacute;rios</a>
             <a href="#plano-carreira">Roadmap</a>
             <a href="#formacao">Forma&ccedil;&atilde;o</a>
             <a href="#referencias">Refer&ecirc;ncias</a>
@@ -94,6 +90,73 @@
                     <li th:each="ferramenta : ${detalheArea.ferramentas}" th:text="${ferramenta}">Ferramenta</li>
                 </ul>
             </article>
+        </div>
+    </section>
+
+    <section class="area-detail-section area-salary-section" id="salario" aria-labelledby="salary-title">
+        <div class="area-detail-container">
+            <div class="area-section-heading salary-section-heading">
+                <div>
+                    <p class="eyebrow">Remunera&ccedil;&atilde;o com contexto</p>
+                    <h2 id="salary-title">Quanto essa rota pode pagar?</h2>
+                </div>
+                <p>N&atilde;o existe um sal&aacute;rio &uacute;nico para uma &aacute;rea. Por isso, mostramos o cargo compar&aacute;vel, o alcance da pesquisa e como interpretar cada n&uacute;mero.</p>
+            </div>
+
+            <div class="salary-evidence-layout">
+                <div class="salary-range-content">
+                    <div class="salary-reference-meta">
+                        <div>
+                            <span>Cargo usado como refer&ecirc;ncia</span>
+                            <strong th:text="${detalheArea.salario.cargoReferencia}">Cargo</strong>
+                        </div>
+                        <div>
+                            <span>Recorte</span>
+                            <strong th:text="${detalheArea.salario.escopo}">Brasil</strong>
+                        </div>
+                        <div>
+                            <span>Per&iacute;odo dos dados</span>
+                            <strong th:text="${detalheArea.salario.competencia}">2026</strong>
+                        </div>
+                    </div>
+
+                    <div class="salary-range-grid">
+                        <article th:each="faixa : ${detalheArea.salario.faixas}">
+                            <span th:text="${faixa.rotulo}">N&iacute;vel</span>
+                            <strong th:text="${faixa.valor}">R$ 0</strong>
+                            <small th:text="${faixa.leitura}">Como interpretar.</small>
+                        </article>
+                    </div>
+
+                    <p class="salary-methodology" th:text="${detalheArea.salario.metodologia}">Metodologia.</p>
+                </div>
+
+                <aside class="salary-reading-guide" aria-label="Como interpretar a estimativa">
+                    <p class="eyebrow">Leia antes de comparar</p>
+                    <h3>Estimativa, n&atilde;o promessa</h3>
+                    <p th:text="${detalheArea.salario.observacao}">Observa&ccedil;&atilde;o.</p>
+                    <ul>
+                        <li>Os valores s&atilde;o mensais e brutos.</li>
+                        <li>Benef&iacute;cios, b&ocirc;nus e remunera&ccedil;&atilde;o PJ n&atilde;o entram na compara&ccedil;&atilde;o.</li>
+                        <li>Rond&ocirc;nia pode ter valores diferentes da refer&ecirc;ncia nacional.</li>
+                    </ul>
+                </aside>
+            </div>
+
+            <div class="salary-source-section">
+                <div>
+                    <p class="eyebrow">Rastreabilidade</p>
+                    <h3>Fontes consultadas</h3>
+                </div>
+                <div class="salary-source-grid">
+                    <a th:each="fonte : ${detalheArea.salario.fontes}"
+                       th:href="${fonte.url}" target="_blank" rel="noopener noreferrer">
+                        <span th:text="${fonte.titulo}">Fonte</span>
+                        <p th:text="${fonte.descricao}">O que esta fonte representa.</p>
+                        <strong>Consultar fonte <span aria-hidden="true">&nearr;</span></strong>
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
