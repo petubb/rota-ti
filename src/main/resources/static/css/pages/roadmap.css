@@ -220,25 +220,6 @@
     color: var(--primary-dark);
 }
 
-.roadmap-reset-button {
-    width: 100%;
-    min-height: 40px;
-    margin-top: 20px;
-    border: 1px solid #d4dee2;
-    border-radius: 8px;
-    background: #fff;
-    color: #6a4d49;
-    font: inherit;
-    font-size: 0.8rem;
-    font-weight: 800;
-    cursor: pointer;
-}
-
-.roadmap-reset-button:hover {
-    border-color: var(--coral);
-    background: #fff7f4;
-}
-
 .roadmap-progress-panel .roadmap-save-note {
     color: #73808c;
     font-size: 0.72rem;

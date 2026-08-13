@@ -9,7 +9,6 @@ if (roadmapRoot) {
     const progress = roadmapRoot.querySelector("[data-roadmap-progress]");
     const progressBar = roadmapRoot.querySelector("[data-roadmap-progress-bar]");
     const status = roadmapRoot.querySelector("[data-roadmap-status]");
-    const resetButton = roadmapRoot.querySelector("[data-roadmap-reset]");
 
     function readProgress() {
         try {
@@ -107,24 +106,6 @@ if (roadmapRoot) {
         setStatus(checkbox.checked
             ? `Marco concluido. Voce completou ${completed} de ${checkboxes.length}.`
             : "Marco desmarcado. Seu progresso foi atualizado.");
-    });
-
-    resetButton?.addEventListener("click", () => {
-        const shouldReset = window.confirm("Deseja apagar todas as marcacoes deste roadmap neste navegador?");
-        if (!shouldReset) {
-            return;
-        }
-
-        checkboxes.forEach((checkbox) => {
-            checkbox.checked = false;
-        });
-        try {
-            window.localStorage.removeItem(storageKey);
-        } catch (error) {
-            // The visual reset still works when storage is unavailable.
-        }
-        updateProgress();
-        setStatus("Progresso deste roadmap apagado.");
     });
 
     window.addEventListener("hashchange", openStageFromHash);
