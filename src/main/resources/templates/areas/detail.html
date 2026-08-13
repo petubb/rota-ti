@@ -53,11 +53,29 @@
         </div>
     </section>
 
-    <section class="area-detail-section" aria-labelledby="skills-title">
+    <nav class="area-detail-jump" aria-label="Navegar pela rota">
+        <div class="area-detail-container">
+            <a href="#visao-geral">Perfil e rotina</a>
+            <a href="#profissoes">Profiss&otilde;es</a>
+            <a href="#plano-carreira">Roadmap</a>
+            <a href="#formacao">Forma&ccedil;&atilde;o</a>
+            <a href="#referencias">Refer&ecirc;ncias</a>
+        </div>
+    </nav>
+
+    <section class="area-detail-section" id="visao-geral" aria-labelledby="skills-title">
         <div class="area-detail-container area-overview-grid">
+            <article class="area-info-block area-fit-block">
+                <p class="eyebrow">Perfil de afinidade</p>
+                <h2 id="skills-title">Pode combinar com voc&ecirc; se...</h2>
+                <ul class="area-fit-list">
+                    <li th:each="sinal : ${exploracaoArea.sinaisAfinidade}" th:text="${sinal}">Sinal de afinidade</li>
+                </ul>
+            </article>
+
             <article class="area-info-block">
                 <p class="eyebrow">Rotina</p>
-                <h2 id="skills-title">O que essa pessoa faz no dia a dia</h2>
+                <h2>O que essa pessoa faz no dia a dia</h2>
                 <p th:text="${area.rotina}">Rotina profissional.</p>
             </article>
 
@@ -79,7 +97,7 @@
         </div>
     </section>
 
-    <section class="area-detail-section" aria-labelledby="area-careers-title">
+    <section class="area-detail-section" id="profissoes" aria-labelledby="area-careers-title">
         <div class="area-detail-container">
             <div class="area-section-heading">
                 <div>
@@ -156,7 +174,7 @@
         </div>
     </section>
 
-    <section class="area-detail-section area-formation-section" aria-labelledby="area-formation-title">
+    <section class="area-detail-section area-formation-section" id="formacao" aria-labelledby="area-formation-title">
         <div class="area-detail-container">
             <div class="area-section-heading">
                 <div>
@@ -254,7 +272,7 @@
         </div>
     </section>
 
-    <section class="area-detail-section" aria-labelledby="references-title">
+    <section class="area-detail-section" id="referencias" aria-labelledby="references-title">
         <div class="area-detail-container">
             <div class="area-section-heading">
                 <div>

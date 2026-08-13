@@ -4,6 +4,7 @@ import com.rotati.model.AreaTi;
 import com.rotati.service.AreaService;
 import com.rotati.service.ConteudoAreaService;
 import com.rotati.service.DetalheAreaService;
+import com.rotati.service.ExploracaoAreaService;
 import com.rotati.service.RoadmapConteudoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,22 +18,25 @@ public class AreaController {
     private final ConteudoAreaService conteudoAreaService;
     private final DetalheAreaService detalheAreaService;
     private final RoadmapConteudoService roadmapConteudoService;
+    private final ExploracaoAreaService exploracaoAreaService;
 
     public AreaController(
             AreaService areaService,
             ConteudoAreaService conteudoAreaService,
             DetalheAreaService detalheAreaService,
-            RoadmapConteudoService roadmapConteudoService
+            RoadmapConteudoService roadmapConteudoService,
+            ExploracaoAreaService exploracaoAreaService
     ) {
         this.areaService = areaService;
         this.conteudoAreaService = conteudoAreaService;
         this.detalheAreaService = detalheAreaService;
         this.roadmapConteudoService = roadmapConteudoService;
+        this.exploracaoAreaService = exploracaoAreaService;
     }
 
     @GetMapping("/areas")
     public String listar(Model model) {
-        model.addAttribute("areas", areaService.listarAreas());
+        model.addAttribute("areas", exploracaoAreaService.listar());
         return "areas/list";
     }
 
@@ -43,6 +47,7 @@ public class AreaController {
         model.addAttribute("detalheArea", detalheAreaService.buscarPorArea(area));
         model.addAttribute("conteudoArea", conteudoAreaService.buscarPorSlug(area.getSlug()));
         model.addAttribute("destaquesRondonia", conteudoAreaService.listarDestaquesRondonia());
+        model.addAttribute("exploracaoArea", exploracaoAreaService.buscarPorArea(area));
         return "areas/detail";
     }
 
