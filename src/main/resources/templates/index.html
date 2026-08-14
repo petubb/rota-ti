@@ -8,21 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body class="home-page">
-<header class="site-header home-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orientacao profissional</small></span>
-    </a>
-    <nav aria-label="Navegacao principal">
-        <a th:href="@{/sobre}">Sobre</a>
-        <a th:href="@{/areas}">&Aacute;reas</a>
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-        <a class="button primary header-cta" th:href="@{/quiz}">
-            <span class="cta-full">Fazer o teste</span>
-            <span class="cta-short">Teste</span>
-        </a>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('home')}"></th:block>
 
 <main>
     <section class="home-hero" aria-labelledby="home-title">
@@ -39,7 +25,7 @@
             </div>
             <ul class="hero-facts" aria-label="Informacoes do questionario">
                 <li><strong>8</strong><span>&aacute;reas mapeadas</span></li>
-                <li><strong th:text="${totalPerguntas}">12</strong><span>perguntas objetivas</span></li>
+                <li><strong th:text="${totalPerguntas}">16</strong><span>perguntas objetivas</span></li>
                 <li><strong>1</strong><span>rota personalizada</span></li>
             </ul>
         </div>

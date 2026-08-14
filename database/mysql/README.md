@@ -29,8 +29,8 @@ database/mysql/02-seed-perguntas.sql
 
 O segundo script deve retornar:
 
-- `12` perguntas `BASE` ativas;
-- `6` perguntas `BASE` arquivadas;
+- `16` perguntas `BASE` ativas;
+- `2` perguntas `BASE` arquivadas;
 - `6` perguntas `DESEMPATE` ativas;
 - a quantidade total de pesos cadastrados.
 
@@ -68,7 +68,7 @@ database/mysql/06-quiz-curto.sql
 database/mysql/02-seed-perguntas.sql
 ```
 
-O script `06` adiciona a coluna `ativa` em `perguntas` e amplia o limite de pesos para `-3` a `3`. Depois, o script `02` marca 12 perguntas principais como ativas, arquiva as demais e atualiza os pesos. Nenhum usuario, conta, resposta ou resultado e apagado.
+O script `06` adiciona a coluna `ativa` em `perguntas` e amplia o limite de pesos para `-3` a `3`. Depois, o script `02` marca 16 perguntas principais como ativas, arquiva as demais e atualiza os pesos. Nenhum usuario, conta, resposta ou resultado e apagado.
 
 Para adicionar o nome do estudante no inicio do quiz, execute:
 
@@ -77,6 +77,24 @@ database/mysql/07-usuario-nome-escola.sql
 ```
 
 O script `07` adiciona a coluna `nome` em `usuarios` e preserva os registros antigos com o valor inicial `Estudante`.
+
+Para liberar as opcoes parciais do quiz, execute:
+
+```text
+database/mysql/08-respostas-parciais.sql
+database/mysql/02-seed-perguntas.sql
+```
+
+O script `08` amplia o intervalo de respostas para `-2` a `2`. Depois, o script `02` atualiza os textos simplificados das perguntas. Nenhum usuario, conta, resposta ou resultado e apagado.
+
+Para aplicar o ajuste fino de balanceamento das areas do quiz, execute:
+
+```text
+database/mysql/09-balanceamento-quiz.sql
+database/mysql/02-seed-perguntas.sql
+```
+
+O script `09` altera apenas pesos de perguntas. Ele remove pesos secundarios que diluiam a area de Dados / BI e adiciona pesos secundarios em areas relacionadas para deixar a distribuicao mais equilibrada. Nenhum usuario, conta, resposta ou resultado e apagado.
 
 ## 3. Conferir no DBeaver
 

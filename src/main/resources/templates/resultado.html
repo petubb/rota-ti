@@ -9,17 +9,7 @@
     <script defer th:src="@{/js/result.js}"></script>
 </head>
 <body class="result-page">
-<header class="site-header result-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orienta&ccedil;&atilde;o profissional</small></span>
-    </a>
-    <nav aria-label="Navegacao do resultado">
-        <a th:href="@{/areas}">&Aacute;reas</a>
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-        <a class="button secondary result-header-action" th:href="@{/quiz}">Refazer teste</a>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('quiz')}"></th:block>
 
 <main>
     <p class="flash result-flash" th:if="${mensagem}" th:text="${mensagem}">Mensagem</p>
@@ -64,14 +54,14 @@
             <div>
                 <p class="eyebrow">Continue depois</p>
                 <h2 id="save-result-title" th:text="${contaLogada == null} ? 'Guarde esta rota na sua conta.' : 'Este resultado esta salvo.'">Guarde esta rota na sua conta.</h2>
-                <p th:if="${contaLogada == null}">Criar uma conta &eacute; opcional e n&atilde;o interfere no resultado do question&aacute;rio.</p>
-                <p th:if="${contaLogada != null}">Voce pode consultar esta e suas outras rotas no historico.</p>
+                <p th:if="${contaLogada == null}">A conta &eacute; opcional. Ela guarda esta tentativa para voc&ecirc; comparar com seus pr&oacute;ximos testes.</p>
+                <p th:if="${contaLogada != null}">Consulte esta tentativa e acompanhe o que muda ou se mant&eacute;m nos pr&oacute;ximos testes.</p>
             </div>
             <form th:if="${contaLogada == null}" th:action="@{/resultado/{id}/salvar(id=${resultadoView.resultado.id})}" method="post">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <button class="button primary" type="submit">Salvar meu resultado</button>
             </form>
-            <a th:if="${contaLogada != null}" class="button secondary" th:href="@{/minha-conta/resultados}">Ver meus resultados</a>
+            <a th:if="${contaLogada != null}" class="button secondary" th:href="@{/minha-conta/resultados}">Acompanhar minha evolu&ccedil;&atilde;o</a>
         </div>
     </section>
 
@@ -167,39 +157,71 @@
         <div class="result-container">
             <div class="result-section-heading roadmap-heading">
                 <div>
-                    <p class="eyebrow">Plano inicial</p>
-                    <h2 id="roadmap-title">Uma rota pr&aacute;tica para sair do interesse e chegar &agrave; experi&ecirc;ncia</h2>
+                    <p class="eyebrow">Roadmap inicial</p>
+                    <h2 id="roadmap-title">O que fazer primeiro para transformar interesse em pr&aacute;tica</h2>
                 </div>
-                <a class="result-text-link" th:href="@{/area/{slug}(slug=${resultadoView.principal.area.slug})}">Ver roadmap completo</a>
+                <a class="button primary roadmap-open-button"
+                   th:href="@{/area/{slug}/roadmap(slug=${resultadoView.principal.area.slug})}">Abrir meu roadmap</a>
             </div>
 
-            <ol class="result-roadmap">
-                <li th:each="passo, status : ${resultadoView.principal.area.roadmap}">
-                    <span th:text="|0${status.count}|">01</span>
-                    <p th:text="${passo}">Passo</p>
-                </li>
-            </ol>
+            <div class="result-roadmap-layout">
+                <ol class="guided-roadmap-preview">
+                    <li th:each="etapa, status : ${detalheArea.roadmapResumo}">
+                        <span th:text="|0${status.count}|">01</span>
+                        <div>
+                            <small th:text="|${etapa.nivel} - ${etapa.tempo}|">Iniciante - 0-2 meses</small>
+                            <h3 th:text="${etapa.titulo}">Fundamentos</h3>
+                            <p th:text="${etapa.objetivo}">Objetivo da etapa.</p>
+                            <ul>
+                                <li th:each="passo, passoStatus : ${etapa.passos}" th:if="${passoStatus.index < 2}" th:text="${passo}">Passo</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ol>
 
-            <div class="result-career-facts">
-                <article>
-                    <span>Faixa de refer&ecirc;ncia</span>
-                    <p th:text="${detalheArea.salario.resumo}">Faixa salarial</p>
-                    <small th:text="${detalheArea.salario.observacao}">Observacao sobre salario.</small>
-                    <ul class="salary-source-list" aria-label="Fontes da faixa salarial">
-                        <li th:each="fonte : ${detalheArea.salario.fontes}">
-                            <a th:href="${fonte.url}" target="_blank" rel="noopener noreferrer">
-                                <span th:text="${fonte.titulo}">Fonte</span>
-                                <span aria-hidden="true">&nearr;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </article>
-                <article>
-                    <span>Estudos para come&ccedil;ar</span>
-                    <ul>
-                        <li th:each="curso : ${resultadoView.principal.area.cursos}" th:text="${curso}">Curso</li>
-                    </ul>
-                </article>
+                <aside class="result-roadmap-summary" aria-label="Resumo rapido da rota">
+                    <span>Resumo da rota</span>
+                    <strong th:text="${resultadoView.principal.area.titulo}">Area</strong>
+                    <dl>
+                        <div>
+                            <dt>Estimativa salarial</dt>
+                            <dd class="result-salary-summary">
+                                <strong th:text="${detalheArea.salario.resumo}">Faixa salarial</strong>
+                                <small th:text="|${detalheArea.salario.cargoReferencia} - ${detalheArea.salario.escopo}|">Cargo - Brasil</small>
+                                <a th:href="@{/area/{slug}(slug=${resultadoView.principal.area.slug})} + '#salario'">Ver metodologia e fontes</a>
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>Habilidades</dt>
+                            <dd>
+                                <span th:each="habilidade, status : ${resultadoView.principal.area.habilidades}"
+                                      th:if="${status.index < 4}" th:text="${habilidade}">Habilidade</span>
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>Possiveis cargos</dt>
+                            <dd>
+                                <span th:each="profissao, status : ${detalheArea.profissoes}"
+                                      th:if="${status.index < 3}" th:text="${profissao.titulo}">Cargo</span>
+                            </dd>
+                        </div>
+                    </dl>
+                </aside>
+            </div>
+
+            <div class="result-projects-preview" th:if="${not #lists.isEmpty(detalheArea.projetosPraticos)}">
+                <div class="result-projects-heading">
+                    <p class="eyebrow">Para praticar</p>
+                    <h3>Projetos pequenos para testar essa rota</h3>
+                </div>
+                <div class="practice-project-grid">
+                    <article class="practice-project-card" th:each="projeto : ${detalheArea.projetosPraticos}">
+                        <span th:text="${projeto.nivel}">Iniciante</span>
+                        <h4 th:text="${projeto.titulo}">Projeto</h4>
+                        <p th:text="${projeto.descricao}">Descricao.</p>
+                        <small th:text="${projeto.entregavel}">Entregavel.</small>
+                    </article>
+                </div>
             </div>
         </div>
     </section>
@@ -211,7 +233,7 @@
                     <p class="eyebrow">Perto de voc&ecirc;</p>
                     <h2 id="formation-title">Onde procurar forma&ccedil;&atilde;o na regi&atilde;o</h2>
                 </div>
-                <p>Confira os sites oficiais, editais e agendas. As ofertas mudam por semestre, unidade e disponibilidade de turma.</p>
+                <p>Confira sites oficiais e editais em Pimenta Bueno, Cacoal, Rolim de Moura e op&ccedil;&otilde;es EAD. As ofertas mudam por semestre e disponibilidade.</p>
             </div>
 
             <div class="formation-grid">
@@ -223,6 +245,30 @@
                     <small th:text="${formacao.modalidade}">Modalidade</small>
                     <p th:text="${formacao.descricao}">Descri&ccedil;&atilde;o.</p>
                     <em>Ver site <span aria-hidden="true">&nearr;</span></em>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="result-section result-online-section" aria-labelledby="result-online-title">
+        <div class="result-container">
+            <div class="result-section-heading">
+                <div>
+                    <p class="eyebrow">Para come&ccedil;ar hoje</p>
+                    <h2 id="result-online-title">Cursos e recursos gratuitos pela internet</h2>
+                </div>
+                <p>Uma sele&ccedil;&atilde;o de plataformas confi&aacute;veis para experimentar a rota sem esperar abrir uma turma presencial.</p>
+            </div>
+
+            <div class="online-resource-grid">
+                <a class="online-resource-card" th:each="recurso : ${detalheArea.recursosOnline}"
+                   th:href="${recurso.url}" target="_blank" rel="noopener noreferrer">
+                    <span th:text="${recurso.custo}">Gratuito</span>
+                    <small th:text="${recurso.tipo}">Curso online</small>
+                    <h3 th:text="${recurso.titulo}">Recurso</h3>
+                    <strong th:text="${recurso.plataforma}">Plataforma</strong>
+                    <p th:text="${recurso.descricao}">Descri&ccedil;&atilde;o.</p>
+                    <em>Acessar recurso <span aria-hidden="true">&nearr;</span></em>
                 </a>
             </div>
         </div>

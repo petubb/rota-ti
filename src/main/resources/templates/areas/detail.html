@@ -8,17 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body class="area-detail-page">
-<header class="site-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orienta&ccedil;&atilde;o profissional</small></span>
-    </a>
-    <nav>
-        <a th:href="@{/areas}">&Aacute;reas</a>
-        <a th:href="@{/quiz}">Quiz</a>
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('areas')}"></th:block>
 
 <main>
     <section class="area-detail-hero" aria-labelledby="area-title">
@@ -29,35 +19,49 @@
                 <p class="area-detail-lead" th:text="${area.descricao}">Descricao</p>
                 <p th:text="${detalheArea.mercado}">Contexto da area.</p>
                 <div class="actions area-detail-actions">
-                    <a class="button primary" th:href="@{/quiz}">Descobrir se combina comigo</a>
-                    <a class="text-link" href="#plano-carreira">Ver plano de carreira <span aria-hidden="true">&rarr;</span></a>
+                    <a class="button primary" th:href="@{/area/{slug}/roadmap(slug=${area.slug})}">Abrir roadmap desta rota</a>
+                    <a class="button secondary" th:href="@{/quiz}">Descobrir se combina comigo</a>
                 </div>
             </div>
 
-            <aside class="area-salary-panel" aria-label="Faixa salarial e fontes">
-                <span>Faixa salarial</span>
-                <strong th:text="${detalheArea.salario.resumo}">R$ 0 a R$ 0</strong>
-                <p th:text="${detalheArea.salario.observacao}">Observacao.</p>
-                <div class="salary-sources">
-                    <span>Fontes</span>
-                    <ul>
-                        <li th:each="fonte : ${detalheArea.salario.fontes}">
-                            <a th:href="${fonte.url}" target="_blank" rel="noopener noreferrer">
-                                <span th:text="${fonte.titulo}">Fonte</span>
-                                <span aria-hidden="true">&nearr;</span>
-                            </a>
-                        </li>
-                    </ul>
+            <aside class="area-salary-panel" aria-label="Resumo da estimativa salarial">
+                <div class="area-salary-labels">
+                    <span th:text="${detalheArea.salario.natureza}">Natureza dos dados</span>
+                    <small th:text="${detalheArea.salario.escopo}">Brasil</small>
                 </div>
+                <span>Estimativa mensal de refer&ecirc;ncia</span>
+                <strong th:text="${detalheArea.salario.resumo}">R$ 0 a R$ 0</strong>
+                <p>Refer&ecirc;ncia: <b th:text="${detalheArea.salario.cargoReferencia}">Cargo</b></p>
+                <small class="area-salary-period" th:text="|Dados: ${detalheArea.salario.competencia}|">Dados: 2026</small>
+                <a class="area-salary-details-link" href="#salario">Entender os valores e as fontes <span aria-hidden="true">&darr;</span></a>
             </aside>
         </div>
     </section>
 
-    <section class="area-detail-section" aria-labelledby="skills-title">
+    <nav class="area-detail-jump" aria-label="Navegar pela rota">
+        <div class="area-detail-container">
+            <a href="#visao-geral">Perfil e rotina</a>
+            <a href="#profissoes">Profiss&otilde;es</a>
+            <a href="#salario">Sal&aacute;rios</a>
+            <a href="#plano-carreira">Roadmap</a>
+            <a href="#formacao">Forma&ccedil;&atilde;o</a>
+            <a href="#referencias">Refer&ecirc;ncias</a>
+        </div>
+    </nav>
+
+    <section class="area-detail-section" id="visao-geral" aria-labelledby="skills-title">
         <div class="area-detail-container area-overview-grid">
+            <article class="area-info-block area-fit-block">
+                <p class="eyebrow">Perfil de afinidade</p>
+                <h2 id="skills-title">Pode combinar com voc&ecirc; se...</h2>
+                <ul class="area-fit-list">
+                    <li th:each="sinal : ${exploracaoArea.sinaisAfinidade}" th:text="${sinal}">Sinal de afinidade</li>
+                </ul>
+            </article>
+
             <article class="area-info-block">
                 <p class="eyebrow">Rotina</p>
-                <h2 id="skills-title">O que essa pessoa faz no dia a dia</h2>
+                <h2>O que essa pessoa faz no dia a dia</h2>
                 <p th:text="${area.rotina}">Rotina profissional.</p>
             </article>
 
@@ -79,7 +83,74 @@
         </div>
     </section>
 
-    <section class="area-detail-section" aria-labelledby="area-careers-title">
+    <section class="area-detail-section area-salary-section" id="salario" aria-labelledby="salary-title">
+        <div class="area-detail-container">
+            <div class="area-section-heading salary-section-heading">
+                <div>
+                    <p class="eyebrow">Remunera&ccedil;&atilde;o com contexto</p>
+                    <h2 id="salary-title">Quanto essa rota pode pagar?</h2>
+                </div>
+                <p>N&atilde;o existe um sal&aacute;rio &uacute;nico para uma &aacute;rea. Por isso, mostramos o cargo compar&aacute;vel, o alcance da pesquisa e como interpretar cada n&uacute;mero.</p>
+            </div>
+
+            <div class="salary-evidence-layout">
+                <div class="salary-range-content">
+                    <div class="salary-reference-meta">
+                        <div>
+                            <span>Cargo usado como refer&ecirc;ncia</span>
+                            <strong th:text="${detalheArea.salario.cargoReferencia}">Cargo</strong>
+                        </div>
+                        <div>
+                            <span>Recorte</span>
+                            <strong th:text="${detalheArea.salario.escopo}">Brasil</strong>
+                        </div>
+                        <div>
+                            <span>Per&iacute;odo dos dados</span>
+                            <strong th:text="${detalheArea.salario.competencia}">2026</strong>
+                        </div>
+                    </div>
+
+                    <div class="salary-range-grid">
+                        <article th:each="faixa : ${detalheArea.salario.faixas}">
+                            <span th:text="${faixa.rotulo}">N&iacute;vel</span>
+                            <strong th:text="${faixa.valor}">R$ 0</strong>
+                            <small th:text="${faixa.leitura}">Como interpretar.</small>
+                        </article>
+                    </div>
+
+                    <p class="salary-methodology" th:text="${detalheArea.salario.metodologia}">Metodologia.</p>
+                </div>
+
+                <aside class="salary-reading-guide" aria-label="Como interpretar a estimativa">
+                    <p class="eyebrow">Leia antes de comparar</p>
+                    <h3>Estimativa, n&atilde;o promessa</h3>
+                    <p th:text="${detalheArea.salario.observacao}">Observa&ccedil;&atilde;o.</p>
+                    <ul>
+                        <li>Os valores s&atilde;o mensais e brutos.</li>
+                        <li>Benef&iacute;cios, b&ocirc;nus e remunera&ccedil;&atilde;o PJ n&atilde;o entram na compara&ccedil;&atilde;o.</li>
+                        <li>Rond&ocirc;nia pode ter valores diferentes da refer&ecirc;ncia nacional.</li>
+                    </ul>
+                </aside>
+            </div>
+
+            <div class="salary-source-section">
+                <div>
+                    <p class="eyebrow">Rastreabilidade</p>
+                    <h3>Fontes consultadas</h3>
+                </div>
+                <div class="salary-source-grid">
+                    <a th:each="fonte : ${detalheArea.salario.fontes}"
+                       th:href="${fonte.url}" target="_blank" rel="noopener noreferrer">
+                        <span th:text="${fonte.titulo}">Fonte</span>
+                        <p th:text="${fonte.descricao}">O que esta fonte representa.</p>
+                        <strong>Consultar fonte <span aria-hidden="true">&nearr;</span></strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="area-detail-section" id="profissoes" aria-labelledby="area-careers-title">
         <div class="area-detail-container">
             <div class="area-section-heading">
                 <div>
@@ -103,13 +174,30 @@
         <div class="area-detail-container">
             <div class="area-section-heading">
                 <div>
-                    <p class="eyebrow">Planejamento</p>
-                    <h2 id="plan-title">Um caminho pratico para come&ccedil;ar nessa rota</h2>
+                    <p class="eyebrow">Roadmap completo</p>
+                    <h2 id="plan-title">Um caminho pratico para evoluir nessa rota</h2>
                 </div>
-                <p>O objetivo n&atilde;o &eacute; decorar tudo de uma vez. &Eacute; sair da curiosidade para um projeto real, com passos pequenos e demonstr&aacute;veis.</p>
+                <div class="area-section-action">
+                    <p>Use as etapas como guia. A ordem ajuda, mas voc&ecirc; pode voltar, revisar e adaptar conforme tiver contato com projetos reais.</p>
+                    <a class="button primary" th:href="@{/area/{slug}/roadmap(slug=${area.slug})}">Acessar roadmap</a>
+                </div>
             </div>
 
-            <ol class="area-career-plan">
+            <ol class="guided-roadmap-full" th:if="${not #lists.isEmpty(detalheArea.roadmapCompleto)}">
+                <li th:each="etapa, status : ${detalheArea.roadmapCompleto}">
+                    <span th:text="|0${status.count}|">01</span>
+                    <div>
+                        <small th:text="|${etapa.nivel} - ${etapa.tempo}|">Iniciante - 0-2 meses</small>
+                        <h3 th:text="${etapa.titulo}">Etapa</h3>
+                        <p th:text="${etapa.objetivo}">Objetivo.</p>
+                        <ul>
+                            <li th:each="passo : ${etapa.passos}" th:text="${passo}">Passo</li>
+                        </ul>
+                    </div>
+                </li>
+            </ol>
+
+            <ol class="area-career-plan" th:if="${#lists.isEmpty(detalheArea.roadmapCompleto)}">
                 <li th:each="passo, status : ${detalheArea.planoCarreira}">
                     <span th:text="|0${status.count}|">01</span>
                     <small th:text="${passo.periodo}">0-2 meses</small>
@@ -117,17 +205,36 @@
                     <p th:text="${passo.descricao}">Descricao.</p>
                 </li>
             </ol>
+
+            <div class="area-practice-projects" th:if="${not #lists.isEmpty(detalheArea.projetosPraticos)}">
+                <div class="area-section-heading area-project-heading">
+                    <div>
+                        <p class="eyebrow">Portfolio</p>
+                        <h2>Projetos para praticar</h2>
+                    </div>
+                    <p>Projetos pequenos ajudam a transformar estudo em evidencia para apresentar em escola, entrevista ou GitHub.</p>
+                </div>
+
+                <div class="practice-project-grid">
+                    <article class="practice-project-card" th:each="projeto : ${detalheArea.projetosPraticos}">
+                        <span th:text="${projeto.nivel}">Iniciante</span>
+                        <h3 th:text="${projeto.titulo}">Projeto</h3>
+                        <p th:text="${projeto.descricao}">Descricao.</p>
+                        <small th:text="${projeto.entregavel}">Entregavel.</small>
+                    </article>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="area-detail-section area-formation-section" aria-labelledby="area-formation-title">
+    <section class="area-detail-section area-formation-section" id="formacao" aria-labelledby="area-formation-title">
         <div class="area-detail-container">
             <div class="area-section-heading">
                 <div>
                     <p class="eyebrow">Forma&ccedil;&atilde;o pr&oacute;xima</p>
                     <h2 id="area-formation-title">Onde procurar cursos e trilhas na regi&atilde;o</h2>
                 </div>
-                <p>As ofertas mudam com editais e turmas. Use os links como ponto de partida para conferir disponibilidade atual.</p>
+                <p>Priorize Pimenta Bueno, Cacoal, Rolim de Moura e op&ccedil;&otilde;es EAD quando fizer sentido. As ofertas mudam com editais e turmas.</p>
             </div>
 
             <div class="formation-grid">
@@ -139,6 +246,30 @@
                     <small th:text="${formacao.modalidade}">Modalidade</small>
                     <p th:text="${formacao.descricao}">Descri&ccedil;&atilde;o.</p>
                     <em>Ver site <span aria-hidden="true">&nearr;</span></em>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="area-detail-section area-online-section" aria-labelledby="online-title">
+        <div class="area-detail-container">
+            <div class="area-section-heading">
+                <div>
+                    <p class="eyebrow">Tamb&eacute;m online</p>
+                    <h2 id="online-title">Recursos gratuitos e confi&aacute;veis para come&ccedil;ar de casa</h2>
+                </div>
+                <p>Essas op&ccedil;&otilde;es ajudam quando ainda n&atilde;o h&aacute; turma aberta na regi&atilde;o ou quando voc&ecirc; quer testar a &aacute;rea antes de investir mais tempo.</p>
+            </div>
+
+            <div class="online-resource-grid">
+                <a class="online-resource-card" th:each="recurso : ${detalheArea.recursosOnline}"
+                   th:href="${recurso.url}" target="_blank" rel="noopener noreferrer">
+                    <span th:text="${recurso.custo}">Gratuito</span>
+                    <small th:text="${recurso.tipo}">Curso online</small>
+                    <h3 th:text="${recurso.titulo}">Recurso</h3>
+                    <strong th:text="${recurso.plataforma}">Plataforma</strong>
+                    <p th:text="${recurso.descricao}">Descri&ccedil;&atilde;o.</p>
+                    <em>Acessar recurso <span aria-hidden="true">&nearr;</span></em>
                 </a>
             </div>
         </div>
@@ -194,7 +325,7 @@
         </div>
     </section>
 
-    <section class="area-detail-section" aria-labelledby="references-title">
+    <section class="area-detail-section" id="referencias" aria-labelledby="references-title">
         <div class="area-detail-container">
             <div class="area-section-heading">
                 <div>

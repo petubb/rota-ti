@@ -12,7 +12,7 @@ Pontos principais:
 
 - O problema e a falta de orientacao clara sobre carreiras em tecnologia.
 - O publico principal sao estudantes em fase de escolha ou curiosidade profissional.
-- O projeto entrega um quiz simples, resultado personalizado, paginas de carreira e uma area administrativa.
+- O projeto entrega um quiz simples, resultado personalizado, exploracao de carreiras, roadmaps praticos e uma area administrativa.
 
 ## 2. Fluxo da demonstracao
 
@@ -20,26 +20,28 @@ Ordem recomendada para a banca:
 
 1. Abrir a Home.
 2. Mostrar que o site apresenta a proposta e chama para o quiz.
-3. Abrir a pagina de Areas.
+3. Abrir a pagina de Areas e demonstrar busca e filtros.
 4. Entrar em uma area e mostrar:
+   - perfil de quem combina;
    - descricao;
    - rotina;
    - habilidades;
-   - faixa salarial com fontes;
-   - plano de carreira;
-   - videos e referencias.
+   - estimativa salarial com metodologia e fontes;
+   - formacoes regionais e cursos online;
+   - projetos praticos.
 5. Fazer o quiz como usuario comum ou visitante.
 6. Mostrar a pagina de resultado:
    - area principal;
    - compatibilidade;
    - top 3;
-   - proximos passos;
-   - conteudos relacionados.
-7. Fazer login ou cadastro.
-8. Mostrar "Meus resultados".
-9. Abrir o DBeaver e mostrar as tabelas principais.
-10. Entrar com conta admin e abrir `/dashboard`.
-11. Mostrar o GitHub com branches e commits.
+   - resumo do roadmap;
+   - proximos passos e formacoes.
+7. Abrir o roadmap completo, expandir uma etapa e marcar um passo.
+8. Fazer login ou cadastro.
+9. Mostrar "Minha evolucao" e a comparacao entre tentativas.
+10. Abrir o DBeaver e mostrar as tabelas principais.
+11. Entrar com conta admin e abrir `/dashboard`.
+12. Mostrar o GitHub com branches e commits.
 
 ## 3. Explicacao do MVC
 
@@ -50,11 +52,11 @@ Fala sugerida:
 Como explicar as camadas:
 
 - `controller`: recebe rotas como `/quiz`, `/resultado/{id}`, `/areas`, `/dashboard`.
-- `service`: calcula resultado do quiz, gera metricas, cria contas, salva resultado e aplica regras de seguranca.
+- `service`: calcula resultado do quiz, gera metricas, monta areas e roadmaps, cria contas, compara resultados e aplica regras de seguranca.
 - `repository`: conversa com o banco usando Spring Data JPA.
 - `model`: representa tabelas como `Conta`, `Usuario`, `Resultado`, `Pergunta`.
 - `templates`: paginas Thymeleaf renderizadas no servidor.
-- `static`: CSS, JS e imagens.
+- `static`: base visual compartilhada, CSS separado por pagina, JavaScript e imagens.
 - `security`: configuracoes e classes de autenticacao/autorizacao.
 
 Exemplo pratico:
@@ -126,7 +128,7 @@ ORDER BY r.id DESC;
 
 Fala sugerida:
 
-> O login e opcional para o usuario comum. A pessoa pode fazer o quiz sem conta. A conta entra quando ela quer salvar resultado, consultar historico ou acessar area administrativa, no caso de admin.
+> O login e opcional para o usuario comum. A pessoa pode fazer o quiz, explorar areas e usar o roadmap sem conta. A conta entra quando ela quer salvar resultados, comparar tentativas ou acessar a area administrativa, no caso de admin.
 
 Pontos para explicar:
 
@@ -195,6 +197,14 @@ Branches importantes:
 - `feature/optional-auth`: login opcional, seguranca e recuperacao de senha.
 - `feature/area-detalhe-carreira`: paginas de area com plano de carreira, referencias e salario com fonte.
 - `feature/admin-dashboard`: dashboard administrativo.
+- `feature/quiz-respostas-parciais`: escala de cinco respostas.
+- `feature/quiz-balanceamento-areas`: ajuste de pesos e desempate.
+- `feature/refatora-css-modular`: separacao dos estilos por pagina.
+- `feature/roadmap-interativo`: roadmap completo com checklist local.
+- `feature/exploracao-areas-informativa`: busca, filtros e cards de exploracao.
+- `feature/faixas-salariais-transparentes`: contexto, metodologia e fontes salariais.
+- `feature/conta-acompanha-evolucao`: comparacao e historico da conta.
+- `release/atualizacao-geral-rota-ti`: consolidacao das entregas aprovadas.
 
 Comandos que mostram o historico:
 
@@ -238,6 +248,7 @@ Validar no navegador:
 - `http://127.0.0.1:8080`
 - `http://127.0.0.1:8080/areas`
 - `http://127.0.0.1:8080/quiz`
+- `http://127.0.0.1:8080/area/desenvolvimento-software/roadmap`
 - `http://127.0.0.1:8080/minha-conta/resultados`
 - `http://127.0.0.1:8080/dashboard`
 
@@ -261,7 +272,7 @@ Porque `usuarios` representa uma participacao no quiz, enquanto `contas` represe
 
 ### Como o resultado e calculado?
 
-Cada pergunta tem pesos associados as areas. As respostas somam pontos por area, gerando ranking de compatibilidade. Quando duas areas ficam muito proximas, perguntas de desempate refinam o resultado.
+Cada pergunta tem pesos associados as areas. As cinco respostas assumem valores de `-2` a `2`; elas reduzem, mantem ou aumentam a pontuacao de acordo com esses pesos. O sistema normaliza o total para gerar o ranking de compatibilidade. Quando as primeiras areas ficam muito proximas, perguntas de desempate refinam o resultado.
 
 ### Como as senhas sao protegidas?
 
@@ -271,16 +282,24 @@ Com BCrypt. O sistema nunca salva senha pura. Ele salva apenas o hash, com salt 
 
 O Spring Security exige `ROLE_ADMIN` para `/dashboard`. Se a conta for `USER`, o acesso retorna 403.
 
+### O progresso do roadmap fica no banco?
+
+Nao. O checklist usa `localStorage`, separado por area e navegador. Isso permite experimentar a trilha sem login e evita coletar mais dados pessoais do que o necessario.
+
+### As faixas salariais sao uma promessa?
+
+Nao. O site apresenta estimativas com cargo de referencia, data, escopo e fontes. Os valores variam por cidade, experiencia, empresa, beneficios e tipo de contratacao.
+
 ### O que ainda pode evoluir?
 
 - Configurar SMTP definitivo para recuperacao de senha em producao.
 - Criar CRUD administrativo para perguntas.
 - Melhorar relatorios do dashboard.
 - Exportar dados anonimizados.
-- Publicar o sistema em ambiente online.
+- Revisar periodicamente cursos, editais, links e fontes salariais.
 
 ## 10. Encerramento
 
 Fala sugerida:
 
-> O Rota TI busca tornar a escolha de carreira em tecnologia mais clara e acessivel. O projeto une um fluxo simples para o estudante com uma estrutura tecnica em MVC, persistencia em banco, autenticacao segura, area administrativa e versionamento por branches.
+> O Rota TI busca tornar a escolha de carreira em tecnologia mais clara e acessivel. Alem de sugerir uma rota, ele mostra como comecar, onde estudar e o que praticar. O projeto une esse fluxo para o estudante com uma estrutura tecnica em MVC, persistencia em banco, autenticacao segura, area administrativa e versionamento por branches.

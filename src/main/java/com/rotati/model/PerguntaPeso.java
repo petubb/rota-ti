@@ -68,4 +68,11 @@ public class PerguntaPeso {
     public int getPeso() {
         return peso;
     }
+
+    public void atualizarPeso(int peso) {
+        if (peso == 0) {
+            throw new IllegalArgumentException("O peso de uma area nao pode ser zero.");
+        }
+        this.peso = peso;
+    }
 }

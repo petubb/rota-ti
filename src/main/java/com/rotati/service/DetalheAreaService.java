@@ -1,11 +1,15 @@
 package com.rotati.service;
 
 import com.rotati.dto.DetalheAreaView;
+import com.rotati.dto.FaixaSalarioView;
 import com.rotati.dto.FonteSalarioView;
 import com.rotati.dto.FormacaoLocalView;
 import com.rotati.dto.PlanoCarreiraView;
 import com.rotati.dto.ProfissaoAreaView;
+import com.rotati.dto.ProjetoPraticoView;
+import com.rotati.dto.RecursoOnlineView;
 import com.rotati.dto.ReferenciaAreaView;
+import com.rotati.dto.RoadmapEtapaView;
 import com.rotati.dto.SalarioAreaView;
 import com.rotati.model.AreaTi;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,10 @@ public class DetalheAreaService {
 
     private static final String ROBERT_HALF_TECNOLOGIA =
             "https://www.roberthalf.com/br/pt/insights/guia-salarial/tecnologia";
+    private static final String ROBERT_HALF_METODOLOGIA =
+            "https://www.roberthalf.com/br/pt/insights/salary-guide";
+    private static final String CAGED_MICRODADOS =
+            "https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/estatisticas-trabalho/microdados-rais-e-caged";
     private static final String IFRO_CACOAL_CURSOS = "https://portal.ifro.edu.br/cacoal/cursos";
     private static final String IFRO_EAD = "https://portal.ifro.edu.br/educacaoadistancia-nav";
     private static final String SENAC_INFORMATICA = "https://www.ro.senac.br/categoria-produto/area_de_atuacao/informatica/";
@@ -25,18 +33,43 @@ public class DetalheAreaService {
     private static final String SENAC_ROLIM_MOURA = "https://www.ro.senac.br/category/processo-seletivo/processo-seletivo-rolim-de-moura/";
     private static final String SENAI_RO = "https://portal.fiero.org.br/senai";
     private static final String SENAI_FUTURO_DIGITAL = "https://www.futuro.digital/senai-ro";
-    private static final String UNESC_SI_CACOAL = "https://vestibular.unescnet.br/PS_UNESC/Curso.aspx?Cidade=Cacoal&CursoId=84&CursoNome=sistemas-de-informacao&CursoUnidadeId=8801&MenuId=3&UF=RO";
-    private static final String UNESC_ADS_CACOAL = "https://vestibular.unescnet.br/PS_UNESC/Curso.aspx?Cidade=Cacoal&CursoId=85&CursoNome=superior-de-tecnologia-em-analise-e-desenvolvimento-de-sistemas&CursoUnidadeId=8803&MenuId=4&UF=RO";
     private static final String CRUZEIRO_SUL_ROLIM_MOURA = "https://www.cruzeirodosulvirtual.com.br/polo/rolim-de-moura-centro-ro/";
+    private static final String MICROSOFT_LEARN = "https://learn.microsoft.com/pt-br/training/";
+    private static final String CISCO_NETACAD = "https://www.netacad.com/";
+    private static final String FUNDACAO_BRADESCO_ESCOLA_VIRTUAL = "https://fundacao.bradesco/como-atuamos/escola-virtual";
+    private static final String FUNDACAO_BRADESCO_FUNDAMENTOS_TI =
+            "https://www.ev.org.br/cursos/fundamentos-de-ti-hardware-e-software";
+    private static final String EVG_CATALOGO = "https://www.escolavirtual.gov.br/catalogo";
+    private static final String KAGGLE_LEARN = "https://www.kaggle.com/learn";
+    private static final String FIGMA_BEGINNERS =
+            "https://help.figma.com/hc/en-us/articles/30848209492887-Course-overview-Figma-Design-for-beginners-2025";
+    private static final String MATERIAL_DESIGN = "https://m3.material.io/";
+    private static final String W3C_WCAG = "https://www.w3.org/WAI/standards-guidelines/wcag/";
+    private static final String UNITY_LEARN = "https://learn.unity.com/";
+    private static final String GODOT_DOCS = "https://docs.godotengine.org/";
+    private static final String GLOBAL_GAME_JAM = "https://globalgamejam.org/";
+    private static final String GOOGLE_ML_CRASH_COURSE = "https://developers.google.com/machine-learning/crash-course";
+    private static final String GOOGLE_AI_SKILLS = "https://ai.google/learn-ai-skills/";
+    private static final String SCRUM_GUIDES = "https://scrumguides.org/";
+    private static final String ATLASSIAN_AGILE = "https://www.atlassian.com/agile";
 
     private final Map<String, DetalheAreaView> detalhes = Map.ofEntries(
             Map.entry("desenvolvimento-software", detalhe(
                     salario(
-                            "R$ 3.400 a R$ 9.500 por mes entre vagas junior e pleno em grandes mercados.",
-                            "Use como referencia inicial. A remuneracao muda bastante por cidade, stack, senioridade e modelo remoto.",
-                            fonte("Glassdoor - Desenvolvedor de Software Junior", "https://www.glassdoor.com/Salaries/s%C3%A3o-paulo-desenvolvedor-de-software-junior-i-salary-SRCH_IL.0%2C9_IM1009_KO10%2C44.htm"),
-                            fonte("Glassdoor - Desenvolvedor de Software Pleno", "https://www.glassdoor.com/Salaries/sao-paulo-brazil-desenvolvedor-de-software-pleno-salary-SRCH_IL.0%2C16_IM1009_KO17%2C48.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 6.050 a R$ 20.900 por mes",
+                            "Desenvolvedor(a) Back-End",
+                            "Brasil",
+                            "Guia Salarial 2026",
+                            "Projecoes de contratacao",
+                            "Stack, experiencia, porte da empresa, cidade e modelo remoto podem alterar bastante a remuneracao.",
+                            metodologiaRobertHalf(),
+                            List.of(
+                                    faixa("Junior", "R$ 6.050 a R$ 8.750", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Pleno", "R$ 9.500 a R$ 15.900", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Senior", "R$ 12.400 a R$ 20.900", "Entre os percentis 25 e 75 do nivel")
+                            ),
+                            fonte("Robert Half - Desenvolvimento", "Faixas nacionais por senioridade para desenvolvimento Back-End em 2026.", "https://www.roberthalf.com/br/pt/vagas-detalhes/desenvolvedora-full-stack-pleno"),
+                            fonte("Robert Half - metodologia do guia", "Explica percentis, salarios de entrada e itens que nao entram no calculo.", ROBERT_HALF_METODOLOGIA)
                     ),
                     "Area forte para quem gosta de construir produtos, resolver problemas em etapas e aprender continuamente.",
                     List.of(
@@ -54,10 +87,20 @@ public class DetalheAreaService {
             )),
             Map.entry("dados-bi", detalhe(
                     salario(
-                            "R$ 3.200 a R$ 6.600 por mes para Analista de Dados Junior no Brasil.",
-                            "BI cresce quando a pessoa junta SQL, visualizacao, negocio e comunicacao com areas nao tecnicas.",
-                            fonte("Glassdoor - Analista de Dados Junior", "https://www.glassdoor.com.br/Sal%C3%A1rios/analista-de-dados-junior-sal%C3%A1rio-SRCH_KO0%2C24.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 5.600 a R$ 18.250 por mes",
+                            "Analista de Business Intelligence (BI)",
+                            "Brasil",
+                            "Guia Salarial 2026",
+                            "Projecoes de contratacao",
+                            "SQL, visualizacao, conhecimento do negocio e comunicacao ajudam a ampliar as oportunidades.",
+                            metodologiaRobertHalf(),
+                            List.of(
+                                    faixa("Junior", "R$ 5.600 a R$ 9.000", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Pleno", "R$ 7.650 a R$ 12.850", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Senior", "R$ 10.900 a R$ 18.250", "Entre os percentis 25 e 75 do nivel")
+                            ),
+                            fonte("Robert Half - Business Intelligence", "Faixas nacionais por senioridade para Analista de BI em 2026.", "https://www.roberthalf.com/br/pt/vagas-detalhes/analista-de-bi-pleno"),
+                            fonte("Portal Salario - Analista de BI", "Contraponto com salario-base CLT calculado a partir do CAGED/MTE.", "https://www.salario.com.br/profissao/analista-de-bi-business-intelligence/")
                     ),
                     "Boa rota para quem gosta de organizar informacoes, fazer perguntas e transformar numeros em decisao.",
                     List.of(
@@ -75,10 +118,20 @@ public class DetalheAreaService {
             )),
             Map.entry("seguranca-cibernetica", detalhe(
                     salario(
-                            "R$ 3.200 a R$ 5.800 por mes em cargos junior de Seguranca da Informacao.",
-                            "Certificacoes, experiencia com redes e pratica em laboratorio costumam acelerar a evolucao salarial.",
-                            fonte("Glassdoor - Analista de Seguranca da Informacao Jr", "https://www.glassdoor.com.br/Sal%C3%A1rios/analista-de-seguranca-da-informacao-jr-sal%C3%A1rio-SRCH_KO0%2C38.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 6.200 a R$ 19.000 por mes",
+                            "Analista de Seguranca da Informacao",
+                            "Brasil",
+                            "Guia Salarial 2026",
+                            "Projecoes de contratacao",
+                            "Redes, cloud, certificacoes e pratica defensiva costumam diferenciar profissionais da area.",
+                            metodologiaRobertHalf(),
+                            List.of(
+                                    faixa("Junior", "R$ 6.200 a R$ 10.400", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Pleno", "R$ 8.500 a R$ 14.300", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Senior", "R$ 11.300 a R$ 19.000", "Entre os percentis 25 e 75 do nivel")
+                            ),
+                            fonte("Robert Half - Seguranca da Informacao", "Faixas nacionais relacionadas a PenTest e analistas de seguranca em 2026.", "https://www.roberthalf.com/br/pt/vagas-detalhes/pentester"),
+                            fonte("Portal Salario - Seguranca da Informacao", "Contraponto com salario-base CLT calculado a partir do CAGED/MTE.", "https://www.salario.com.br/profissao/analista-em-seguranca-da-informacao-cbo-212320/")
                     ),
                     "Area indicada para quem gosta de investigar, proteger sistemas e pensar em riscos antes que eles virem problema.",
                     List.of(
@@ -96,10 +149,20 @@ public class DetalheAreaService {
             )),
             Map.entry("infraestrutura-redes", detalhe(
                     salario(
-                            "R$ 2.600 a R$ 4.800 por mes para Analista de Infraestrutura Jr no Brasil.",
-                            "Cloud, automacao e certificacoes podem abrir caminho para faixas mais altas dentro de infraestrutura.",
-                            fonte("Glassdoor - Analista de Infraestrutura Jr", "https://www.glassdoor.com.br/Sal%C3%A1rios/analista-de-infraestrutura-jr-sal%C3%A1rio-SRCH_KO0%2C29.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 4.400 a R$ 15.750 por mes",
+                            "Analista de Infraestrutura",
+                            "Brasil",
+                            "Guia Salarial 2026",
+                            "Projecoes de contratacao",
+                            "Cloud, automacao, disponibilidade de plantao e certificacoes podem mudar a faixa praticada.",
+                            metodologiaRobertHalf(),
+                            List.of(
+                                    faixa("Junior", "R$ 4.400 a R$ 7.450", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Pleno", "R$ 6.400 a R$ 10.600", "Entre os percentis 25 e 75 do nivel"),
+                                    faixa("Senior", "R$ 9.400 a R$ 15.750", "Entre os percentis 25 e 75 do nivel")
+                            ),
+                            fonte("Robert Half - Infraestrutura", "Faixas nacionais por senioridade para Analista de Infraestrutura em 2026.", "https://www.roberthalf.com/br/pt/vagas-detalhes/analista-de-infraestrutura-pleno"),
+                            fonte("Robert Half - panorama de Tecnologia", "Contexto de contratacao, especializacoes e mercado de Tecnologia em 2026.", ROBERT_HALF_TECNOLOGIA)
                     ),
                     "Rota para quem gosta de manter ambientes funcionando, diagnosticar falhas e cuidar da base tecnica das empresas.",
                     List.of(
@@ -117,10 +180,20 @@ public class DetalheAreaService {
             )),
             Map.entry("ux-ui-design", detalhe(
                     salario(
-                            "R$ 2.600 a R$ 5.300 por mes para UI/UX Designer Junior no Brasil.",
-                            "Portfolio com processo, pesquisa e prototipos pesa muito na avaliacao de candidatos iniciantes.",
-                            fonte("Glassdoor - UI/UX Designer Junior", "https://www.glassdoor.com.br/Sal%C3%A1rios/ui-ux-designer-junior-sal%C3%A1rio-SRCH_KO0%2C21.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 2.000 a R$ 4.220 no intervalo central",
+                            "Designer de UX",
+                            "Brasil - vinculos CLT",
+                            "jul/2025 a jun/2026",
+                            "Salarios-base observados",
+                            "Portfolio, pesquisa, produto, porte da empresa e localidade explicam parte da ampla variacao da area.",
+                            metodologiaCaged(),
+                            List.of(
+                                    faixa("Quartil inferior", "R$ 2.000", "25% dos registros ficam ate este valor"),
+                                    faixa("Mediana", "R$ 2.761", "Metade dos registros fica abaixo e metade acima"),
+                                    faixa("Quartil superior", "R$ 4.220", "25% dos registros ficam acima deste valor")
+                            ),
+                            fonte("Portal Salario - Designer de UX", "Quartis e mediana de salario-base CLT a partir de microdados do CAGED/MTE.", "https://www.salario.com.br/profissao/designer-ux-cbo-262410/"),
+                            fonte("MTE - microdados RAIS e CAGED", "Origem oficial dos microdados de trabalho formal usados na consolidacao.", CAGED_MICRODADOS)
                     ),
                     "Area para quem junta empatia, organizacao visual e vontade de testar solucoes com pessoas reais.",
                     List.of(
@@ -138,10 +211,20 @@ public class DetalheAreaService {
             )),
             Map.entry("game-design", detalhe(
                     salario(
-                            "R$ 2.400 a R$ 3.300 por mes para Junior Game Designer no Brasil.",
-                            "O mercado de jogos varia muito por estudio, contrato, publicacao independente e experiencia com engines.",
-                            fonte("Glassdoor - Game Designer Junior", "https://www.glassdoor.com.br/Sal%C3%A1rios/game-designer-junior-sal%C3%A1rio-SRCH_KO0%2C20.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 2.398 a R$ 7.000 no intervalo central",
+                            "Designer de Games",
+                            "Brasil - vinculos CLT",
+                            "jul/2025 a jun/2026",
+                            "Salarios-base observados",
+                            "A amostra formal e menor e nao representa bem trabalho independente, participacao em receita ou contratos internacionais.",
+                            metodologiaCaged(),
+                            List.of(
+                                    faixa("Quartil inferior", "R$ 2.398", "25% dos registros ficam ate este valor"),
+                                    faixa("Mediana", "R$ 3.555", "Metade dos registros fica abaixo e metade acima"),
+                                    faixa("Quartil superior", "R$ 7.000", "25% dos registros ficam acima deste valor")
+                            ),
+                            fonte("Portal Salario - Designer de Games", "Quartis e mediana de salario-base CLT a partir de 1.312 movimentacoes formais.", "https://www.salario.com.br/profissao/designer-de-games-cbo-317120/"),
+                            fonte("MTE - microdados RAIS e CAGED", "Origem oficial dos microdados de trabalho formal usados na consolidacao.", CAGED_MICRODADOS)
                     ),
                     "Boa rota para quem gosta de regras, narrativa, prototipos rapidos e iteracao constante com jogadores.",
                     List.of(
@@ -159,10 +242,20 @@ public class DetalheAreaService {
             )),
             Map.entry("inteligencia-artificial", detalhe(
                     salario(
-                            "R$ 5.200 a R$ 8.800 por mes para Junior Data Scientist no Brasil.",
-                            "IA costuma exigir uma base mais forte em dados, estatistica, Python e avaliacao de modelos.",
-                            fonte("Glassdoor - Junior Data Scientist", "https://www.glassdoor.com.br/Sal%C3%A1rios/junior-data-scientist-sal%C3%A1rio-SRCH_KO0%2C21.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 6.518 a R$ 14.000 no intervalo central",
+                            "Cientista de Dados",
+                            "Brasil - vinculos CLT",
+                            "jul/2025 a jun/2026",
+                            "Salarios-base observados",
+                            "A referencia usa Ciencia de Dados como cargo comparavel; funcoes de IA variam conforme especializacao e maturidade da empresa.",
+                            metodologiaCaged(),
+                            List.of(
+                                    faixa("Quartil inferior", "R$ 6.518", "25% dos registros ficam ate este valor"),
+                                    faixa("Mediana", "R$ 9.582", "Metade dos registros fica abaixo e metade acima"),
+                                    faixa("Quartil superior", "R$ 14.000", "25% dos registros ficam acima deste valor")
+                            ),
+                            fonte("Portal Salario - Cientista de Dados", "Quartis e mediana de salario-base CLT a partir de microdados do CAGED/MTE.", "https://www.salario.com.br/profissao/cientista-de-dados-data-scientist/"),
+                            fonte("Robert Half - Ciencia de Dados", "Projecao nacional complementar para Especialista/Cientista de Dados em 2026.", "https://www.roberthalf.com/br/pt/vagas-detalhes/especialistacientista-de-dados")
                     ),
                     "Caminho para quem gosta de testar hipoteses, lidar com incerteza e transformar dados em sistemas inteligentes.",
                     List.of(
@@ -180,10 +273,20 @@ public class DetalheAreaService {
             )),
             Map.entry("gestao-ti", detalhe(
                     salario(
-                            "R$ 3.700 a R$ 9.100 por mes para Gerente de Projetos Junior no Brasil.",
-                            "Gestao em TI valoriza comunicacao, leitura de negocio, organizacao e experiencia previa em projetos.",
-                            fonte("Glassdoor - Gerente de Projetos Junior", "https://www.glassdoor.com.br/Sal%C3%A1rios/gerente-de-projetos-junior-sal%C3%A1rio-SRCH_KO0%2C26.htm"),
-                            fonte("Robert Half - Guia Salarial 2026 Tecnologia", ROBERT_HALF_TECNOLOGIA)
+                            "R$ 8.488 a R$ 17.500 no intervalo central",
+                            "Gerente de Projetos de TI",
+                            "Brasil - vinculos CLT",
+                            "jul/2025 a jun/2026",
+                            "Salarios-base observados",
+                            "Gerencia normalmente exige experiencia previa. Funcoes de entrada na rota, como PMO ou apoio de projetos, tendem a pagar menos.",
+                            metodologiaCaged(),
+                            List.of(
+                                    faixa("Quartil inferior", "R$ 8.488", "25% dos registros ficam ate este valor"),
+                                    faixa("Mediana", "R$ 12.360", "Metade dos registros fica abaixo e metade acima"),
+                                    faixa("Quartil superior", "R$ 17.500", "25% dos registros ficam acima deste valor")
+                            ),
+                            fonte("Portal Salario - Gerente de Projetos de TI", "Quartis e mediana de salario-base CLT a partir de 13.344 movimentacoes formais.", "https://www.salario.com.br/profissao/gerente-de-projetos-de-tecnologia-da-informacao-cbo-142520/"),
+                            fonte("Robert Half - Gerente de Projetos", "Projecao nacional complementar por percentis de contratacao em 2026.", "https://www.roberthalf.com/br/pt/vagas-detalhes/gerente-de-projetos")
                     ),
                     "Rota para quem gosta de coordenar pessoas, alinhar prioridades e transformar necessidade em entrega organizada.",
                     List.of(
@@ -204,7 +307,7 @@ public class DetalheAreaService {
     private final Map<String, List<ProfissaoAreaView>> profissoes = Map.ofEntries(
             Map.entry("desenvolvimento-software", List.of(
                     profissao("Desenvolvedor(a) Web", "Entrada", "Cria sites, telas e sistemas web usando HTML, CSS, JavaScript e frameworks."),
-                    profissao("Desenvolvedor(a) Backend", "Evolucao", "Constrói APIs, regras de negocio, integracoes e acesso a banco de dados."),
+                    profissao("Desenvolvedor(a) Backend", "Evolucao", "Constroi APIs, regras de negocio, integracoes e acesso a banco de dados."),
                     profissao("Desenvolvedor(a) Mobile", "Evolucao", "Desenvolve aplicativos para celular e integra recursos do aparelho com servicos online."),
                     profissao("QA / Testador(a) de Software", "Entrada", "Testa funcionalidades, registra falhas e ajuda o time a entregar sistemas mais confiaveis.")
             )),
@@ -255,13 +358,13 @@ public class DetalheAreaService {
     private final Map<String, List<FormacaoLocalView>> formacoes = Map.ofEntries(
             Map.entry("desenvolvimento-software", List.of(
                     formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Boa base para logica, programacao, sistemas e continuidade em graduacao.", IFRO_CACOAL_CURSOS),
-                    formacao("Analise e Desenvolvimento de Sistemas", "UNESC", "Cacoal", "Graduacao tecnologica", "Caminho direto para desenvolvimento, arquitetura de software e projetos reais.", UNESC_ADS_CACOAL),
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Forma base ampla em programacao, banco de dados, engenharia de software e gestao.", UNESC_SI_CACOAL),
-                    formacao("Informatica e cursos livres", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Opcao proxima para comecar por fundamentos, ferramentas e trilhas profissionais.", SENAC_INFORMATICA)
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Cacoal, Rolim de Moura e RO", "Livre/Tecnico", "Procure turmas de programacao, informatica, web e fundamentos de tecnologia.", SENAI_FUTURO_DIGITAL),
+                    formacao("Informatica e cursos livres", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Opcao proxima para comecar por fundamentos, ferramentas e trilhas profissionais.", SENAC_INFORMATICA),
+                    formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe cursos tecnicos, FIC e editais que podem abrir oportunidades em desenvolvimento.", IFRO_EAD)
             )),
             Map.entry("dados-bi", List.of(
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Ajuda a construir base em banco de dados, sistemas e leitura de negocio.", UNESC_SI_CACOAL),
                     formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Base util para SQL, logica, bancos e projetos com informacao estruturada.", IFRO_CACOAL_CURSOS),
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Cacoal, Rolim de Moura e RO", "Livre/Tecnico", "Procure turmas de informatica, dados, ferramentas digitais e fundamentos de tecnologia.", SENAI_FUTURO_DIGITAL),
                     formacao("Cursos de Informatica", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Procure turmas com planilhas, informatica, banco de dados ou ferramentas de produtividade.", SENAC_INFORMATICA),
                     formacao("Cursos EAD e polos", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Vale acompanhar editais e polos para oportunidades de formacao tecnica e continuada.", IFRO_EAD)
             )),
@@ -269,7 +372,7 @@ public class DetalheAreaService {
                     formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Base para redes, sistemas operacionais, programacao e manutencao segura.", IFRO_CACOAL_CURSOS),
                     formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Cacoal, Rolim de Moura e RO", "Tecnico/Livre", "Procure turmas de informatica, redes, IoT, manutencao e trilhas de tecnologia.", SENAI_FUTURO_DIGITAL),
                     formacao("Informatica", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Um comeco pratico para fundamentos antes de aprofundar em redes e seguranca.", SENAC_INFORMATICA),
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Aprofunda programacao, banco, sistemas e gestao, base boa para seguranca em software.", UNESC_SI_CACOAL)
+                    formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe cursos tecnicos, FIC e editais ligados a redes, informatica e tecnologia.", IFRO_EAD)
             )),
             Map.entry("infraestrutura-redes", List.of(
                     formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Caminho forte para suporte, manutencao, redes e sistemas.", IFRO_CACOAL_CURSOS),
@@ -280,26 +383,323 @@ public class DetalheAreaService {
             Map.entry("ux-ui-design", List.of(
                     formacao("Informatica e ferramentas digitais", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Comece por fundamentos digitais e procure turmas ligadas a design, web ou produtividade.", SENAC_PIMENTA_BUENO),
                     formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Pode ajudar com web, ferramentas visuais e fundamentos para prototipos digitais.", SENAI_FUTURO_DIGITAL),
-                    formacao("Analise e Desenvolvimento de Sistemas", "UNESC", "Cacoal", "Graduacao tecnologica", "Mesmo sendo mais tecnico, ajuda a entender produto, front-end e construcao de interfaces.", UNESC_ADS_CACOAL),
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Boa base para quem quer unir tecnologia, negocio, experiencia e produto.", UNESC_SI_CACOAL)
+                    formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe cursos que aproximem web, informatica, produto digital e ferramentas de criacao.", IFRO_EAD),
+                    formacao("Tecnologia a distancia", "Cruzeiro do Sul Virtual", "Rolim de Moura", "EAD/Polo", "Opcao EAD para quem precisa estudar perto de casa e fortalecer base em tecnologia.", CRUZEIRO_SUL_ROLIM_MOURA)
             )),
             Map.entry("game-design", List.of(
-                    formacao("Analise e Desenvolvimento de Sistemas", "UNESC", "Cacoal", "Graduacao tecnologica", "Base para programacao de jogos, logica, banco e projetos interativos.", UNESC_ADS_CACOAL),
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Ajuda a construir fundamentos de software antes de especializar em games.", UNESC_SI_CACOAL),
                     formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Procure trilhas de programacao, web, design digital ou fundamentos de tecnologia.", SENAI_FUTURO_DIGITAL),
-                    formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Ajuda a comecar por logica, programacao e projetos pequenos.", IFRO_CACOAL_CURSOS)
+                    formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Ajuda a comecar por logica, programacao e projetos pequenos.", IFRO_CACOAL_CURSOS),
+                    formacao("Informatica e cursos livres", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Boa entrada para fundamentos digitais antes de partir para engines e prototipos.", SENAC_INFORMATICA),
+                    formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe editais de tecnologia para fortalecer a base antes de especializar em jogos.", IFRO_EAD)
             )),
             Map.entry("inteligencia-artificial", List.of(
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Base ampla para dados, programacao, banco, sistemas e fundamentos para IA.", UNESC_SI_CACOAL),
-                    formacao("Analise e Desenvolvimento de Sistemas", "UNESC", "Cacoal", "Graduacao tecnologica", "Caminho pratico para programacao, APIs, dados e automacoes.", UNESC_ADS_CACOAL),
                     formacao("Tecnico em Informatica", "IFRO Campus Cacoal", "Cacoal", "Tecnico", "Primeiro passo para logica, programacao e organizacao de dados.", IFRO_CACOAL_CURSOS),
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Procure trilhas de programacao, dados, automacao e fundamentos de tecnologia.", SENAI_FUTURO_DIGITAL),
+                    formacao("Cursos de Informatica", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Ajuda a reforcar informatica, ferramentas digitais e base para estudar dados depois.", SENAC_INFORMATICA),
                     formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe cursos tecnicos, FIC e editais que podem abrir oportunidades em tecnologia.", IFRO_EAD)
             )),
             Map.entry("gestao-ti", List.of(
-                    formacao("Sistemas de Informacao", "UNESC", "Cacoal", "Bacharelado", "Une tecnologia, processos, dados e gestao de solucoes para empresas.", UNESC_SI_CACOAL),
                     formacao("Gestao e Informatica", "SENAC-RO", "Pimenta Bueno", "Livre/Tecnico", "Procure cursos de gestao, atendimento, informatica e processos administrativos.", SENAC_PIMENTA_BUENO),
                     formacao("Tecnologia a distancia", "Cruzeiro do Sul Virtual", "Rolim de Moura", "EAD/Polo", "Opcoes EAD de tecnologia podem ajudar quem precisa estudar perto de casa.", CRUZEIRO_SUL_ROLIM_MOURA),
-                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Bom para entender operacao, processos tecnicos e contexto de equipes.", SENAI_RO)
+                    formacao("Cursos de TI no SENAI-RO", "SENAI-RO", "Rondonia", "Livre/Tecnico", "Bom para entender operacao, processos tecnicos e contexto de equipes.", SENAI_RO),
+                    formacao("Polo EAD e editais", "IFRO", "Pimenta Bueno e regiao", "EAD/Presencial", "Acompanhe oportunidades de tecnologia, gestao publica, processos e formacao continuada.", IFRO_EAD)
+            ))
+    );
+
+    private final Map<String, List<RecursoOnlineView>> recursosOnline = Map.ofEntries(
+            Map.entry("desenvolvimento-software", List.of(
+                    recursoOnline("Curso online", "Programacao e tecnologia", "Fundacao Bradesco Escola Virtual", "Gratuito", "Cursos introdutorios para comecar por logica, fundamentos de TI e programacao.", FUNDACAO_BRADESCO_ESCOLA_VIRTUAL),
+                    recursoOnline("Trilha guiada", "Modulos de desenvolvimento", "Microsoft Learn", "Gratuito", "Treinos curtos para praticar fundamentos, web, cloud e ferramentas usadas no mercado.", MICROSOFT_LEARN),
+                    recursoOnline("Curso online", "Programacao, Python e carreira tech", "Cisco Networking Academy", "Gratuito", "Cursos de tecnologia em ritmo proprio para fortalecer base antes de projetos maiores.", CISCO_NETACAD)
+            )),
+            Map.entry("dados-bi", List.of(
+                    recursoOnline("Curso pratico", "Python, Pandas e visualizacao", "Kaggle Learn", "Gratuito", "Mini-cursos curtos para praticar analise de dados direto em bases e notebooks.", KAGGLE_LEARN),
+                    recursoOnline("Trilha guiada", "Power BI e fundamentos de dados", "Microsoft Learn", "Gratuito", "Conteudos oficiais para dashboards, indicadores, dados e ferramentas Microsoft.", MICROSOFT_LEARN),
+                    recursoOnline("Catalogo publico", "Analise e ciencia de dados", "Escola Virtual Gov", "Gratuito com certificado", "Cursos abertos para dados, governo digital, informacao e transformacao digital.", EVG_CATALOGO)
+            )),
+            Map.entry("seguranca-cibernetica", List.of(
+                    recursoOnline("Curso online", "Redes e ciberseguranca", "Cisco Networking Academy", "Gratuito", "Cursos introdutorios de redes, seguranca, dispositivos e fundamentos digitais.", CISCO_NETACAD),
+                    recursoOnline("Guia tecnico", "OWASP Top 10", "OWASP", "Aberto", "Referencia importante para entender riscos comuns em aplicacoes web.", "https://owasp.org/www-project-top-ten/"),
+                    recursoOnline("Curso online", "Fundamentos de TI: Hardware e Software", "Fundacao Bradesco Escola Virtual", "Gratuito", "Base de informatica, sistemas operacionais e principios de seguranca da informacao.", FUNDACAO_BRADESCO_FUNDAMENTOS_TI)
+            )),
+            Map.entry("infraestrutura-redes", List.of(
+                    recursoOnline("Curso online", "Networking e dispositivos", "Cisco Networking Academy", "Gratuito", "Boa porta de entrada para redes, conectividade e suporte tecnico.", CISCO_NETACAD),
+                    recursoOnline("Curso online", "Fundamentos de TI: Hardware e Software", "Fundacao Bradesco Escola Virtual", "Gratuito", "Ajuda a revisar computador, sistemas, armazenamento e seguranca basica.", FUNDACAO_BRADESCO_FUNDAMENTOS_TI),
+                    recursoOnline("Trilha guiada", "Cloud, suporte e administracao", "Microsoft Learn", "Gratuito", "Modulos oficiais para entender nuvem, infraestrutura, Microsoft 365 e Azure.", MICROSOFT_LEARN)
+            )),
+            Map.entry("ux-ui-design", List.of(
+                    recursoOnline("Curso guiado", "Figma Design para iniciantes", "Figma Learn", "Aberto", "Curso oficial para praticar frames, componentes, prototipos e layout responsivo.", FIGMA_BEGINNERS),
+                    recursoOnline("Guia visual", "Material Design", "Google", "Aberto", "Sistema de design com componentes, padroes, acessibilidade e boas praticas de interface.", MATERIAL_DESIGN),
+                    recursoOnline("Referencia", "Acessibilidade digital", "W3C WAI", "Aberto", "Material para entender contraste, leitura, navegacao e inclusao em interfaces.", W3C_WCAG)
+            )),
+            Map.entry("game-design", List.of(
+                    recursoOnline("Curso e tutorial", "Unity Learn", "Unity", "Gratuito", "Cursos e tutoriais oficiais para criar cenas, mecanicas e primeiros jogos.", UNITY_LEARN),
+                    recursoOnline("Documentacao", "Godot Docs", "Godot Engine", "Aberto", "Documentacao oficial de uma engine gratuita e acessivel para prototipos pequenos.", GODOT_DOCS),
+                    recursoOnline("Comunidade", "Global Game Jam", "Global Game Jam", "Aberto", "Evento e comunidade para praticar prototipos, trabalho em equipe e criatividade.", GLOBAL_GAME_JAM)
+            )),
+            Map.entry("inteligencia-artificial", List.of(
+                    recursoOnline("Curso pratico", "Machine Learning Crash Course", "Google for Developers", "Gratuito", "Curso introdutorio com videos, visualizacoes interativas e exercicios praticos.", GOOGLE_ML_CRASH_COURSE),
+                    recursoOnline("Curso pratico", "Python, ML e ciencia de dados", "Kaggle Learn", "Gratuito", "Mini-cursos para praticar Python, dados, machine learning e etica em IA.", KAGGLE_LEARN),
+                    recursoOnline("Catalogo publico", "Inteligencia artificial e governo digital", "Escola Virtual Gov", "Gratuito com certificado", "Cursos abertos para experimentar IA, dados e transformacao digital.", EVG_CATALOGO)
+            )),
+            Map.entry("gestao-ti", List.of(
+                    recursoOnline("Guia oficial", "Scrum Guide", "Scrum.org", "Aberto", "Referencia curta para entender papeis, eventos e artefatos do Scrum.", SCRUM_GUIDES),
+                    recursoOnline("Guia pratico", "Agile Coach", "Atlassian", "Aberto", "Conteudos claros sobre Scrum, Kanban, planejamento, backlog e trabalho em equipe.", ATLASSIAN_AGILE),
+                    recursoOnline("Catalogo publico", "Gestao, lideranca e transformacao digital", "Escola Virtual Gov", "Gratuito com certificado", "Cursos abertos para comunicacao, lideranca, gestao publica e projetos.", EVG_CATALOGO)
+            ))
+    );
+
+    private final Map<String, List<RoadmapEtapaView>> roadmaps = Map.ofEntries(
+            Map.entry("desenvolvimento-software", List.of(
+                    etapa("Iniciante", "Fundamentos de programacao", "0-2 meses", "Entender como transformar uma ideia em instrucoes simples.",
+                            "Pratique variaveis, condicionais, repeticao e funcoes.",
+                            "Resolva exercicios pequenos antes de tentar projetos grandes.",
+                            "Use Git para salvar cada tentativa e entender historico de codigo."),
+                    etapa("Iniciante", "Web e banco de dados", "2-4 meses", "Criar telas e guardar informacoes de forma organizada.",
+                            "Monte paginas com HTML, CSS e JavaScript basico.",
+                            "Aprenda SQL, tabelas, chaves e consultas simples.",
+                            "Conecte uma tela a dados simulados antes de usar banco real."),
+                    etapa("Intermediario", "Backend com MVC", "4-6 meses", "Criar regras de negocio e organizar o projeto em camadas.",
+                            "Estude Controller, Service, Repository e Model.",
+                            "Crie rotas para listar, cadastrar, editar e remover dados.",
+                            "Valide formularios e trate erros de forma amigavel."),
+                    etapa("Intermediario", "Projeto completo", "6-8 meses", "Juntar interface, banco, autenticacao e regras reais.",
+                            "Implemente login, cadastro e permissoes basicas.",
+                            "Use MySQL ou PostgreSQL para persistir dados.",
+                            "Escreva README explicando problema, solucao e como rodar."),
+                    etapa("Avancado inicial", "Qualidade e deploy", "8-10 meses", "Preparar o projeto para ser apresentado e usado por outras pessoas.",
+                            "Adicione testes para regras importantes.",
+                            "Separe configuracoes de ambiente e senhas em variaveis.",
+                            "Publique uma versao online e monitore erros comuns."),
+                    etapa("Carreira", "Portfolio e vaga inicial", "10-12 meses", "Mostrar capacidade de entregar uma solucao simples de ponta a ponta.",
+                            "Escolha 2 ou 3 projetos para destacar.",
+                            "Treine explicar escolhas tecnicas em linguagem simples.",
+                            "Busque estagio, vaga junior ou projetos voluntarios.")
+            )),
+            Map.entry("dados-bi", List.of(
+                    etapa("Iniciante", "Planilhas e perguntas", "0-2 meses", "Aprender a organizar dados e fazer perguntas melhores.",
+                            "Treine filtros, tabelas dinamicas e formulas essenciais.",
+                            "Transforme uma pergunta em indicador mensuravel.",
+                            "Limpe duplicidades, nomes inconsistentes e campos vazios."),
+                    etapa("Iniciante", "SQL para analise", "2-4 meses", "Consultar dados sem depender de tudo pronto em planilha.",
+                            "Estude SELECT, WHERE, ORDER BY, GROUP BY e JOIN.",
+                            "Crie consultas para responder perguntas de negocio.",
+                            "Documente a origem dos dados e o significado das colunas."),
+                    etapa("Intermediario", "Visualizacao e dashboards", "4-6 meses", "Apresentar dados de forma clara para tomada de decisao.",
+                            "Monte paineis com poucos indicadores relevantes.",
+                            "Use graficos adequados para comparacao, evolucao e proporcao.",
+                            "Escreva conclusoes curtas junto dos dashboards."),
+                    etapa("Intermediario", "Python para dados", "6-8 meses", "Automatizar limpeza, analise e visualizacao.",
+                            "Pratique Pandas, leitura de CSV e tratamento de dados.",
+                            "Crie graficos com bibliotecas simples.",
+                            "Compare resultados de planilha, SQL e Python."),
+                    etapa("Avancado inicial", "Cases e storytelling", "8-10 meses", "Transformar analise em uma narrativa convincente.",
+                            "Escolha uma base publica e explique o problema.",
+                            "Mostre metodo, limitacoes e recomendacoes.",
+                            "Publique o case com imagens e arquivos organizados."),
+                    etapa("Carreira", "Rotina profissional", "10-12 meses", "Preparar portfolio para estagio, BI ou analise de dados.",
+                            "Monte 2 dashboards e 1 analise escrita.",
+                            "Treine apresentar achados para pessoas nao tecnicas.",
+                            "Estude vagas e compare requisitos recorrentes.")
+            )),
+            Map.entry("seguranca-cibernetica", List.of(
+                    etapa("Iniciante", "Redes e sistemas", "0-2 meses", "Entender a base tecnica que a seguranca protege.",
+                            "Estude IP, DNS, HTTP, portas e protocolos comuns.",
+                            "Pratique terminal, permissoes e comandos basicos no Linux.",
+                            "Aprenda como senhas, usuarios e acessos funcionam."),
+                    etapa("Iniciante", "Boas praticas defensivas", "2-4 meses", "Reduzir riscos comuns no dia a dia.",
+                            "Estude autenticacao forte, backups, atualizacoes e logs.",
+                            "Entenda phishing, engenharia social e vazamento de dados.",
+                            "Crie uma checklist simples de protecao para usuarios."),
+                    etapa("Intermediario", "Aplicacoes web seguras", "4-6 meses", "Reconhecer vulnerabilidades em sistemas web.",
+                            "Estude OWASP Top 10 com exemplos didaticos.",
+                            "Aprenda validacao de entrada, autorizacao e controle de sessao.",
+                            "Analise riscos em um pequeno projeto proprio."),
+                    etapa("Intermediario", "Laboratorios legais", "6-8 meses", "Praticar investigacao sem invadir sistemas reais.",
+                            "Use CTFs iniciantes e ambientes autorizados.",
+                            "Registre o que testou, evidencias e correcao sugerida.",
+                            "Separe aprendizado ofensivo de comportamento anti-etico."),
+                    etapa("Avancado inicial", "Monitoramento e resposta", "8-10 meses", "Pensar como uma equipe SOC ou suporte de seguranca.",
+                            "Leia logs e identifique eventos suspeitos.",
+                            "Monte um fluxo simples de resposta a incidente.",
+                            "Documente prioridade, impacto e acao recomendada."),
+                    etapa("Carreira", "Especializacao inicial", "10-12 meses", "Escolher uma porta de entrada para a area.",
+                            "Compare SOC, redes, DevSecOps e testes autorizados.",
+                            "Monte portfolio com estudos, laboratorios e relatorios.",
+                            "Busque estagio, suporte com foco em seguranca ou trilhas Cisco.")
+            )),
+            Map.entry("infraestrutura-redes", List.of(
+                    etapa("Iniciante", "Hardware e suporte", "0-2 meses", "Entender computadores, sistemas e atendimento ao usuario.",
+                            "Revise componentes, armazenamento, drivers e perifericos.",
+                            "Pratique instalacao, configuracao e manutencao basica.",
+                            "Aprenda a registrar chamados com clareza."),
+                    etapa("Iniciante", "Redes essenciais", "2-4 meses", "Entender como dispositivos se conectam.",
+                            "Estude IP, mascara, gateway, DNS, DHCP e Wi-Fi.",
+                            "Monte desenhos simples de rede domestica e escolar.",
+                            "Pratique diagnostico com ping, tracert e ipconfig."),
+                    etapa("Intermediario", "Sistemas operacionais", "4-6 meses", "Operar ambientes Windows e Linux com seguranca.",
+                            "Crie usuarios, grupos, permissoes e pastas compartilhadas.",
+                            "Estude servicos, processos, logs e atualizacoes.",
+                            "Automatize tarefas simples com PowerShell ou Bash."),
+                    etapa("Intermediario", "Servidores e virtualizacao", "6-8 meses", "Simular ambientes profissionais em laboratorio.",
+                            "Use maquinas virtuais para testar cenarios.",
+                            "Configure backups, acesso remoto e servicos basicos.",
+                            "Documente cada configuracao feita."),
+                    etapa("Avancado inicial", "Cloud e monitoramento", "8-10 meses", "Conhecer infraestrutura moderna e observabilidade.",
+                            "Estude conceitos de nuvem, regioes, maquinas e armazenamento.",
+                            "Crie alertas simples e acompanhe disponibilidade.",
+                            "Compare custo, seguranca e escalabilidade."),
+                    etapa("Carreira", "Operacao profissional", "10-12 meses", "Preparar entrada em suporte, redes ou infraestrutura.",
+                            "Monte um portfolio de laboratorio com prints e diagramas.",
+                            "Estude certificacoes iniciais e requisitos de vagas.",
+                            "Treine explicar problemas tecnicos com linguagem simples.")
+            )),
+            Map.entry("ux-ui-design", List.of(
+                    etapa("Iniciante", "Fundamentos visuais", "0-2 meses", "Criar telas mais claras e acessiveis.",
+                            "Estude hierarquia, contraste, espacamento e tipografia.",
+                            "Analise interfaces que voce usa todos os dias.",
+                            "Refaca telas simples apenas para treino visual."),
+                    etapa("Iniciante", "Figma e componentes", "2-4 meses", "Transformar ideias em prototipos navegaveis.",
+                            "Aprenda frames, auto layout, estilos e componentes.",
+                            "Monte um pequeno design system.",
+                            "Crie fluxos com estados de erro, vazio e sucesso."),
+                    etapa("Intermediario", "Pesquisa com usuarios", "4-6 meses", "Entender pessoas antes de desenhar a solucao.",
+                            "Prepare perguntas abertas e entrevistas curtas.",
+                            "Mapeie dores, objetivos e contexto de uso.",
+                            "Evite decidir apenas por gosto pessoal."),
+                    etapa("Intermediario", "Prototipo e validacao", "6-8 meses", "Testar se a interface resolve o problema.",
+                            "Crie prototipos clicaveis.",
+                            "Observe usuarios tentando completar tarefas.",
+                            "Ajuste a tela com base em comportamento real."),
+                    etapa("Avancado inicial", "Acessibilidade e produto", "8-10 meses", "Pensar em uso real, inclusao e impacto.",
+                            "Revise contraste, foco, leitura e tamanho de toque.",
+                            "Conecte decisao visual a objetivo do produto.",
+                            "Documente alternativas e motivos das escolhas."),
+                    etapa("Carreira", "Portfolio narrativo", "10-12 meses", "Mostrar processo, nao apenas tela bonita.",
+                            "Conte problema, pesquisa, decisao e resultado.",
+                            "Inclua antes/depois e aprendizados.",
+                            "Monte 2 cases completos para apresentar.")
+            )),
+            Map.entry("game-design", List.of(
+                    etapa("Iniciante", "Linguagem dos jogos", "0-2 meses", "Entender mecanicas, regras e experiencia.",
+                            "Analise objetivos, recompensas, dificuldade e feedback.",
+                            "Escreva pequenas fichas sobre jogos conhecidos.",
+                            "Separe gosto pessoal de decisao de design."),
+                    etapa("Iniciante", "Prototipos rapidos", "2-4 meses", "Testar ideias sem depender de producao grande.",
+                            "Crie jogos de papel ou uma tela digital simples.",
+                            "Use Godot, Unity ou ferramenta visual iniciante.",
+                            "Foque em uma mecanica por vez."),
+                    etapa("Intermediario", "Level e narrativa", "4-6 meses", "Guiar o jogador com ritmo e progressao.",
+                            "Planeje fases com curva de dificuldade.",
+                            "Use tutorial dentro da experiencia.",
+                            "Escreva contexto, objetivo e consequencia das escolhas."),
+                    etapa("Intermediario", "Playtest", "6-8 meses", "Melhorar o jogo observando pessoas jogando.",
+                            "Convide jogadores e nao explique tudo antes.",
+                            "Anote travas, confusoes e momentos divertidos.",
+                            "Ajuste regras com base em evidencias."),
+                    etapa("Avancado inicial", "Publicacao pequena", "8-10 meses", "Colocar um jogo jogavel no mundo.",
+                            "Prepare pagina do projeto, imagens e controles.",
+                            "Publique em uma plataforma apropriada.",
+                            "Colete feedback e planeje uma versao melhor."),
+                    etapa("Carreira", "Portfolio jogavel", "10-12 meses", "Mostrar criatividade com prova pratica.",
+                            "Selecione 2 ou 3 jogos pequenos.",
+                            "Explique sua funcao em cada projeto.",
+                            "Participe de game jams e colabore com outras pessoas.")
+            )),
+            Map.entry("inteligencia-artificial", List.of(
+                    etapa("Iniciante", "Python e dados", "0-2 meses", "Construir a base antes de falar em modelo.",
+                            "Pratique Python, listas, funcoes e notebooks.",
+                            "Aprenda Pandas para ler e limpar dados.",
+                            "Use graficos simples para entender padroes."),
+                    etapa("Iniciante", "Matematica na medida", "2-4 meses", "Entender o suficiente para nao usar IA no escuro.",
+                            "Revise media, desvio, porcentagem e correlacao.",
+                            "Entenda treino, teste, erro e metrica.",
+                            "Nao trave em matematica avancada no inicio."),
+                    etapa("Intermediario", "Machine learning basico", "4-6 meses", "Treinar modelos simples e medir resultado.",
+                            "Pratique classificacao e regressao.",
+                            "Compare modelos simples antes de buscar complexidade.",
+                            "Explique onde o modelo erra e por que isso importa."),
+                    etapa("Intermediario", "Projeto aplicado", "6-8 meses", "Resolver um problema pequeno com dados reais.",
+                            "Escolha uma base publica com objetivo claro.",
+                            "Documente limpeza, modelo, metrica e conclusao.",
+                            "Mostre limites e cuidados eticos."),
+                    etapa("Avancado inicial", "IA em produto", "8-10 meses", "Integrar IA a uma solucao utilizavel.",
+                            "Consuma uma API ou modelo pronto com responsabilidade.",
+                            "Crie uma interface simples para testar o resultado.",
+                            "Adicione alertas sobre erro, vies e privacidade."),
+                    etapa("Carreira", "Portfolio e foco", "10-12 meses", "Decidir se a porta de entrada sera dados, automacao ou ML.",
+                            "Monte 2 projetos explicaveis e bem documentados.",
+                            "Estude vagas junior e requisitos recorrentes.",
+                            "Treine explicar IA sem prometer milagre.")
+            )),
+            Map.entry("gestao-ti", List.of(
+                    etapa("Iniciante", "Base de projetos", "0-2 meses", "Entender como uma demanda vira entrega.",
+                            "Estude escopo, prazo, risco, prioridade e partes interessadas.",
+                            "Aprenda a escrever tarefas claras.",
+                            "Observe como times organizam combinados."),
+                    etapa("Iniciante", "Metodos ageis", "2-4 meses", "Organizar trabalho sem virar burocracia.",
+                            "Estude Scrum e Kanban com exemplos simples.",
+                            "Monte um quadro de tarefas para um projeto pequeno.",
+                            "Acompanhe fluxo, bloqueios e entregas."),
+                    etapa("Intermediario", "Comunicacao e requisitos", "4-6 meses", "Traduzir necessidade em acao tecnica.",
+                            "Pratique entrevistas com usuarios.",
+                            "Escreva historias, criterios de aceite e prioridade.",
+                            "Valide entendimento antes de executar."),
+                    etapa("Intermediario", "Produto e indicadores", "6-8 meses", "Conectar tecnologia a valor.",
+                            "Defina objetivo, publico e metrica de sucesso.",
+                            "Compare impacto e esforco antes de priorizar.",
+                            "Crie relatorios simples de progresso."),
+                    etapa("Avancado inicial", "Lideranca em pratica", "8-10 meses", "Ajudar pessoas a trabalhar melhor juntas.",
+                            "Facilite reunioes curtas e objetivas.",
+                            "Remova bloqueios e registre decisoes.",
+                            "Cuide do alinhamento sem controlar tudo."),
+                    etapa("Carreira", "Portfolio de gestao", "10-12 meses", "Mostrar organizacao, comunicacao e resultado.",
+                            "Documente um projeto com problema, plano e entrega.",
+                            "Inclua quadros, atas, metricas e aprendizados.",
+                            "Busque estagio, suporte coordenado ou analise de requisitos.")
+            ))
+    );
+
+    private final Map<String, List<ProjetoPraticoView>> projetosPraticos = Map.ofEntries(
+            Map.entry("desenvolvimento-software", List.of(
+                    projeto("Sistema de cadastro simples", "Iniciante", "Crie um CRUD com formulario, validacao e listagem.", "Repositorio com README, prints e instrucoes de execucao."),
+                    projeto("API com banco de dados", "Intermediario", "Monte uma API para salvar, buscar e atualizar registros.", "Endpoints documentados e scripts SQL do banco."),
+                    projeto("Aplicacao com login", "Avancado inicial", "Adicione autenticacao, permissoes e historico de usuario.", "Deploy online e explicacao da arquitetura MVC.")
+            )),
+            Map.entry("dados-bi", List.of(
+                    projeto("Dashboard escolar ou comercial", "Iniciante", "Organize uma base e mostre indicadores principais.", "Painel com 4 a 6 graficos e conclusao escrita."),
+                    projeto("Analise com SQL", "Intermediario", "Crie perguntas e responda usando consultas com JOIN e agrupamento.", "Arquivo SQL comentado e resumo dos achados."),
+                    projeto("Case em Python", "Avancado inicial", "Limpe dados, gere graficos e explique recomendacoes.", "Notebook publicado com problema, metodo e conclusao.")
+            )),
+            Map.entry("seguranca-cibernetica", List.of(
+                    projeto("Checklist de seguranca", "Iniciante", "Crie uma checklist para contas, senhas, backup e dispositivos.", "Documento claro para usuarios nao tecnicos."),
+                    projeto("Analise de logs simulados", "Intermediario", "Leia eventos e classifique comportamentos suspeitos.", "Relatorio com evidencias e acao recomendada."),
+                    projeto("Revisao de seguranca em app proprio", "Avancado inicial", "Avalie login, permissoes, validacao e exposicao de dados.", "Lista de riscos, impacto e melhorias implementadas.")
+            )),
+            Map.entry("infraestrutura-redes", List.of(
+                    projeto("Mapa de rede pequena", "Iniciante", "Desenhe a rede de uma casa, escola ou pequeno negocio.", "Diagrama com IPs, equipamentos e pontos de melhoria."),
+                    projeto("Laboratorio com maquinas virtuais", "Intermediario", "Configure usuarios, pastas, backup e acesso remoto.", "Relatorio com prints e passo a passo."),
+                    projeto("Monitoramento simples", "Avancado inicial", "Acompanhe disponibilidade de um servico ou maquina.", "Painel ou log com alertas e explicacao do processo.")
+            )),
+            Map.entry("ux-ui-design", List.of(
+                    projeto("Redesign de uma tela ruim", "Iniciante", "Escolha uma tela confusa e redesenhe com melhor hierarquia.", "Antes/depois com justificativas de design."),
+                    projeto("Fluxo de cadastro acessivel", "Intermediario", "Prototipe cadastro com erro, sucesso e recuperacao.", "Prototipo navegavel e checklist de acessibilidade."),
+                    projeto("Case de produto pequeno", "Avancado inicial", "Pesquise usuarios e proponha melhoria para um problema real.", "Case com pesquisa, decisao, prototipo e aprendizados.")
+            )),
+            Map.entry("game-design", List.of(
+                    projeto("Jogo de uma mecanica", "Iniciante", "Crie um jogo pequeno baseado em uma unica regra principal.", "Versao jogavel e explicacao da mecanica."),
+                    projeto("Fase com progressao", "Intermediario", "Planeje uma fase que ensina, desafia e recompensa.", "Mapa da fase, objetivo e criterios de dificuldade."),
+                    projeto("Playtest documentado", "Avancado inicial", "Teste o jogo com pessoas e registre ajustes.", "Relatorio com feedback, mudancas e nova versao.")
+            )),
+            Map.entry("inteligencia-artificial", List.of(
+                    projeto("Classificador simples", "Iniciante", "Use uma base publica para classificar categorias.", "Notebook com limpeza, treino, metrica e conclusao."),
+                    projeto("Previsao com regressao", "Intermediario", "Treine um modelo para prever um valor numerico simples.", "Comparacao entre modelo e baseline."),
+                    projeto("Demo com IA explicada", "Avancado inicial", "Crie uma interface simples para testar um modelo ou API.", "Projeto online com aviso de limites, vies e privacidade.")
+            )),
+            Map.entry("gestao-ti", List.of(
+                    projeto("Quadro Kanban de projeto", "Iniciante", "Organize um projeto pequeno com tarefas, responsaveis e status.", "Print do quadro e resumo de decisoes."),
+                    projeto("Documento de requisitos", "Intermediario", "Converse com usuarios e transforme necessidade em historias.", "Backlog priorizado com criterios de aceite."),
+                    projeto("Relatorio de entrega", "Avancado inicial", "Acompanhe prazo, risco, bloqueios e resultados de uma entrega.", "Relatorio final com metricas e aprendizados.")
             ))
     );
 
@@ -315,6 +715,9 @@ public class DetalheAreaService {
                 detalhe.getReferencias(),
                 profissoes.getOrDefault(slug, List.of()),
                 formacoes.getOrDefault(slug, List.of()),
+                recursosOnline.getOrDefault(slug, List.of()),
+                roadmaps.getOrDefault(slug, List.of()),
+                projetosPraticos.getOrDefault(slug, List.of()),
                 detalhe.getFerramentas()
         );
     }
@@ -333,16 +736,62 @@ public class DetalheAreaService {
         return new DetalheAreaView(salario, mercado, planoCarreira, referencias, ferramentas);
     }
 
-    private static SalarioAreaView salario(String resumo, String observacao, FonteSalarioView... fontes) {
-        return new SalarioAreaView(resumo, observacao, List.of(fontes));
+    private static SalarioAreaView salario(
+            String resumo,
+            String cargoReferencia,
+            String escopo,
+            String competencia,
+            String natureza,
+            String observacao,
+            String metodologia,
+            List<FaixaSalarioView> faixas,
+            FonteSalarioView... fontes
+    ) {
+        return new SalarioAreaView(
+                resumo,
+                cargoReferencia,
+                escopo,
+                competencia,
+                natureza,
+                observacao,
+                metodologia,
+                faixas,
+                List.of(fontes)
+        );
     }
 
-    private static FonteSalarioView fonte(String titulo, String url) {
-        return new FonteSalarioView(titulo, url);
+    private static FaixaSalarioView faixa(String rotulo, String valor, String leitura) {
+        return new FaixaSalarioView(rotulo, valor, leitura);
+    }
+
+    private static FonteSalarioView fonte(String titulo, String descricao, String url) {
+        return new FonteSalarioView(titulo, descricao, url);
+    }
+
+    private static String metodologiaRobertHalf() {
+        return "Valores mensais brutos de entrada, sem bonus ou beneficios. As faixas mostram o intervalo entre os percentis 25 e 75 de cada nivel; nao sao piso nem promessa salarial.";
+    }
+
+    private static String metodologiaCaged() {
+        return "Salario-base mensal de vinculos CLT, sem bonus, comissoes ou adicionais. Os quartis mostram a distribuicao nacional e nao equivalem automaticamente a junior, pleno e senior.";
     }
 
     private static PlanoCarreiraView plano(String periodo, String titulo, String descricao) {
         return new PlanoCarreiraView(periodo, titulo, descricao);
+    }
+
+    private static RoadmapEtapaView etapa(
+            String nivel,
+            String titulo,
+            String tempo,
+            String objetivo,
+            String... passos
+    ) {
+        return new RoadmapEtapaView(nivel, titulo, tempo, objetivo, List.of(passos));
+    }
+
+    private static ProjetoPraticoView projeto(String titulo, String nivel, String descricao, String entregavel) {
+        return new ProjetoPraticoView(titulo, nivel, descricao, entregavel);
     }
 
     private static ReferenciaAreaView referencia(String tipo, String titulo, String descricao, String url) {
@@ -362,5 +811,16 @@ public class DetalheAreaService {
             String url
     ) {
         return new FormacaoLocalView(titulo, instituicao, cidade, modalidade, descricao, url);
+    }
+
+    private static RecursoOnlineView recursoOnline(
+            String tipo,
+            String titulo,
+            String plataforma,
+            String custo,
+            String descricao,
+            String url
+    ) {
+        return new RecursoOnlineView(tipo, titulo, plataforma, custo, descricao, url);
     }
 }

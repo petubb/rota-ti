@@ -3,48 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Areas | Rota TI</title>
+    <meta name="description" content="Compare areas de tecnologia por perfil, rotina, cargos e primeiros passos.">
+    <title>&Aacute;reas | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script th:src="@{/js/areas-explorer.js}" defer></script>
 </head>
 <body class="areas-page">
-<header class="site-header">
-    <a class="brand" th:href="@{/}">Rota TI</a>
-    <nav>
-        <a th:href="@{/sobre}">Sobre</a>
-        <a th:href="@{/quiz}">Quiz</a>
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('areas')}"></th:block>
 
-<main class="areas-main">
-    <section class="areas-hero" aria-labelledby="areas-title">
-        <div>
-            <p class="eyebrow">Explorar areas</p>
-            <h1 id="areas-title">Conheca caminhos possiveis dentro da tecnologia.</h1>
+<main class="areas-explorer" data-area-explorer>
+    <section class="areas-explorer-hero" aria-labelledby="areas-title">
+        <div class="areas-explorer-container areas-explorer-hero-grid">
+            <div>
+                <p class="eyebrow">Explore antes de escolher</p>
+                <h1 id="areas-title">Tecnologia tem mais de um jeito de trabalhar.</h1>
+            </div>
+            <div class="areas-explorer-intro">
+                <p>
+                    Compare o que cada rota faz, os sinais de afinidade e um primeiro passo poss&iacute;vel.
+                    Voc&ecirc; n&atilde;o precisa decidir uma carreira agora: basta descobrir qual caminho merece ser explorado primeiro.
+                </p>
+                <a class="text-link" th:href="@{/quiz}">Prefere receber uma recomenda&ccedil;&atilde;o? Fa&ccedil;a o quiz <span aria-hidden="true">&rarr;</span></a>
+            </div>
         </div>
-        <p>
-            Cada rota mostra uma forma diferente de trabalhar com tecnologia. Use os cards para comparar
-            perfis, rotina e primeiros passos antes ou depois do questionario.
-        </p>
     </section>
 
-    <section class="area-list" aria-label="Areas de tecnologia">
-        <article class="area-list-card" th:each="area, status : ${areas}">
-            <a class="area-list-media" th:href="@{/area/{slug}(slug=${area.slug})}"
-               th:aria-label="|Abrir detalhes de ${area.titulo}|">
-                <img th:src="@{/images/areas/{slug}.svg(slug=${area.slug})}"
-                     th:alt="|Ilustracao de ${area.titulo}|" loading="lazy">
-            </a>
-            <div class="area-list-body">
-                <span class="area-list-index" th:text="${status.count < 10 ? '0' + status.count : status.count}">01</span>
-                <h2 th:text="${area.titulo}">Area</h2>
-                <p th:text="${area.descricao}">Descricao</p>
-                <strong th:text="${area.perfil}">Perfil</strong>
-                <a class="area-list-link" th:href="@{/area/{slug}(slug=${area.slug})}">
-                    Conhecer rota <span aria-hidden="true">&rarr;</span>
-                </a>
+    <section class="areas-explorer-tools" aria-labelledby="explorer-tools-title">
+        <div class="areas-explorer-container">
+            <div class="areas-tools-heading">
+                <div>
+                    <p class="eyebrow">Encontre seu ponto de entrada</p>
+                    <h2 id="explorer-tools-title">Como voc&ecirc; gostaria de usar tecnologia?</h2>
+                </div>
+                <p>Escolha um interesse ou procure por uma habilidade, profiss&atilde;o ou &aacute;rea.</p>
             </div>
-        </article>
+
+            <div class="areas-explorer-controls">
+                <div class="area-filter-group" role="group" aria-label="Filtrar areas por interesse">
+                    <button type="button" class="area-filter is-active" data-area-filter="todos" aria-pressed="true">Todas</button>
+                    <button type="button" class="area-filter" data-area-filter="construir" aria-pressed="false">Criar produtos</button>
+                    <button type="button" class="area-filter" data-area-filter="analisar" aria-pressed="false">Analisar e investigar</button>
+                    <button type="button" class="area-filter" data-area-filter="proteger" aria-pressed="false">Proteger e manter</button>
+                    <button type="button" class="area-filter" data-area-filter="organizar" aria-pressed="false">Organizar processos</button>
+                    <button type="button" class="area-filter" data-area-filter="pessoas" aria-pressed="false">Trabalhar com pessoas</button>
+                </div>
+
+                <div class="area-search-field">
+                    <label for="area-search">Buscar nas rotas</label>
+                    <span class="area-search-control">
+                        <input id="area-search" type="search" placeholder="Ex.: Python, design, suporte..."
+                               autocomplete="off" aria-controls="area-search-suggestions" aria-expanded="false"
+                               data-area-search>
+                        <button type="button" class="area-search-clear" aria-label="Limpar busca" title="Limpar busca" data-area-search-clear hidden>&times;</button>
+                    </span>
+                    <div id="area-search-suggestions" class="area-search-suggestions"
+                         aria-label="Sugest&otilde;es de busca" data-area-search-suggestions hidden>
+                        <span>Voc&ecirc; pode buscar por:</span>
+                        <div>
+                            <button type="button" data-area-search-suggestion="programa&ccedil;&atilde;o">Programa&ccedil;&atilde;o</button>
+                            <button type="button" data-area-search-suggestion="dados">Dados</button>
+                            <button type="button" data-area-search-suggestion="seguran&ccedil;a">Seguran&ccedil;a</button>
+                            <button type="button" data-area-search-suggestion="redes">Redes</button>
+                            <button type="button" data-area-search-suggestion="design">Design</button>
+                            <button type="button" data-area-search-suggestion="jogos">Jogos</button>
+                            <button type="button" data-area-search-suggestion="intelig&ecirc;ncia artificial">Intelig&ecirc;ncia Artificial</button>
+                            <button type="button" data-area-search-suggestion="gest&atilde;o">Gest&atilde;o</button>
+                            <button type="button" data-area-search-suggestion="suporte">Suporte</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="area-results-count" aria-live="polite" data-area-results-count>8 rotas encontradas</p>
+        </div>
+    </section>
+
+    <section class="areas-results-band" aria-label="Rotas de tecnologia">
+        <div class="areas-explorer-container">
+            <div class="area-explorer-list" data-area-list>
+                <article class="area-explorer-card" th:each="exploracao, status : ${areas}"
+                         th:attr="data-categories=${exploracao.categoriasFiltro}" data-area-card>
+                    <a class="area-explorer-media" th:href="@{/area/{slug}(slug=${exploracao.area.slug})}"
+                       th:aria-label="|Abrir detalhes de ${exploracao.area.titulo}|">
+                        <img th:src="@{/images/areas/{slug}.svg(slug=${exploracao.area.slug})}"
+                             th:alt="|Ilustracao de ${exploracao.area.titulo}|" loading="lazy">
+                    </a>
+
+                    <div class="area-explorer-card-body">
+                        <div class="area-card-heading">
+                            <span class="area-list-index" th:text="${status.count < 10 ? '0' + status.count : status.count}">01</span>
+                            <span class="area-card-profile" th:text="${exploracao.area.perfil}">Perfil</span>
+                        </div>
+                        <h2 th:text="${exploracao.area.titulo}">&Aacute;rea</h2>
+                        <p class="area-card-description" th:text="${exploracao.area.descricao}">Descri&ccedil;&atilde;o</p>
+
+                        <div class="area-card-fit">
+                            <h3>Pode combinar com voc&ecirc; se...</h3>
+                            <ul>
+                                <li th:each="sinal : ${exploracao.sinaisAfinidade}" th:text="${sinal}">Sinal de afinidade</li>
+                            </ul>
+                        </div>
+
+                        <div class="area-card-context">
+                            <div>
+                                <span>Na rotina</span>
+                                <p th:text="${exploracao.area.rotina}">Rotina profissional.</p>
+                            </div>
+                            <div>
+                                <span>Poss&iacute;veis come&ccedil;os</span>
+                                <ul class="area-card-roles">
+                                    <li th:each="cargo : ${exploracao.cargosIniciais}" th:text="${cargo}">Cargo</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="area-card-first-step">
+                            <span>Primeiro passo sugerido</span>
+                            <div>
+                                <strong th:text="${exploracao.primeiroPasso}">Fundamentos</strong>
+                                <small th:text="${exploracao.tempoPrimeiroPasso}">0-2 meses</small>
+                            </div>
+                            <p th:text="${exploracao.objetivoPrimeiroPasso}">Objetivo inicial.</p>
+                        </div>
+
+                        <div class="area-card-actions">
+                            <a class="button primary" th:href="@{/area/{slug}(slug=${exploracao.area.slug})}">Explorar esta rota</a>
+                            <a class="area-card-roadmap-link" th:href="@{/area/{slug}/roadmap(slug=${exploracao.area.slug})}">
+                                Ver roadmap <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="areas-empty-state" data-area-empty hidden>
+                <p class="eyebrow">Nenhuma rota encontrada</p>
+                <h2>Tente outra palavra ou mostre todas as &aacute;reas.</h2>
+                <button type="button" class="button secondary" data-area-reset>Limpar filtros</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="areas-quiz-cta" aria-labelledby="areas-quiz-title">
+        <div class="areas-explorer-container areas-quiz-cta-grid">
+            <div>
+                <p class="eyebrow">Ainda est&aacute; em d&uacute;vida?</p>
+                <h2 id="areas-quiz-title">Compare menos e experimente uma recomenda&ccedil;&atilde;o.</h2>
+            </div>
+            <div>
+                <p>O question&aacute;rio cruza seus interesses e mostra uma rota principal, outras afinidades e os pr&oacute;ximos passos.</p>
+                <a class="button primary" th:href="@{/quiz}">Descobrir minha rota</a>
+            </div>
+        </div>
     </section>
 </main>
 

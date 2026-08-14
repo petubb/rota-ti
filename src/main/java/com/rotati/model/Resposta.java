@@ -32,8 +32,8 @@ public class Resposta {
     private Pergunta pergunta;
 
     @NotNull
-    @Min(-1)
-    @Max(1)
+    @Min(-2)
+    @Max(2)
     @Column(nullable = false)
     private Integer valor;
 
