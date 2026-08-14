@@ -3,178 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Politica de privacidade e LGPD do Rota TI. Entenda quais dados sao coletados, por que sao usados e quais sao seus direitos.">
-    <title>Privacidade e LGPD | Rota TI</title>
+    <meta name="description" content="Pol&iacute;tica de privacidade e LGPD do Rota TI. Entenda quais dados s&atilde;o tratados, por que s&atilde;o usados e como exercer seus direitos.">
+    <title>Pol&iacute;tica de privacidade | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body class="privacy-page">
 <th:block th:replace="~{fragments/site-header :: header('privacidade')}"></th:block>
 
 <main>
-    <section class="privacy-hero" aria-labelledby="privacy-title">
-        <div class="privacy-container privacy-hero-grid">
-            <div>
-                <p class="eyebrow">Privacidade sem letras miudas</p>
-                <h1 id="privacy-title">Seus dados ajudam o quiz. Nada al&eacute;m disso.</h1>
-                <p class="privacy-hero-copy">
-                    Aqui voc&ecirc; encontra, em linguagem direta, o que o Rota TI registra, por que cada informa&ccedil;&atilde;o
-                    &eacute; necess&aacute;ria e como pedir acesso, corre&ccedil;&atilde;o ou exclus&atilde;o quando isso for aplic&aacute;vel.
-                </p>
-            </div>
-            <div class="privacy-commitment" aria-label="Compromissos principais">
-                <span>Em resumo</span>
-                <strong>Quiz livre. Conta opcional. Resultado orientativo.</strong>
-                <p>N&atilde;o vendemos dados e n&atilde;o publicamos seu resultado automaticamente.</p>
-                <a href="#seus-direitos">Conhecer meus direitos <span aria-hidden="true">&darr;</span></a>
-            </div>
+    <header class="privacy-title-band">
+        <div class="privacy-document-container">
+            <p class="eyebrow">Transpar&ecirc;ncia no uso dos dados</p>
+            <h1>Pol&iacute;tica de privacidade</h1>
         </div>
-    </section>
+    </header>
 
-    <section class="privacy-overview" aria-labelledby="privacy-overview-title">
-        <div class="privacy-container">
-            <p class="eyebrow">O essencial primeiro</p>
-            <h2 id="privacy-overview-title">Onde cada informa&ccedil;&atilde;o fica</h2>
-            <div class="privacy-overview-grid">
-                <article>
-                    <span class="privacy-overview-number">01</span>
-                    <h3>Ao responder o quiz</h3>
-                    <p>Nome, idade, escola e respostas s&atilde;o usados para gerar e registrar a recomenda&ccedil;&atilde;o.</p>
-                </article>
-                <article>
-                    <span class="privacy-overview-number">02</span>
-                    <h3>Se criar uma conta</h3>
-                    <p>Nome, e-mail e senha protegida permitem login, recupera&ccedil;&atilde;o e hist&oacute;rico de resultados.</p>
-                </article>
-                <article>
-                    <span class="privacy-overview-number">03</span>
-                    <h3>No roadmap</h3>
-                    <p>As marca&ccedil;&otilde;es ficam no seu pr&oacute;prio navegador e n&atilde;o s&atilde;o enviadas ao banco do Rota TI.</p>
-                </article>
-            </div>
+    <nav class="privacy-breadcrumb" aria-label="Navega&ccedil;&atilde;o estrutural">
+        <div class="privacy-document-container">
+            <a th:href="@{/}">In&iacute;cio</a>
+            <span aria-hidden="true">/</span>
+            <span>Pol&iacute;tica de privacidade</span>
         </div>
-    </section>
+    </nav>
 
-    <section class="privacy-body">
-        <div class="privacy-container privacy-layout">
-            <aside class="privacy-index" aria-label="Nesta pagina">
-                <span>Nesta p&aacute;gina</span>
-                <nav>
-                    <a href="#dados-coletados">Dados coletados</a>
-                    <a href="#como-usamos">Como usamos</a>
-                    <a href="#seguranca">Seguran&ccedil;a</a>
-                    <a href="#armazenamento">Armazenamento</a>
-                    <a href="#seus-direitos">Seus direitos</a>
-                    <a href="#contato">Contato</a>
-                </nav>
-            </aside>
-
-            <div class="privacy-content">
-                <section id="dados-coletados" class="privacy-topic" aria-labelledby="dados-title">
-                    <p class="privacy-topic-label">01 &middot; Coleta</p>
-                    <h2 id="dados-title">Coletamos somente o que sustenta a experi&ecirc;ncia</h2>
-                    <p>
-                        O quiz registra nome, idade, escola, respostas, &aacute;rea recomendada, pontua&ccedil;&atilde;o e,
-                        quando informada, a avalia&ccedil;&atilde;o de satisfa&ccedil;&atilde;o. Se voc&ecirc; optar pelo cadastro,
-                        tamb&eacute;m s&atilde;o registrados nome, e-mail e a representa&ccedil;&atilde;o protegida da senha.
-                    </p>
-                    <div class="privacy-note">
-                        <strong>O que n&atilde;o pedimos</strong>
-                        <p>Documentos, endere&ccedil;o residencial, telefone, dados banc&aacute;rios ou informa&ccedil;&otilde;es sens&iacute;veis n&atilde;o fazem parte do fluxo do Rota TI.</p>
-                    </div>
-                </section>
-
-                <section id="como-usamos" class="privacy-topic" aria-labelledby="uso-title">
-                    <p class="privacy-topic-label">02 &middot; Finalidade</p>
-                    <h2 id="uso-title">Cada dado tem uma fun&ccedil;&atilde;o definida</h2>
-                    <dl class="privacy-purpose-list">
-                        <div>
-                            <dt>Gerar sua rota</dt>
-                            <dd>As respostas alimentam a pontua&ccedil;&atilde;o e o desempate do question&aacute;rio.</dd>
-                        </div>
-                        <div>
-                            <dt>Guardar seu hist&oacute;rico</dt>
-                            <dd>A conta opcional vincula os resultados para mostrar sua evolu&ccedil;&atilde;o.</dd>
-                        </div>
-                        <div>
-                            <dt>Avaliar o projeto</dt>
-                            <dd>Dados agregados ajudam a entender afinidades por &aacute;rea e melhorar o quiz.</dd>
-                        </div>
-                        <div>
-                            <dt>Recuperar o acesso</dt>
-                            <dd>O e-mail permite enviar um link tempor&aacute;rio quando a senha for esquecida.</dd>
-                        </div>
-                    </dl>
-                    <p>
-                        A recomenda&ccedil;&atilde;o &eacute; automatizada a partir das respostas, mas n&atilde;o &eacute; diagn&oacute;stico
-                        psicol&oacute;gico nem decis&atilde;o profissional. Ela serve como ponto de partida para explora&ccedil;&atilde;o.
-                    </p>
-                </section>
-
-                <section id="seguranca" class="privacy-topic privacy-security" aria-labelledby="security-title">
-                    <p class="privacy-topic-label">03 &middot; Prote&ccedil;&atilde;o</p>
-                    <h2 id="security-title">Cuidados aplicados no sistema</h2>
-                    <ul class="privacy-security-list">
-                        <li><strong>BCrypt:</strong> a senha original n&atilde;o &eacute; armazenada nem pode ser recuperada pelo sistema.</li>
-                        <li><strong>Acesso separado:</strong> usu&aacute;rios comuns consultam seus resultados; o painel exige papel de administrador.</li>
-                        <li><strong>Recupera&ccedil;&atilde;o segura:</strong> tokens de senha s&atilde;o tempor&aacute;rios, de uso &uacute;nico e salvos como hash.</li>
-                        <li><strong>Prote&ccedil;&atilde;o web:</strong> formul&aacute;rios usam CSRF e respostas incluem cabe&ccedil;alhos de seguran&ccedil;a.</li>
-                    </ul>
-                </section>
-
-                <section id="armazenamento" class="privacy-topic" aria-labelledby="storage-title">
-                    <p class="privacy-topic-label">04 &middot; Armazenamento e servi&ccedil;os</p>
-                    <h2 id="storage-title">O funcionamento online depende de fornecedores t&eacute;cnicos</h2>
-                    <p>
-                        A aplica&ccedil;&atilde;o pode usar Render para hospedagem, Aiven para banco de dados e um provedor
-                        SMTP para e-mails de recupera&ccedil;&atilde;o. Esses servi&ccedil;os processam informa&ccedil;&otilde;es na medida
-                        necess&aacute;ria para manter a plataforma dispon&iacute;vel e executar suas fun&ccedil;&otilde;es.
-                    </p>
-                    <p>
-                        Contas e resultados permanecem armazenados enquanto o projeto estiver em opera&ccedil;&atilde;o ou
-                        at&eacute; uma solicita&ccedil;&atilde;o de exclus&atilde;o aplic&aacute;vel, respeitadas eventuais obriga&ccedil;&otilde;es legais
-                        e necessidades de seguran&ccedil;a. O cookie de sess&atilde;o &eacute; usado apenas para manter o login.
-                    </p>
-                    <p>
-                        O bot&atilde;o de compartilhamento somente prepara um texto ou abre o aplicativo escolhido.
-                        O Rota TI n&atilde;o publica nem envia mensagens sem uma a&ccedil;&atilde;o da pr&oacute;pria pessoa.
-                    </p>
-                </section>
-
-                <section id="seus-direitos" class="privacy-topic" aria-labelledby="rights-title">
-                    <p class="privacy-topic-label">05 &middot; Seus direitos</p>
-                    <h2 id="rights-title">Voc&ecirc; pode perguntar e solicitar mudan&ccedil;as</h2>
-                    <p>Nos limites e nas hip&oacute;teses da LGPD, o titular pode solicitar:</p>
-                    <ul class="privacy-rights-list">
-                        <li>confirma&ccedil;&atilde;o e acesso aos dados tratados;</li>
-                        <li>corre&ccedil;&atilde;o de informa&ccedil;&otilde;es incompletas ou desatualizadas;</li>
-                        <li>anonimiza&ccedil;&atilde;o, bloqueio ou elimina&ccedil;&atilde;o quando cab&iacute;vel;</li>
-                        <li>informa&ccedil;&otilde;es sobre uso e compartilhamento;</li>
-                        <li>explica&ccedil;&atilde;o sobre os crit&eacute;rios da recomenda&ccedil;&atilde;o automatizada.</li>
-                    </ul>
-                    <p>
-                        Para conhecer a lista completa e as condi&ccedil;&otilde;es de cada direito, consulte a
-                        <a href="https://www.gov.br/anpd/pt-br/assuntos/titular-de-dados-1/direito-dos-titulares"
-                           target="_blank" rel="noopener noreferrer">orienta&ccedil;&atilde;o oficial da ANPD</a>.
-                    </p>
-                    <div class="privacy-note">
-                        <strong>Estudantes menores de idade</strong>
-                        <p>O uso deve observar o melhor interesse de crian&ccedil;as e adolescentes. Quando for exigido pela legisla&ccedil;&atilde;o, o fornecimento de dados deve ter participa&ccedil;&atilde;o e consentimento do respons&aacute;vel.</p>
-                    </div>
-                </section>
-
-                <section id="contato" class="privacy-contact" aria-labelledby="contact-title">
-                    <div>
-                        <p class="privacy-topic-label">06 &middot; Fale com o projeto</p>
-                        <h2 id="contact-title">Quer exercer um direito ou tirar uma d&uacute;vida?</h2>
-                        <p>Informe o e-mail usado na conta e descreva o pedido. A equipe poder&aacute; confirmar sua identidade antes de atender a solicita&ccedil;&atilde;o.</p>
-                    </div>
-                    <a class="button primary" href="mailto:pethrusabastos@gmail.com?subject=Privacidade%20e%20LGPD%20-%20Rota%20TI">Enviar solicita&ccedil;&atilde;o</a>
-                </section>
-
-                <p class="privacy-updated">&Uacute;ltima atualiza&ccedil;&atilde;o: 13 de agosto de 2026.</p>
+    <article class="privacy-document privacy-document-container" aria-labelledby="privacy-intro-title">
+        <header class="privacy-introduction">
+            <p class="privacy-kicker">Termo de privacidade e prote&ccedil;&atilde;o de dados do Rota TI</p>
+            <h2 id="privacy-intro-title">Como o projeto trata suas informa&ccedil;&otilde;es</h2>
+            <p>
+                Esta pol&iacute;tica explica, de forma direta, quais dados pessoais podem ser tratados pelo Rota TI,
+                para quais finalidades eles s&atilde;o usados e como o titular pode exercer seus direitos. O projeto
+                oferece um quiz de orienta&ccedil;&atilde;o profissional em tecnologia, que pode ser realizado sem criar uma conta.
+            </p>
+            <div class="privacy-summary">
+                <strong>Em resumo:</strong>
+                <p>o cadastro &eacute; opcional, o resultado &eacute; orientativo e nenhum dado &eacute; vendido ou publicado automaticamente.</p>
             </div>
-        </div>
-    </section>
+        </header>
+
+        <section aria-labelledby="scope-title">
+            <h2 id="scope-title">1. Abrang&ecirc;ncia desta pol&iacute;tica</h2>
+            <p>
+                Este documento se aplica ao site Rota TI, ao question&aacute;rio, ao cadastro opcional, ao hist&oacute;rico de
+                resultados, ao painel administrativo e aos recursos de recupera&ccedil;&atilde;o de senha. Ao utilizar a plataforma,
+                o usu&aacute;rio declara estar ciente das pr&aacute;ticas descritas nesta p&aacute;gina.
+            </p>
+        </section>
+
+        <section aria-labelledby="data-title">
+            <h2 id="data-title">2. Dados pessoais tratados</h2>
+            <p>Conforme o recurso utilizado, o Rota TI pode tratar as seguintes informa&ccedil;&otilde;es:</p>
+            <ul>
+                <li><strong>Quiz:</strong> nome, idade, escola, respostas, &aacute;rea recomendada, pontua&ccedil;&atilde;o e satisfa&ccedil;&atilde;o opcional;</li>
+                <li><strong>Conta:</strong> nome, e-mail, senha protegida por hash e situa&ccedil;&atilde;o do cadastro;</li>
+                <li><strong>Hist&oacute;rico:</strong> resultados vinculados &agrave; conta e data de cada tentativa;</li>
+                <li><strong>Recupera&ccedil;&atilde;o de senha:</strong> e-mail e token tempor&aacute;rio de uso &uacute;nico.</li>
+            </ul>
+            <p>
+                O projeto n&atilde;o solicita documentos, endere&ccedil;o residencial, telefone, dados banc&aacute;rios ou dados pessoais
+                sens&iacute;veis durante o fluxo normal da plataforma.
+            </p>
+        </section>
+
+        <section aria-labelledby="purpose-title">
+            <h2 id="purpose-title">3. Finalidades do tratamento</h2>
+            <p>As informa&ccedil;&otilde;es s&atilde;o utilizadas para:</p>
+            <ul>
+                <li>calcular a afinidade com as &aacute;reas de tecnologia e apresentar a recomenda&ccedil;&atilde;o;</li>
+                <li>salvar o resultado e mostrar a evolu&ccedil;&atilde;o de quem optou por criar uma conta;</li>
+                <li>produzir estat&iacute;sticas gerais para avalia&ccedil;&atilde;o e melhoria do projeto;</li>
+                <li>permitir autentica&ccedil;&atilde;o e recupera&ccedil;&atilde;o de acesso;</li>
+                <li>proteger o sistema contra uso indevido e investigar falhas t&eacute;cnicas.</li>
+            </ul>
+            <p>
+                O resultado &eacute; produzido automaticamente a partir das respostas, pesos e regras do quiz. Ele serve como
+                apoio para explora&ccedil;&atilde;o de carreira e n&atilde;o representa diagn&oacute;stico psicol&oacute;gico, promessa de emprego ou
+                decis&atilde;o profissional definitiva.
+            </p>
+        </section>
+
+        <section aria-labelledby="legal-title">
+            <h2 id="legal-title">4. Princ&iacute;pios e bases legais</h2>
+            <p>
+                O tratamento observa os princ&iacute;pios de finalidade, adequa&ccedil;&atilde;o, necessidade, transpar&ecirc;ncia, seguran&ccedil;a e
+                preven&ccedil;&atilde;o previstos na Lei Geral de Prote&ccedil;&atilde;o de Dados Pessoais. Cada opera&ccedil;&atilde;o deve estar limitada a uma
+                hip&oacute;tese legal aplic&aacute;vel, incluindo o consentimento quando ele for exigido pela legisla&ccedil;&atilde;o.
+            </p>
+        </section>
+
+        <section aria-labelledby="storage-title">
+            <h2 id="storage-title">5. Armazenamento e prazo de conserva&ccedil;&atilde;o</h2>
+            <p>
+                Contas e resultados podem permanecer armazenados enquanto o projeto estiver em funcionamento ou at&eacute; o
+                atendimento de uma solicita&ccedil;&atilde;o de exclus&atilde;o cab&iacute;vel. Alguns registros poder&atilde;o ser mantidos pelo per&iacute;odo
+                necess&aacute;rio ao cumprimento de obriga&ccedil;&otilde;es legais, ao exerc&iacute;cio de direitos ou &agrave; seguran&ccedil;a da plataforma.
+            </p>
+            <p>
+                O progresso marcado nos roadmaps fica salvo no pr&oacute;prio navegador do usu&aacute;rio por meio de armazenamento
+                local e n&atilde;o &eacute; enviado ao banco de dados do Rota TI. O cookie de sess&atilde;o &eacute; usado para manter o login durante
+                a navega&ccedil;&atilde;o.
+            </p>
+        </section>
+
+        <section aria-labelledby="security-title">
+            <h2 id="security-title">6. Seguran&ccedil;a das informa&ccedil;&otilde;es</h2>
+            <p>
+                O Rota TI adota medidas t&eacute;cnicas compat&iacute;veis com o projeto para reduzir riscos de acesso n&atilde;o autorizado,
+                altera&ccedil;&atilde;o e perda de dados. Entre elas est&atilde;o senhas protegidas com BCrypt, controle de acesso por papel,
+                prote&ccedil;&atilde;o CSRF, cabe&ccedil;alhos de seguran&ccedil;a e tokens de recupera&ccedil;&atilde;o tempor&aacute;rios, de uso &uacute;nico e armazenados
+                como hash.
+            </p>
+            <p>
+                Nenhum sistema conectado &agrave; internet elimina completamente todos os riscos. Em caso de incidente relevante,
+                ser&atilde;o avaliadas as medidas t&eacute;cnicas e as comunica&ccedil;&otilde;es exigidas pela legisla&ccedil;&atilde;o aplic&aacute;vel.
+            </p>
+        </section>
+
+        <section aria-labelledby="sharing-title">
+            <h2 id="sharing-title">7. Compartilhamento e fornecedores</h2>
+            <p>
+                O funcionamento online pode depender de fornecedores de hospedagem, banco de dados e envio de e-mail,
+                como Render, Aiven e o provedor SMTP configurado. Esses servi&ccedil;os podem processar somente as informa&ccedil;&otilde;es
+                necess&aacute;rias para disponibilizar suas respectivas fun&ccedil;&otilde;es e est&atilde;o sujeitos aos pr&oacute;prios termos de privacidade.
+            </p>
+            <p>
+                O Rota TI n&atilde;o comercializa dados pessoais. O recurso de compartilhamento apenas prepara um texto ou abre
+                o aplicativo escolhido; nenhuma publica&ccedil;&atilde;o ou mensagem &eacute; enviada sem uma a&ccedil;&atilde;o do usu&aacute;rio.
+            </p>
+        </section>
+
+        <section aria-labelledby="rights-title">
+            <h2 id="rights-title">8. Direitos do titular</h2>
+            <p>Nos limites e nas hip&oacute;teses da LGPD, o titular pode solicitar:</p>
+            <ul>
+                <li>confirma&ccedil;&atilde;o da exist&ecirc;ncia de tratamento e acesso aos dados;</li>
+                <li>corre&ccedil;&atilde;o de informa&ccedil;&otilde;es incompletas, inexatas ou desatualizadas;</li>
+                <li>anonimiza&ccedil;&atilde;o, bloqueio ou elimina&ccedil;&atilde;o de dados quando cab&iacute;vel;</li>
+                <li>informa&ccedil;&otilde;es sobre o uso e o compartilhamento de seus dados;</li>
+                <li>revoga&ccedil;&atilde;o do consentimento, quando essa for a base legal utilizada;</li>
+                <li>explica&ccedil;&atilde;o sobre os crit&eacute;rios usados na recomenda&ccedil;&atilde;o automatizada.</li>
+            </ul>
+            <p>
+                A equipe poder&aacute; solicitar informa&ccedil;&otilde;es para confirmar a identidade de quem fez o pedido. A lista completa
+                de direitos e suas condi&ccedil;&otilde;es pode ser consultada na
+                <a href="https://www.gov.br/anpd/pt-br/assuntos/titular-de-dados-1/direito-dos-titulares"
+                   target="_blank" rel="noopener noreferrer">orienta&ccedil;&atilde;o oficial da Autoridade Nacional de Prote&ccedil;&atilde;o de Dados</a>.
+            </p>
+        </section>
+
+        <section aria-labelledby="minors-title">
+            <h2 id="minors-title">9. Crian&ccedil;as e adolescentes</h2>
+            <p>
+                Como o Rota TI pode ser apresentado em escolas, o tratamento de dados de crian&ccedil;as e adolescentes deve
+                observar seu melhor interesse. Quando a legisla&ccedil;&atilde;o exigir, o fornecimento de dados dever&aacute; contar com a
+                participa&ccedil;&atilde;o e o consentimento do respons&aacute;vel legal.
+            </p>
+        </section>
+
+        <section aria-labelledby="contact-title">
+            <h2 id="contact-title">10. Contato e solicita&ccedil;&otilde;es</h2>
+            <p>
+                D&uacute;vidas sobre privacidade ou pedidos relacionados aos dados pessoais podem ser enviados para
+                <a href="mailto:pethrusabastos@gmail.com?subject=Privacidade%20e%20LGPD%20-%20Rota%20TI">pethrusabastos@gmail.com</a>.
+                Informe, quando poss&iacute;vel, o e-mail usado na conta e descreva sua solicita&ccedil;&atilde;o.
+            </p>
+        </section>
+
+        <section aria-labelledby="updates-title">
+            <h2 id="updates-title">11. Atualiza&ccedil;&otilde;es desta pol&iacute;tica</h2>
+            <p>
+                Esta p&aacute;gina poder&aacute; ser atualizada quando houver mudan&ccedil;as no funcionamento da plataforma, nos fornecedores
+                utilizados ou na legisla&ccedil;&atilde;o aplic&aacute;vel. A vers&atilde;o vigente permanecer&aacute; dispon&iacute;vel neste endere&ccedil;o.
+            </p>
+        </section>
+
+        <footer class="privacy-document-footer">
+            <p><strong>&Uacute;ltima atualiza&ccedil;&atilde;o:</strong> 14 de agosto de 2026.</p>
+            <p>
+                Refer&ecirc;ncias:
+                <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm"
+                   target="_blank" rel="noopener noreferrer">Lei n. 13.709/2018 (LGPD)</a>
+                e
+                <a href="https://www.gov.br/anpd/pt-br/assuntos/titular-de-dados-1/direito-dos-titulares"
+                   target="_blank" rel="noopener noreferrer">orienta&ccedil;&otilde;es da ANPD</a>.
+            </p>
+        </footer>
+    </article>
 </main>
 
 <th:block th:replace="~{fragments/site-footer :: footer}"></th:block>
