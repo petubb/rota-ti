@@ -479,23 +479,7 @@
 
 .guided-roadmap-preview li::before,
 .guided-roadmap-full li::before {
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 4px;
-    background: var(--primary);
-    content: "";
-}
-
-.guided-roadmap-preview li:nth-child(2)::before,
-.guided-roadmap-full li:nth-child(2)::before,
-.guided-roadmap-full li:nth-child(5)::before {
-    background: var(--coral);
-}
-
-.guided-roadmap-preview li:nth-child(3)::before,
-.guided-roadmap-full li:nth-child(3)::before,
-.guided-roadmap-full li:nth-child(6)::before {
-    background: var(--accent);
+    content: none;
 }
 
 .guided-roadmap-preview li > span,
@@ -564,6 +548,18 @@
     background: transparent;
     color: var(--primary);
     content: "\2713";
+}
+
+.guided-roadmap-preview > li:nth-child(2) ul li::before,
+.guided-roadmap-full > li:nth-child(2) ul li::before,
+.guided-roadmap-full > li:nth-child(5) ul li::before {
+    color: var(--coral);
+}
+
+.guided-roadmap-preview > li:nth-child(3) ul li::before,
+.guided-roadmap-full > li:nth-child(3) ul li::before,
+.guided-roadmap-full > li:nth-child(6) ul li::before {
+    color: #b87900;
 }
 
 .result-roadmap-summary {
