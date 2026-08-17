@@ -1,0 +1,12 @@
+[Unit]
+Description=Backup do banco MySQL do Rota TI
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=rotati
+Environment=APP_DIR=/home/rotati/apps/rota-ti
+Environment=BACKUP_DIR=/mnt/c/RotaTI/backups
+Environment=RETENTION_DAYS=14
+ExecStart=/home/rotati/apps/rota-ti/infra/backup-mysql.sh

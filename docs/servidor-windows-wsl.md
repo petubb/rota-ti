@@ -46,6 +46,28 @@ Nao use `docker compose down -v` no servidor: a opcao `-v` remove o volume persi
 
 Durante a preparacao, acesse `http://192.168.1.36:8080`. Antes da publicacao, `APP_URL_BASE` deve receber a URL HTTPS definitiva e `SESSION_COOKIE_SECURE` deve mudar para `true`.
 
+## Backup diario
+
+Instale o servico e o temporizador no Ubuntu:
+
+```bash
+chmod +x infra/backup-mysql.sh
+sudo cp infra/systemd/rotati-backup.service /etc/systemd/system/
+sudo cp infra/systemd/rotati-backup.timer /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now rotati-backup.timer
+```
+
+Para testar imediatamente:
+
+```bash
+sudo systemctl start rotati-backup.service
+sudo systemctl status rotati-backup.service
+ls -lh /mnt/c/RotaTI/backups
+```
+
+Os arquivos compactados ficam em `C:\RotaTI\backups`, fora do volume Docker. O temporizador roda diariamente por volta das 03:00 e remove backups com mais de 14 dias.
+
 ## Proximas protecoes
 
 - iniciar o WSL e os containers automaticamente com o Windows;
