@@ -4,4 +4,6 @@ target/
 !.vscode/extensions.json
 *.iml
 *.log
+.env
+backups/
 .DS_Store
