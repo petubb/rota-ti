@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     escola VARCHAR(100) NOT NULL,
     created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     PRIMARY KEY (id),
-    CONSTRAINT chk_usuarios_idade CHECK (idade BETWEEN 12 AND 25),
+    CONSTRAINT chk_usuarios_idade CHECK (idade BETWEEN 12 AND 120),
     INDEX idx_usuarios_created_at (created_at)
 ) ENGINE = InnoDB;
 

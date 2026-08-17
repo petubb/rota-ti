@@ -96,6 +96,14 @@ database/mysql/02-seed-perguntas.sql
 
 O script `09` altera apenas pesos de perguntas. Ele remove pesos secundarios que diluiam a area de Dados / BI e adiciona pesos secundarios em areas relacionadas para deixar a distribuicao mais equilibrada. Nenhum usuario, conta, resposta ou resultado e apagado.
 
+Para ampliar a faixa etaria aceita pelo quiz de 12 ate 120 anos, execute:
+
+```text
+database/mysql/10-amplia-faixa-etaria.sql
+```
+
+O script `10` substitui somente a restricao de idade da tabela `usuarios`. Ele nao apaga nem modifica usuarios, contas, perguntas, respostas ou resultados existentes e pode ser executado novamente com seguranca.
+
 ## 3. Conferir no DBeaver
 
 Atualize a arvore da conexao. O banco `rotati` deve conter:

@@ -53,7 +53,7 @@
 
                     <label>
                         <span>Idade</span>
-                        <input type="number" th:field="*{idade}" min="12" max="25" placeholder="Ex: 16"
+                        <input type="number" th:field="*{idade}" min="12" max="120" placeholder="Ex: 16"
                                inputmode="numeric" autocomplete="age" required>
                         <span class="error" th:if="${#fields.hasErrors('idade')}" th:errors="*{idade}"></span>
                     </label>
