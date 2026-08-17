@@ -44,7 +44,43 @@ Nao use `docker compose down -v` no servidor: a opcao `-v` remove o volume persi
 
 ## Teste local
 
-Durante a preparacao, acesse `http://192.168.1.36:8080`. Antes da publicacao, `APP_URL_BASE` deve receber a URL HTTPS definitiva e `SESSION_COOKIE_SECURE` deve mudar para `true`.
+Durante a preparacao, acesse `http://192.168.1.36:8080` em dispositivos conectados a mesma rede. O endereco local e util para diagnostico, mas a autenticacao em producao deve ser testada pelo HTTPS publico, pois `SESSION_COOKIE_SECURE=true` impede o envio do cookie por HTTP.
+
+## Publicacao HTTPS com Tailscale Funnel
+
+O servidor usa o Tailscale Funnel para publicar somente a aplicacao, sem abrir portas no roteador e sem expor o MySQL ou o SSH. O endereco atual e:
+
+```text
+https://rota-ti.tailcb4d3c.ts.net
+```
+
+O Tailscale foi instalado dentro do Ubuntu e seu servico inicia automaticamente pelo systemd. Para consultar a conexao e o tunel:
+
+```bash
+tailscale status
+sudo tailscale funnel status
+```
+
+Para recriar a publicacao, caso seja necessario:
+
+```bash
+sudo tailscale funnel --bg 8080
+```
+
+No `.env` do servidor, mantenha:
+
+```dotenv
+APP_URL_BASE=https://rota-ti.tailcb4d3c.ts.net
+SESSION_COOKIE_SECURE=true
+```
+
+Depois de alterar essas variaveis, recrie somente a aplicacao:
+
+```bash
+docker compose up -d --no-deps --force-recreate app
+```
+
+O dominio `*.ts.net` e o certificado HTTPS sao administrados pelo Tailscale. O Funnel precisa permanecer habilitado na conta que autorizou a maquina `rota-ti`.
 
 ## Backup diario
 
@@ -68,10 +104,25 @@ ls -lh /mnt/c/RotaTI/backups
 
 Os arquivos compactados ficam em `C:\RotaTI\backups`, fora do volume Docker. O temporizador roda diariamente por volta das 03:00 e remove backups com mais de 14 dias.
 
-## Proximas protecoes
+## Inicializacao automatica
 
-- iniciar o WSL e os containers automaticamente com o Windows;
-- gerar backups diarios do MySQL fora do volume Docker;
-- publicar por um tunel HTTPS, sem expor MySQL ou SSH na internet;
+O Windows possui a tarefa agendada `RotaTI-WSL-KeepAlive`, executada na inicializacao para manter a distribuicao Ubuntu ativa. Dentro do WSL, Docker, Tailscale, containers e o timer de backup iniciam automaticamente.
+
+Para verificar os componentes:
+
+```powershell
+Get-ScheduledTask -TaskName "RotaTI-WSL-KeepAlive"
+```
+
+```bash
+systemctl is-active docker tailscaled rotati-backup.timer
+docker compose ps
+```
+
+## Cuidados restantes
+
 - reservar o IP `192.168.1.36` no roteador ou configurar um endereco fixo;
+- testar a inicializacao completa depois de uma reinicializacao controlada do Windows;
+- manter Windows, Ubuntu, Docker e Tailscale atualizados;
+- testar periodicamente a restauracao de um backup em ambiente separado;
 - trocar a senha do usuario Windows usada durante a configuracao inicial.
