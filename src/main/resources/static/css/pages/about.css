@@ -186,7 +186,7 @@
 
 .about-team-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
 }
 
@@ -199,12 +199,16 @@
     background: #fff;
 }
 
-.about-person-card:first-child {
+.about-person-card:nth-child(1) {
     border-top: 4px solid var(--primary);
 }
 
-.about-person-card:last-child {
+.about-person-card:nth-child(2) {
     border-top: 4px solid var(--coral);
+}
+
+.about-person-card:nth-child(3) {
+    border-top: 4px solid var(--accent);
 }
 
 .about-person-photo {
@@ -220,6 +224,10 @@
 
 .about-person-photo-matheus {
     object-position: center 30%;
+}
+
+.about-person-photo-emanuel {
+    object-position: center 28%;
 }
 
 .about-person-content {
@@ -417,6 +425,10 @@
 
     .about-person-card {
         grid-template-rows: 240px 1fr;
+    }
+
+    .about-team-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
