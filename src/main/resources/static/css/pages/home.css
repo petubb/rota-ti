@@ -30,9 +30,9 @@
     position: absolute;
     z-index: 1;
     inset: 0 auto 0 0;
-    width: min(64%, 900px);
-    background: rgba(247, 250, 249, 0.94);
-    clip-path: polygon(0 0, 82% 0, 100% 100%, 0 100%);
+    width: 68%;
+    background: #f7faf9;
+    clip-path: polygon(0 0, 88% 0, 100% 100%, 0 100%);
     content: "";
 }
 
@@ -42,7 +42,15 @@
     inset: 0 0 0 36%;
     overflow: hidden;
     background: #dce8e3;
-    opacity: 0.88;
+}
+
+.home-hero-carousel::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: rgba(8, 38, 60, 0.62);
+    pointer-events: none;
+    content: "";
 }
 
 .home-hero-carousel-track,
@@ -53,7 +61,7 @@
 }
 
 .home-hero-carousel-track {
-    animation: home-hero-carousel-flow 112s linear infinite;
+    animation: home-hero-carousel-flow 196s linear infinite;
     will-change: transform;
 }
 
@@ -551,7 +559,6 @@
     .home-hero-carousel {
         inset: 0 0 auto;
         height: 48%;
-        opacity: 0.9;
     }
 
     .home-hero-frame {
@@ -562,8 +569,8 @@
         inset: auto 0 0;
         width: 100%;
         height: 70%;
-        background: rgba(247, 250, 249, 0.94);
-        clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 100%);
+        background: #f7faf9;
+        clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
     }
 
     .home-hero-inner {
