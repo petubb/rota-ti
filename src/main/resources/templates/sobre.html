@@ -6,6 +6,7 @@
     <meta name="description" content="Conhe&ccedil;a o Rota TI, sua origem no Conex&atilde;o Sicoob, a equipe e as apresenta&ccedil;&otilde;es realizadas com estudantes.">
     <title>Sobre o projeto | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script defer th:src="@{/js/about-carousel.js}" src="/js/about-carousel.js"></script>
 </head>
 <body class="about-page">
 <th:block th:replace="~{fragments/site-header :: header('sobre')}"></th:block>
@@ -146,28 +147,86 @@
                 <p>Registros das apresenta&ccedil;&otilde;es, dos testes e das trocas com estudantes.</p>
             </div>
 
-            <div class="about-gallery-grid">
-                <figure class="about-gallery-wide">
-                    <img th:src="@{/images/sobre/apresentacao-senac.webp}"
-                         src="/images/sobre/apresentacao-senac.webp"
-                         alt="Apresenta&ccedil;&atilde;o sobre tecnologia para uma turma de estudantes"
-                         width="1400" height="1050" loading="lazy" decoding="async">
-                    <figcaption>Apresentando possibilidades e desfazendo mitos sobre carreiras em tecnologia.</figcaption>
-                </figure>
-                <figure class="about-gallery-tall">
-                    <img th:src="@{/images/sobre/quiz-em-apresentacao.webp}"
-                         src="/images/sobre/quiz-em-apresentacao.webp"
-                         alt="Estudante participando de uma demonstra&ccedil;&atilde;o do quiz Rota TI"
-                         width="1000" height="1333" loading="lazy" decoding="async">
-                    <figcaption>Quiz demonstrado ao vivo durante um encontro com estudantes.</figcaption>
-                </figure>
-                <figure class="about-gallery-wide">
-                    <img th:src="@{/images/sobre/encontro-estudantes.webp}"
-                         src="/images/sobre/encontro-estudantes.webp"
-                         alt="Jovens e familiares reunidos durante uma apresenta&ccedil;&atilde;o do projeto"
-                         width="1400" height="1050" loading="lazy" decoding="async">
-                    <figcaption>Escuta e contato direto com jovens da comunidade.</figcaption>
-                </figure>
+            <div class="about-carousel" data-about-carousel
+                 role="region" aria-roledescription="carrossel"
+                 aria-label="Registros das apresenta&ccedil;&otilde;es do Rota TI">
+                <div class="about-carousel-viewport" data-carousel-viewport tabindex="0">
+                    <div class="about-carousel-track">
+                        <figure class="about-carousel-slide about-carousel-slide-phone"
+                                role="group" aria-roledescription="slide" aria-label="1 de 7">
+                            <img th:src="@{/images/sobre/carrossel-resultado-gestao.webp}"
+                                 src="/images/sobre/carrossel-resultado-gestao.webp"
+                                 alt="Estudante consultando no celular seu resultado de Gest&atilde;o de TI"
+                                 width="900" height="1200" loading="lazy" decoding="async">
+                            <figcaption>O resultado chegando &agrave;s m&atilde;os de quem participou do quiz.</figcaption>
+                        </figure>
+                        <figure class="about-carousel-slide"
+                                role="group" aria-roledescription="slide" aria-label="2 de 7">
+                            <img th:src="@{/images/sobre/carrossel-turma-senac.webp}"
+                                 src="/images/sobre/carrossel-turma-senac.webp"
+                                 alt="Turma reunida depois de uma apresenta&ccedil;&atilde;o do Rota TI"
+                                 width="1600" height="1200" loading="lazy" decoding="async">
+                            <figcaption>Uma turma reunida depois de conhecer e testar o projeto.</figcaption>
+                        </figure>
+                        <figure class="about-carousel-slide"
+                                role="group" aria-roledescription="slide" aria-label="3 de 7">
+                            <img th:src="@{/images/sobre/carrossel-apresentacao-mitos.webp}"
+                                 src="/images/sobre/carrossel-apresentacao-mitos.webp"
+                                 alt="Apresenta&ccedil;&atilde;o sobre mitos e realidade das carreiras em tecnologia"
+                                 width="1600" height="1200" loading="lazy" decoding="async">
+                            <figcaption>Conversas sobre os mitos e as possibilidades reais da tecnologia.</figcaption>
+                        </figure>
+                        <figure class="about-carousel-slide about-carousel-slide-phone"
+                                role="group" aria-roledescription="slide" aria-label="4 de 7">
+                            <img th:src="@{/images/sobre/carrossel-resultado-infra.webp}"
+                                 src="/images/sobre/carrossel-resultado-infra.webp"
+                                 alt="Resultado de Infraestrutura e Redes aberto em um celular"
+                                 width="900" height="1200" loading="lazy" decoding="async">
+                            <figcaption>O quiz sendo usado no celular durante uma apresenta&ccedil;&atilde;o.</figcaption>
+                        </figure>
+                        <figure class="about-carousel-slide about-carousel-slide-portrait"
+                                role="group" aria-roledescription="slide" aria-label="5 de 7">
+                            <img th:src="@{/images/sobre/carrossel-apresentacao-escola.webp}"
+                                 src="/images/sobre/carrossel-apresentacao-escola.webp"
+                                 alt="Apresenta&ccedil;&atilde;o do quiz Rota TI em uma escola"
+                                 width="900" height="1200" loading="lazy" decoding="async">
+                            <figcaption>O Rota TI apresentado ao vivo, com espa&ccedil;o para perguntas.</figcaption>
+                        </figure>
+                        <figure class="about-carousel-slide"
+                                role="group" aria-roledescription="slide" aria-label="6 de 7">
+                            <img th:src="@{/images/sobre/carrossel-encontro-comunidade.webp}"
+                                 src="/images/sobre/carrossel-encontro-comunidade.webp"
+                                 alt="Jovens e familiares reunidos durante um encontro do projeto"
+                                 width="1600" height="1200" loading="lazy" decoding="async">
+                            <figcaption>Contato com jovens e fam&iacute;lias para ouvir diferentes perspectivas.</figcaption>
+                        </figure>
+                        <figure class="about-carousel-slide about-carousel-slide-portrait"
+                                role="group" aria-roledescription="slide" aria-label="7 de 7">
+                            <img th:src="@{/images/sobre/carrossel-apresentacao-tecnologia.webp}"
+                                 src="/images/sobre/carrossel-apresentacao-tecnologia.webp"
+                                 alt="Conversa com estudantes sobre as diferentes &aacute;reas da tecnologia"
+                                 width="900" height="1200" loading="lazy" decoding="async">
+                            <figcaption>Tecnologia apresentada como um conjunto de caminhos, n&atilde;o uma &aacute;rea s&oacute;.</figcaption>
+                        </figure>
+                    </div>
+                </div>
+
+                <div class="about-carousel-controls" aria-label="Controles do carrossel">
+                    <button class="about-carousel-arrow" type="button" data-carousel-previous
+                            aria-label="Mostrar foto anterior" title="Foto anterior">
+                        <span aria-hidden="true">&larr;</span>
+                    </button>
+                    <p class="about-carousel-count" aria-hidden="true">
+                        <span data-carousel-current>01</span>
+                        <span>/ 07</span>
+                    </p>
+                    <button class="about-carousel-arrow" type="button" data-carousel-next
+                            aria-label="Mostrar pr&oacute;xima foto" title="Pr&oacute;xima foto">
+                        <span aria-hidden="true">&rarr;</span>
+                    </button>
+                    <button class="about-carousel-toggle" type="button" data-carousel-toggle
+                            aria-pressed="false">Pausar movimento</button>
+                </div>
             </div>
         </div>
     </section>
