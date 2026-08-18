@@ -23,12 +23,12 @@
     height: min(720px, calc(100svh - 118px));
     min-height: 590px;
     overflow: hidden;
-    background: #eef3f0 url("../images/home-hero.png") center / cover no-repeat;
+    background: #eef3f0;
 }
 
 .home-hero::before {
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     inset: 0 auto 0 0;
     width: min(64%, 900px);
     background: rgba(247, 250, 249, 0.94);
@@ -36,7 +36,59 @@
     content: "";
 }
 
+.home-hero-carousel {
+    position: absolute;
+    z-index: 0;
+    inset: 0 0 0 36%;
+    overflow: hidden;
+    background: #dce8e3;
+    opacity: 0.88;
+}
+
+.home-hero-carousel-track,
+.home-hero-carousel-set {
+    display: flex;
+    width: max-content;
+    height: 100%;
+}
+
+.home-hero-carousel-track {
+    animation: home-hero-carousel-flow 112s linear infinite;
+    will-change: transform;
+}
+
+.home-hero-frame {
+    flex: 0 0 64vw;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.home-hero-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.home-hero-frame-phone img {
+    object-position: center 62%;
+}
+
+.home-hero-frame-portrait img {
+    object-position: center 45%;
+}
+
+@keyframes home-hero-carousel-flow {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
 .home-hero-inner {
+    position: relative;
+    z-index: 2;
     padding-block: 54px;
 }
 
@@ -413,7 +465,6 @@
     .home-hero {
         height: auto;
         min-height: 620px;
-        background-position: 58% center;
     }
 
     .home-hero::before {
@@ -495,7 +546,16 @@
     .home-hero {
         align-items: flex-end;
         min-height: calc(100svh - 112px);
-        background-position: 65% center;
+    }
+
+    .home-hero-carousel {
+        inset: 0 0 auto;
+        height: 48%;
+        opacity: 0.9;
+    }
+
+    .home-hero-frame {
+        flex-basis: 100vw;
     }
 
     .home-hero::before {
@@ -598,6 +658,12 @@
 
     .footer-links {
         justify-content: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-hero-carousel-track {
+        animation: none;
     }
 }
 

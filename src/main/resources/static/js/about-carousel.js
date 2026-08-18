@@ -33,6 +33,10 @@
     };
 
     const updateToggleButton = () => {
+        if (!toggleButton) {
+            return;
+        }
+
         toggleButton.setAttribute("aria-pressed", String(manuallyPaused));
         toggleButton.textContent = manuallyPaused ? "Iniciar movimento" : "Pausar movimento";
     };
@@ -104,11 +108,13 @@
     previousButton.addEventListener("click", () => showSlide(currentIndex - 1));
     nextButton.addEventListener("click", () => showSlide(currentIndex + 1));
 
-    toggleButton.addEventListener("click", () => {
-        manuallyPaused = !manuallyPaused;
-        updateToggleButton();
-        scheduleAutoAdvance();
-    });
+    if (toggleButton) {
+        toggleButton.addEventListener("click", () => {
+            manuallyPaused = !manuallyPaused;
+            updateToggleButton();
+            scheduleAutoAdvance();
+        });
+    }
 
     viewport.addEventListener("keydown", (event) => {
         if (event.key === "ArrowLeft") {
