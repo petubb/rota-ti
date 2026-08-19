@@ -78,6 +78,37 @@ a {
     font-size: 0.78rem;
 }
 
+.brand-logo-mark {
+    position: relative;
+    overflow: hidden;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 50px;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.brand-logo-mark img {
+    position: absolute;
+    top: 1px;
+    left: 50%;
+    width: 43px;
+    max-width: none;
+    height: auto;
+    transform: translateX(-50%);
+}
+
+.footer-brand-logo {
+    display: inline-flex;
+    width: 86px;
+}
+
+.footer-brand-logo img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
 .site-navigation {
     display: flex;
     align-items: center;
@@ -171,6 +202,16 @@ a {
     .site-nav-toggle {
         display: block;
         margin-left: auto;
+    }
+
+    .brand-logo-mark {
+        flex-basis: 39px;
+        width: 39px;
+        height: 44px;
+    }
+
+    .brand-logo-mark img {
+        width: 38px;
     }
 
     .site-navigation {

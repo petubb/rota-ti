@@ -38,6 +38,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -202,7 +203,9 @@ class AutenticacaoSegurancaTests {
 
         mockMvc.perform(get("/dashboard").with(user(new ContaPrincipal(conta))))
                 .andExpect(status().isOk())
-                .andExpect(view().name("dashboard"));
+                .andExpect(view().name("dashboard"))
+                .andExpect(content().string(containsString("id=\"activity-title\"")))
+                .andExpect(content().string(containsString("id=\"satisfaction-title\"")));
     }
 
     @Test
