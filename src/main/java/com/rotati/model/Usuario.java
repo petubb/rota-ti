@@ -30,7 +30,7 @@ public class Usuario {
 
     @NotNull
     @Min(12)
-    @Max(25)
+    @Max(120)
     private Integer idade;
 
     @NotBlank

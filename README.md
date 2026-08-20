@@ -2,7 +2,9 @@
 
 Projeto MVC em Java 21 com Spring Boot, Thymeleaf, Spring Data JPA, Spring Security, H2 e MySQL Driver.
 
-O questionario usa 12 perguntas principais com pesos para multiplas areas. Quando as duas melhores rotas ficam muito proximas, o sistema seleciona duas perguntas extras de desempate.
+O questionario usa 16 perguntas principais, duas por area, uma escala de cinco respostas e pesos compartilhados entre caracteristicas relacionadas. Quando algumas rotas ficam muito proximas, o sistema seleciona de duas a tres perguntas extras de desempate.
+
+Depois do resultado, a pessoa pode explorar informacoes de carreira, consultar formacoes regionais e online, seguir um roadmap interativo e, opcionalmente, criar uma conta para acompanhar como seus interesses mudam entre novas tentativas.
 
 ## Como rodar no VS Code
 
@@ -58,12 +60,12 @@ $env:SPRING_PROFILES_ACTIVE="mysql"
 - `controller`: recebe as rotas web e API.
 - `model`: entidades JPA e enum das areas de TI.
 - `repository`: acesso ao banco com Spring Data JPA.
-- `service`: regras de negocio, scoring do quiz e metricas.
+- `service`: regras de negocio, scoring do quiz, conteudos de carreira, roadmaps e metricas.
 - `security`: identidade autenticada e tratadores de login.
 - `config`: regras de acesso, BCrypt, CSRF e cabecalhos HTTP.
 - `dto`: objetos de entrada/saida entre view e service.
 - `templates`: paginas Thymeleaf.
-- `static`: CSS e JavaScript.
+- `static`: CSS modular por pagina e JavaScript das interacoes.
 
 ## Rotas principais
 
@@ -72,14 +74,15 @@ $env:SPRING_PROFILES_ACTIVE="mysql"
 - `/privacidade`: politica de privacidade e LGPD.
 - `/quiz`: formulario do questionario.
 - `/resultado/{id}`: resultado de um questionario respondido.
-- `/areas`: catalogo das areas de TI.
-- `/area/{slug}`: detalhes de uma area.
+- `/areas`: explorador pesquisavel das areas de TI.
+- `/area/{slug}`: detalhes, mercado, salario, formacoes e primeiros passos de uma area.
+- `/area/{slug}/roadmap`: trilha interativa da area, com etapas, checklist, recursos e projetos.
 - `/dashboard`: metricas internas.
 - `/entrar`: login opcional.
 - `/cadastro`: criacao de conta.
 - `/esqueci-senha`: solicitacao de recuperacao por e-mail.
 - `/recuperar-senha`: redefinicao por token temporario.
-- `/minha-conta/resultados`: historico da pessoa autenticada.
+- `/minha-conta/resultados`: evolucao, comparacao e historico da pessoa autenticada.
 - `/api/areas`: lista de areas em JSON.
 - `/api/perguntas`: lista de perguntas em JSON, restrita a administradores.
 
@@ -101,9 +104,29 @@ Deploy online para testar com outras pessoas:
 docs/deploy-online.md
 ```
 
+## Atualizar um banco MySQL existente
+
+Para liberar a escala de cinco respostas e aplicar o balanceamento atual sem apagar contas, usuarios ou resultados, execute no DBeaver:
+
+```text
+database/mysql/08-respostas-parciais.sql
+database/mysql/09-balanceamento-quiz.sql
+database/mysql/02-seed-perguntas.sql
+```
+
+O passo a passo completo e as consultas de conferencia estao em `database/mysql/README.md`.
+
+## Atualizacao geral
+
+O pacote consolidado da experiencia atual esta descrito em:
+
+```text
+docs/atualizacao-geral-rota-ti.md
+```
+
 ## Proximas etapas sugeridas
 
-1. Avaliar o questionario com estudantes e ajustar pesos com base no feedback.
-2. Completar conteudos reais de cursos, salarios e referencias.
-3. Validar a configuracao MySQL no ambiente de apresentacao.
-4. Preparar a apresentacao PDF e roteiro da demo.
+1. Avaliar o questionario com estudantes e ajustar pesos com base no feedback real.
+2. Revisar periodicamente links, editais, cursos e fontes salariais.
+3. Validar MySQL, SMTP e deploy no ambiente de apresentacao.
+4. Preparar a apresentacao PDF e ensaiar o roteiro da demonstracao.

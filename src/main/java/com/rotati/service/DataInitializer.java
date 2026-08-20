@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -21,141 +24,139 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (perguntaRepository.count() > 0) {
-            return;
-        }
-
-        perguntaRepository.saveAll(List.of(
+        List<Pergunta> definicoes = List.of(
                 base(
                         "BASE_DEV_CRIAR",
-                        "Voce gosta de criar sites, aplicativos ou sistemas para resolver problemas?",
+                        "Gosto de criar sites, aplicativos ou sistemas.",
                         "criatividade",
                         AreaTi.DESENVOLVIMENTO,
                         peso(AreaTi.DESENVOLVIMENTO, 3), peso(AreaTi.UX_UI, 1)
                 ),
                 base(
                         "BASE_DEV_LOGICA",
-                        "Voce se sente bem resolvendo problemas logicos passo a passo?",
+                        "Gosto de resolver problemas em etapas.",
                         "logica",
                         AreaTi.DESENVOLVIMENTO,
-                        peso(AreaTi.DESENVOLVIMENTO, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.IA, 1)
+                        peso(AreaTi.DESENVOLVIMENTO, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.IA, 1),
+                        peso(AreaTi.GAME_DESIGN, 1)
                 ),
-                baseInativa(
+                base(
                         "BASE_DADOS_ORGANIZAR",
-                        "Voce gosta de organizar informacoes e transforma-las em relatorios claros?",
+                        "Quando recebo muitas informacoes, gosto de organiza-las em tabelas ou relatorios.",
                         "analise",
                         AreaTi.DADOS,
-                        peso(AreaTi.DADOS, 2), peso(AreaTi.GESTAO, 1)
+                        peso(AreaTi.DADOS, 3), peso(AreaTi.GESTAO, 1), peso(AreaTi.IA, 1)
                 ),
                 base(
                         "BASE_DADOS_PADROES",
-                        "Voce percebe padroes em numeros, tabelas ou graficos com facilidade?",
+                        "Percebo padroes em numeros, tabelas ou graficos.",
                         "analise",
                         AreaTi.DADOS,
                         peso(AreaTi.DADOS, 3), peso(AreaTi.IA, 1), peso(AreaTi.SEGURANCA, 1)
                 ),
                 base(
                         "BASE_SEG_INVESTIGAR",
-                        "Voce se interessa por investigar falhas, golpes digitais ou vulnerabilidades?",
+                        "Tenho interesse em investigar falhas ou golpes digitais.",
                         "investigacao",
                         AreaTi.SEGURANCA,
                         peso(AreaTi.SEGURANCA, 3), peso(AreaTi.INFRAESTRUTURA, 1)
                 ),
-                baseInativa(
+                base(
                         "BASE_SEG_DETALHES",
-                        "Voce costuma perceber quando algo parece fora do normal e quer descobrir a causa?",
+                        "Costumo perceber quando algo parece fora do normal em um sistema ou conta digital.",
                         "detalhe",
                         AreaTi.SEGURANCA,
-                        peso(AreaTi.SEGURANCA, 2), peso(AreaTi.DADOS, 1), peso(AreaTi.INFRAESTRUTURA, 1)
+                        peso(AreaTi.SEGURANCA, 3), peso(AreaTi.INFRAESTRUTURA, 1)
                 ),
                 base(
                         "BASE_INFRA_CONFIGURAR",
-                        "Voce gosta de configurar computadores, redes ou servicos digitais?",
+                        "Gosto de configurar computadores, redes ou servicos.",
                         "operacao",
                         AreaTi.INFRAESTRUTURA,
                         peso(AreaTi.INFRAESTRUTURA, 3), peso(AreaTi.SEGURANCA, 1)
                 ),
-                baseInativa(
+                base(
                         "BASE_INFRA_ESTABILIDADE",
-                        "Voce prefere manter sistemas estaveis, organizados e bem documentados?",
+                        "Tenho satisfacao em manter sistemas estaveis, organizados e funcionando.",
                         "organizacao",
                         AreaTi.INFRAESTRUTURA,
-                        peso(AreaTi.INFRAESTRUTURA, 2), peso(AreaTi.GESTAO, 1)
+                        peso(AreaTi.INFRAESTRUTURA, 3), peso(AreaTi.GESTAO, 1), peso(AreaTi.SEGURANCA, 1)
                 ),
                 base(
                         "BASE_UX_INTERFACES",
-                        "Voce gosta de pensar em telas simples, bonitas e faceis de usar?",
+                        "Gosto de pensar em telas simples e faceis de usar.",
                         "design",
                         AreaTi.UX_UI,
                         peso(AreaTi.UX_UI, 3), peso(AreaTi.DESENVOLVIMENTO, 1)
                 ),
                 base(
                         "BASE_UX_USUARIOS",
-                        "Voce procura entender as necessidades das pessoas antes de propor uma solucao?",
+                        "Gosto de entender o que as pessoas precisam.",
                         "empatia",
                         AreaTi.UX_UI,
-                        peso(AreaTi.UX_UI, 3), peso(AreaTi.GESTAO, 1), peso(AreaTi.DADOS, 1)
+                        peso(AreaTi.UX_UI, 3), peso(AreaTi.GESTAO, 1), peso(AreaTi.GAME_DESIGN, 1)
                 ),
                 base(
                         "BASE_GAME_MECANICAS",
-                        "Voce gosta de imaginar regras, mecanicas, fases ou desafios para jogos?",
+                        "Gosto de imaginar regras, fases ou desafios de jogos.",
                         "narrativa",
                         AreaTi.GAME_DESIGN,
                         peso(AreaTi.GAME_DESIGN, 3), peso(AreaTi.DESENVOLVIMENTO, 1), peso(AreaTi.UX_UI, 1)
                 ),
-                baseInativa(
+                base(
                         "BASE_GAME_BALANCEAMENTO",
-                        "Voce teria interesse em testar e ajustar a dificuldade de uma experiencia interativa?",
+                        "Quando jogo, gosto de imaginar ajustes na dificuldade, nas regras ou nas recompensas.",
                         "experimentacao",
                         AreaTi.GAME_DESIGN,
-                        peso(AreaTi.GAME_DESIGN, 2), peso(AreaTi.DADOS, 1), peso(AreaTi.UX_UI, 1)
+                        peso(AreaTi.GAME_DESIGN, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.UX_UI, 1)
                 ),
                 base(
                         "BASE_IA_CURIOSIDADE",
-                        "Voce tem curiosidade sobre inteligencia artificial, automacao e modelos que aprendem?",
+                        "Tenho curiosidade sobre inteligencia artificial e automacao.",
                         "curiosidade",
                         AreaTi.IA,
-                        peso(AreaTi.IA, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.DESENVOLVIMENTO, 1)
+                        peso(AreaTi.IA, 3), peso(AreaTi.DESENVOLVIMENTO, 1)
                 ),
-                baseInativa(
+                base(
                         "BASE_IA_EXPERIMENTAR",
-                        "Voce gosta de testar hipoteses, comparar resultados e aprender com os erros?",
+                        "Gosto de testar uma ideia, comparar os resultados e ajustar o que nao funcionou.",
                         "experimentacao",
                         AreaTi.IA,
-                        peso(AreaTi.IA, 2), peso(AreaTi.DADOS, 1), peso(AreaTi.DESENVOLVIMENTO, 1)
+                        peso(AreaTi.IA, 3), peso(AreaTi.DADOS, 1), peso(AreaTi.DESENVOLVIMENTO, 1),
+                        peso(AreaTi.GAME_DESIGN, 1)
                 ),
                 base(
                         "BASE_GESTAO_LIDERAR",
-                        "Voce gosta de liderar, organizar tarefas e ajudar um grupo a avancar?",
+                        "Gosto de organizar tarefas e ajudar um grupo a avancar.",
                         "lideranca",
                         AreaTi.GESTAO,
-                        peso(AreaTi.GESTAO, 3)
-                ),
-                baseInativa(
-                        "BASE_GESTAO_COMUNICAR",
-                        "Voce se imagina conectando pessoas tecnicas, prazos e necessidades de negocio?",
-                        "comunicacao",
-                        AreaTi.GESTAO,
-                        peso(AreaTi.GESTAO, 2), peso(AreaTi.UX_UI, 1)
+                        peso(AreaTi.GESTAO, 3), peso(AreaTi.INFRAESTRUTURA, 1)
                 ),
                 base(
+                        "BASE_GESTAO_COMUNICAR",
+                        "Gosto de conectar pessoas, prazos e objetivos para que um projeto avance.",
+                        "comunicacao",
+                        AreaTi.GESTAO,
+                        peso(AreaTi.GESTAO, 3), peso(AreaTi.UX_UI, 1)
+                ),
+                baseInativa(
                         "BASE_PERSISTENCIA",
-                        "Voce persiste quando uma solucao exige varias tentativas e ajustes?",
+                        "Continuo tentando quando uma solucao nao funciona de primeira.",
                         "persistencia",
                         AreaTi.DESENVOLVIMENTO,
                         peso(AreaTi.DESENVOLVIMENTO, 1), peso(AreaTi.SEGURANCA, 1),
                         peso(AreaTi.IA, 1), peso(AreaTi.GAME_DESIGN, 1)
                 ),
-                base(
+                baseInativa(
                         "BASE_EXPLICAR_IDEIAS",
-                        "Voce gosta de explicar ideias complexas de um jeito que outras pessoas entendam?",
+                        "Gosto de explicar ideias de um jeito simples.",
                         "comunicacao",
                         AreaTi.GESTAO,
                         peso(AreaTi.GESTAO, 1), peso(AreaTi.DADOS, 1), peso(AreaTi.UX_UI, 1)
                 ),
                 desempate(
                         "DESEMPATE_CRIAR_MANTER",
-                        "Entre criar uma solucao nova e manter uma estrutura estavel, voce prefere criar?",
+                        "Entre criar algo novo e manter tudo estavel, eu prefiro criar.",
                         "criatividade",
                         AreaTi.DESENVOLVIMENTO,
                         peso(AreaTi.DESENVOLVIMENTO, 3), peso(AreaTi.GAME_DESIGN, 1), peso(AreaTi.IA, 1),
@@ -163,7 +164,7 @@ public class DataInitializer implements CommandLineRunner {
                 ),
                 desempate(
                         "DESEMPATE_PREVENIR_EXPLORAR",
-                        "Entre investigar riscos e explorar novas possibilidades, voce prefere investigar e prevenir?",
+                        "Entre investigar riscos e explorar novidades, eu prefiro investigar riscos.",
                         "investigacao",
                         AreaTi.SEGURANCA,
                         peso(AreaTi.SEGURANCA, 3), peso(AreaTi.INFRAESTRUTURA, 1),
@@ -171,7 +172,7 @@ public class DataInitializer implements CommandLineRunner {
                 ),
                 desempate(
                         "DESEMPATE_PESSOAS_LOGICA",
-                        "Voce prefere trabalhar com necessidades de pessoas e comunicacao a lidar com logica e numeros?",
+                        "Prefiro entender pessoas e comunicacao a lidar com logica e numeros.",
                         "empatia",
                         AreaTi.UX_UI,
                         peso(AreaTi.UX_UI, 3), peso(AreaTi.GESTAO, 2), peso(AreaTi.DADOS, -3),
@@ -179,7 +180,7 @@ public class DataInitializer implements CommandLineRunner {
                 ),
                 desempate(
                         "DESEMPATE_DADOS_EXPERIENCIA",
-                        "Voce se interessa mais por padroes e evidencias do que por aspectos visuais ou narrativos?",
+                        "Prefiro padroes e evidencias a partes visuais ou narrativas.",
                         "analise",
                         AreaTi.DADOS,
                         peso(AreaTi.DADOS, 3), peso(AreaTi.IA, 1), peso(AreaTi.SEGURANCA, 1),
@@ -187,20 +188,37 @@ public class DataInitializer implements CommandLineRunner {
                 ),
                 desempate(
                         "DESEMPATE_COORDENAR_CONSTRUIR",
-                        "Em um projeto, voce prefere coordenar prioridades e alinhar o time a construir a solucao diretamente?",
+                        "Prefiro coordenar prioridades a construir a solucao diretamente.",
                         "lideranca",
                         AreaTi.GESTAO,
                         peso(AreaTi.GESTAO, 3), peso(AreaTi.DESENVOLVIMENTO, -3), peso(AreaTi.INFRAESTRUTURA, -1)
                 ),
                 desempate(
                         "DESEMPATE_INTERATIVO_REDES",
-                        "Voce tem mais interesse em criar experiencias interativas do que administrar servicos e redes?",
+                        "Prefiro criar experiencias interativas a administrar redes e servicos.",
                         "narrativa",
                         AreaTi.GAME_DESIGN,
                         peso(AreaTi.GAME_DESIGN, 3), peso(AreaTi.UX_UI, 1),
                         peso(AreaTi.INFRAESTRUTURA, -3), peso(AreaTi.SEGURANCA, -1)
                 )
-        ));
+        );
+
+        Map<String, Pergunta> perguntasExistentes = perguntaRepository.findAllByOrderByIdAsc()
+                .stream()
+                .collect(Collectors.toMap(Pergunta::getCodigo, Function.identity()));
+
+        List<Pergunta> perguntasSincronizadas = definicoes.stream()
+                .map(definicao -> {
+                    Pergunta existente = perguntasExistentes.get(definicao.getCodigo());
+                    if (existente == null) {
+                        return definicao;
+                    }
+                    existente.atualizarDefinicao(definicao);
+                    return existente;
+                })
+                .toList();
+
+        perguntaRepository.saveAll(perguntasSincronizadas);
     }
 
     private Pergunta base(String codigo, String texto, String categoria, AreaTi principal, Peso... pesos) {

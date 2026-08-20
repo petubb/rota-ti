@@ -18,7 +18,9 @@ public class ContaController {
 
     @GetMapping("/minha-conta/resultados")
     public String resultados(@AuthenticationPrincipal ContaPrincipal principal, Model model) {
-        model.addAttribute("resultados", resultadoContaService.listarHistorico(principal));
+        var evolucao = resultadoContaService.buscarEvolucao(principal);
+        model.addAttribute("evolucao", evolucao);
+        model.addAttribute("resultados", evolucao.getResultados());
         return "conta/resultados";
     }
 }

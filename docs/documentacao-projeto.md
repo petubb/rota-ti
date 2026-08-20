@@ -30,9 +30,10 @@ Criar uma aplicacao web que ajude estudantes a identificar areas de tecnologia a
 
 - Mostrar que tecnologia possui varias rotas profissionais.
 - Aplicar um quiz objetivo com perguntas ponderadas.
-- Gerar um resultado personalizado com area principal e areas relacionadas.
-- Apresentar informacoes de carreira, videos, referencias, faixa salarial e formacoes.
-- Permitir cadastro opcional para salvar historico de resultados.
+- Gerar um resultado personalizado com area principal e ranking de compatibilidade.
+- Apresentar informacoes de carreira, videos, referencias, estimativas salariais e formacoes.
+- Oferecer roadmaps interativos com recursos e projetos para cada area.
+- Permitir cadastro opcional para comparar tentativas e acompanhar a evolucao dos interesses.
 - Disponibilizar um painel administrativo com metricas gerais de uso.
 - Manter a aplicacao online para testes em escolas e apresentacao final.
 
@@ -40,14 +41,19 @@ Criar uma aplicacao web que ajude estudantes a identificar areas de tecnologia a
 
 - Pagina inicial com apresentacao da proposta.
 - Pagina "Sobre" explicando o objetivo do projeto.
-- Catalogo de areas de TI.
-- Pagina detalhada para cada area.
+- Explorador pesquisavel de areas de TI, com busca e filtros.
+- Pagina detalhada para cada area, com rotina, habilidades, cargos e mercado.
 - Quiz publico com dados iniciais do estudante.
 - Selecao de escolas estaduais de Pimenta Bueno com opcao para outra escola.
+- Quiz com 16 perguntas objetivas, cinco opcoes de resposta e desempate dinamico.
+- Navegacao por clique ou tecla `Enter`.
 - Resultado personalizado com compatibilidade, top 3 e proximos passos.
+- Estimativas salariais com nivel, escopo, metodologia e fontes.
+- Formacoes regionais e recursos online gratuitos por area.
+- Roadmap completo por area, com explicacoes, links, projetos e checklist local.
 - Compartilhamento simples do resultado.
 - Cadastro e login opcionais.
-- Historico "Meus resultados" para usuarios autenticados.
+- Area "Minha evolucao" com resumo, comparacao e historico para usuarios autenticados.
 - Recuperacao de senha por e-mail com token temporario.
 - Dashboard administrativo com estatisticas.
 - Deploy online com Render e banco MySQL no Aiven.
@@ -59,7 +65,7 @@ O projeto segue o padrao MVC:
 - **Model:** representa as entidades do dominio e tabelas do banco, como `Conta`, `Usuario`, `Resultado`, `Pergunta`, `Resposta` e `PerguntaPeso`.
 - **View:** paginas Thymeleaf localizadas em `src/main/resources/templates`.
 - **Controller:** recebe requisicoes web, valida entradas e direciona respostas, como `QuizController`, `AuthController`, `AreaController` e `DashboardController`.
-- **Service:** concentra regras de negocio, como calculo do quiz, seguranca de conta, metricas, conteudo de areas e recuperacao de senha.
+- **Service:** concentra regras de negocio, como calculo do quiz, seguranca de conta, metricas, exploracao de areas, roadmaps, conteudos de carreira e recuperacao de senha.
 - **Repository:** acessa o banco de dados com Spring Data JPA.
 
 Essa separacao facilita manutencao, testes e explicacao tecnica do sistema.
@@ -76,7 +82,7 @@ Essa separacao facilita manutencao, testes e explicacao tecnica do sistema.
 | Spring Security | Login, autorizacao, CSRF e protecoes HTTP |
 | MySQL | Banco de dados principal |
 | H2 | Banco em memoria para desenvolvimento e testes rapidos |
-| HTML, CSS e JavaScript | Interface, estilos e interacoes |
+| HTML, CSS modular e JavaScript | Interface responsiva, estilos por pagina e interacoes |
 | Render | Hospedagem da aplicacao |
 | Aiven MySQL | Banco MySQL online |
 | DBeaver | Cliente para administrar e consultar o banco |
@@ -106,16 +112,21 @@ perguntas 1---N respostas
 
 O campo `conta_id` em `resultados` e opcional. Isso permite que o visitante faca o quiz sem login. Quando a pessoa se cadastra ou entra no sistema, o resultado pode ser vinculado a sua conta.
 
+As respostas usam valores entre `-2` e `2`, representando discordancia total, discordancia parcial, neutralidade, concordancia parcial e concordancia total. Em bancos existentes, essa restricao e atualizada pelo script `08-respostas-parciais.sql`.
+
 ## 9. Fluxo do quiz
 
 1. O estudante acessa a pagina do quiz.
 2. Informa nome, idade e escola.
-3. Responde 12 perguntas principais.
-4. Cada resposta soma pontos para uma ou mais areas de TI.
-5. O sistema calcula o ranking de areas.
-6. Se as primeiras areas ficarem muito proximas, o sistema aplica perguntas extras de desempate.
-7. A pagina de resultado mostra a rota mais compativel, porcentagem, top 3 e conteudos relacionados.
-8. O visitante pode salvar o resultado criando conta ou fazendo login.
+3. Responde 16 perguntas principais, duas para cada area, usando uma escala de cinco opcoes.
+4. Pode avancar por clique ou pela tecla `Enter`.
+5. Cada resposta soma ou reduz pontos em uma ou mais areas de TI, conforme os pesos cadastrados.
+6. O sistema normaliza as pontuacoes e calcula o ranking de areas.
+7. Se algumas areas ficarem muito proximas, o sistema aplica de duas a tres perguntas extras de desempate.
+8. A pagina de resultado mostra a rota mais compativel, porcentagem, top 3, resumo do roadmap e proximos passos.
+9. O visitante pode explorar formacoes, salario, projetos e o roadmap completo sem criar conta.
+10. O visitante pode salvar o resultado criando conta ou fazendo login.
+11. Com duas ou mais tentativas salvas, a area "Minha evolucao" compara os resultados recentes.
 
 O resultado e orientativo. Ele nao substitui acompanhamento pedagogico ou decisao pessoal de carreira.
 
@@ -134,6 +145,7 @@ O projeto adota cuidados de seguranca e privacidade:
 - O banco salva apenas o hash do token de recuperacao.
 - Credenciais de banco e SMTP ficam em variaveis de ambiente.
 - O sistema coleta apenas dados necessarios para o funcionamento do quiz e historico.
+- O progresso do roadmap fica somente no navegador da pessoa, em `localStorage`, e nao e enviado ao banco.
 
 Pela LGPD, o projeto deve informar ao usuario quais dados sao coletados e para qual finalidade. Os dados principais sao nome, idade, escola, e-mail e respostas do quiz, usados para gerar resultados, salvar historico e produzir estatisticas gerais.
 
@@ -182,6 +194,8 @@ Arquivos importantes:
 - `docs/deploy-online.md`
 - `database/mysql/01-schema.sql`
 - `database/mysql/02-seed-perguntas.sql`
+- `database/mysql/08-respostas-parciais.sql`
+- `database/mysql/09-balanceamento-quiz.sql`
 
 Variaveis principais:
 
@@ -207,6 +221,9 @@ O PDF gerado a partir desta documentacao inclui prints das principais telas:
 - Detalhe de uma area.
 - Inicio do quiz.
 - Resultado gerado.
+- Roadmap interativo.
+- Explorador de areas.
+- Minha evolucao.
 
 ## 14. Testes e validacao
 
@@ -217,7 +234,11 @@ O projeto possui testes automatizados para validar:
 - montagem da visualizacao de resultado;
 - conteudos das areas;
 - busca de escolas estaduais;
-- autenticacao e seguranca.
+- autenticacao e seguranca;
+- balanceamento e desempate do quiz;
+- exploracao das areas;
+- estrutura dos roadmaps;
+- comparacao de resultados da conta.
 
 Comando:
 
@@ -227,6 +248,6 @@ Comando:
 
 ## 15. Consideracoes finais
 
-O Rota TI entrega uma solucao funcional para orientacao inicial em carreiras de tecnologia. O projeto combina uma experiencia simples para estudantes com uma estrutura tecnica organizada em MVC, persistencia em banco, seguranca, dashboard administrativo, deploy online e documentacao de apoio.
+O Rota TI entrega uma solucao funcional para orientacao inicial em carreiras de tecnologia. O projeto combina um quiz simples com conteudo pratico de carreira: exploracao de areas, formacoes regionais, estimativas salariais, projetos e roadmaps interativos. A estrutura tecnica permanece organizada em MVC, com persistencia em banco, seguranca, dashboard administrativo, deploy online e documentacao de apoio.
 
-Como evolucoes futuras, o sistema pode receber confirmacao de e-mail, CRUD administrativo de perguntas, exportacao de relatorios anonimizados e novas trilhas de formacao por regiao.
+Como evolucoes futuras, o sistema pode receber confirmacao de e-mail, CRUD administrativo de perguntas, exportacao de relatorios anonimizados, revisao periodica automatizada dos links e novos conteudos baseados em entrevistas com estudantes.

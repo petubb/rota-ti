@@ -30,13 +30,39 @@ class DetalheAreaServiceTests {
             var salario = service.buscarPorArea(area).getSalario();
 
             assertThat(salario.getResumo()).contains("R$");
+            assertThat(salario.getCargoReferencia()).isNotBlank();
+            assertThat(salario.getEscopo()).isNotBlank();
+            assertThat(salario.getCompetencia()).isNotBlank();
+            assertThat(salario.getNatureza()).isNotBlank();
             assertThat(salario.getObservacao()).isNotBlank();
+            assertThat(salario.getMetodologia()).isNotBlank();
+            assertThat(salario.getFaixas()).hasSize(3)
+                    .allSatisfy(faixa -> {
+                        assertThat(faixa.getRotulo()).isNotBlank();
+                        assertThat(faixa.getValor()).contains("R$");
+                        assertThat(faixa.getLeitura()).isNotBlank();
+                    });
             assertThat(salario.getFontes()).isNotEmpty();
             assertThat(salario.getFontes())
                     .allSatisfy(fonte -> {
                         assertThat(fonte.getTitulo()).isNotBlank();
+                        assertThat(fonte.getDescricao()).isNotBlank();
                         assertThat(fonte.getUrl()).startsWith("https://");
                     });
         }
+    }
+
+    @Test
+    void diferenciaFaixasPorSenioridadeDeQuartisEstatisticos() {
+        var desenvolvimento = service.buscarPorArea(AreaTi.DESENVOLVIMENTO).getSalario();
+        var ux = service.buscarPorArea(AreaTi.UX_UI).getSalario();
+
+        assertThat(desenvolvimento.getFaixas())
+                .extracting(faixa -> faixa.getRotulo())
+                .containsExactly("Junior", "Pleno", "Senior");
+        assertThat(ux.getFaixas())
+                .extracting(faixa -> faixa.getRotulo())
+                .containsExactly("Quartil inferior", "Mediana", "Quartil superior");
+        assertThat(ux.getMetodologia()).contains("nao equivalem automaticamente a junior, pleno e senior");
     }
 }

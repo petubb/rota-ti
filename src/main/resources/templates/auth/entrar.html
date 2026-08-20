@@ -3,25 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Acesse sua conta para consultar os resultados salvos no Rota TI.">
+    <meta name="description" content="Acesse sua conta para comparar resultados e acompanhar seus interesses no Rota TI.">
     <title>Entrar | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body class="auth-page">
-<header class="site-header auth-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orientacao profissional</small></span>
-    </a>
-    <a th:href="@{/quiz}">Fazer o teste</a>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('entrar')}"></th:block>
 
 <main class="auth-main">
     <section class="auth-panel" aria-labelledby="login-title">
         <div class="auth-heading">
-            <p class="eyebrow">Sua conta</p>
-            <h1 id="login-title">Entre para ver seus resultados.</h1>
-            <p>O questionario continua livre. A conta serve para guardar e consultar suas rotas.</p>
+            <p class="eyebrow">Sua jornada</p>
+            <h1 id="login-title">Veja como seus interesses evoluem.</h1>
+            <p>Entre para reunir suas tentativas e comparar as rotas que mais combinaram com voc&ecirc; em cada momento.</p>
+            <ul class="auth-benefit-list" aria-label="Beneficios da conta">
+                <li><strong>Hist&oacute;rico organizado</strong><span>Consulte seus resultados sem depender do mesmo aparelho.</span></li>
+                <li><strong>Compara&ccedil;&atilde;o entre testes</strong><span>Veja o que se manteve e o que mudou nas tentativas recentes.</span></li>
+                <li><strong>Quiz sempre livre</strong><span>A conta &eacute; opcional e nunca bloqueia o question&aacute;rio.</span></li>
+            </ul>
         </div>
 
         <p class="form-alert error" th:if="${param.erro}">E-mail ou senha invalidos, ou acesso temporariamente bloqueado.</p>
@@ -40,7 +39,7 @@
             <button class="button primary" type="submit">Entrar</button>
         </form>
 
-        <p class="auth-alternative">Ainda nao tem conta? <a th:href="@{/cadastro}">Criar conta</a></p>
+        <p class="auth-alternative">Ainda n&atilde;o tem conta? <a th:href="@{/cadastro}">Criar conta</a> ou <a th:href="@{/quiz}">fazer o quiz sem cadastro</a>.</p>
     </section>
 </main>
 

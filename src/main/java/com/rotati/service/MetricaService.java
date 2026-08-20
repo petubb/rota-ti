@@ -1,7 +1,9 @@
 package com.rotati.service;
 
 import com.rotati.dto.DashboardAreaResumo;
+import com.rotati.dto.DashboardAtividadeResumo;
 import com.rotati.dto.DashboardContaRecente;
+import com.rotati.dto.DashboardDistribuicaoResumo;
 import com.rotati.dto.DashboardMetricas;
 import com.rotati.dto.DashboardPerguntasResumo;
 import com.rotati.dto.DashboardResultadoRecente;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -83,6 +86,11 @@ public class MetricaService {
                 .filter(resultado -> resultado.getSatisfacao() != null)
                 .count();
         long totalContas = contaRepository.count();
+        long resultadosVisitantes = totalResultados - resultadosSalvos;
+        double idadeMedia = resultados.stream()
+                .mapToInt(resultado -> resultado.getUsuario().getIdade())
+                .average()
+                .orElse(0.0);
 
         return new DashboardMetricas(
                 usuarioRepository.count(),
@@ -95,12 +103,102 @@ public class MetricaService {
                 mediaSatisfacao,
                 mediaScore,
                 percentual(resultadosSalvos, totalResultados),
+                resultadosVisitantes,
+                idadeMedia,
                 distribuicaoComTitulos,
                 areas,
+                atividadeSemanal(resultados),
+                faixasEtarias(resultados),
+                satisfacaoDistribuicao(resultados, satisfacoesRecebidas),
                 resultadosRecentes(),
                 contasRecentes(),
                 perguntasResumo()
         );
+    }
+
+    private List<DashboardAtividadeResumo> atividadeSemanal(List<Resultado> resultados) {
+        LocalDate hoje = LocalDate.now();
+        Map<LocalDate, Long> porDia = resultados.stream()
+                .filter(resultado -> resultado.getCreatedAt() != null)
+                .collect(Collectors.groupingBy(
+                        resultado -> resultado.getCreatedAt().toLocalDate(),
+                        Collectors.counting()
+                ));
+
+        long maiorTotal = 0;
+        for (int diasAtras = 6; diasAtras >= 0; diasAtras--) {
+            maiorTotal = Math.max(maiorTotal, porDia.getOrDefault(hoje.minusDays(diasAtras), 0L));
+        }
+
+        List<DashboardAtividadeResumo> atividade = new ArrayList<>();
+        for (int diasAtras = 6; diasAtras >= 0; diasAtras--) {
+            LocalDate data = hoje.minusDays(diasAtras);
+            long total = porDia.getOrDefault(data, 0L);
+            double altura = maiorTotal == 0 ? 0.0 : percentual(total, maiorTotal);
+            atividade.add(new DashboardAtividadeResumo(
+                    abreviarDia(data),
+                    data.format(DateTimeFormatter.ofPattern("dd/MM")),
+                    total,
+                    altura
+            ));
+        }
+        return atividade;
+    }
+
+    private List<DashboardDistribuicaoResumo> faixasEtarias(List<Resultado> resultados) {
+        long total = resultados.size();
+        long ate15 = contarIdades(resultados, 12, 15);
+        long ate18 = contarIdades(resultados, 16, 18);
+        long ate24 = contarIdades(resultados, 19, 24);
+        long acima24 = resultados.stream()
+                .filter(resultado -> resultado.getUsuario().getIdade() >= 25)
+                .count();
+
+        return List.of(
+                distribuicao("12 a 15", ate15, total),
+                distribuicao("16 a 18", ate18, total),
+                distribuicao("19 a 24", ate24, total),
+                distribuicao("25 ou mais", acima24, total)
+        );
+    }
+
+    private List<DashboardDistribuicaoResumo> satisfacaoDistribuicao(
+            List<Resultado> resultados,
+            long satisfacoesRecebidas
+    ) {
+        List<DashboardDistribuicaoResumo> distribuicao = new ArrayList<>();
+        for (int nota = 5; nota >= 1; nota--) {
+            int notaAtual = nota;
+            long total = resultados.stream()
+                    .filter(resultado -> resultado.getSatisfacao() != null)
+                    .filter(resultado -> resultado.getSatisfacao() == notaAtual)
+                    .count();
+            distribuicao.add(distribuicao(nota + " estrelas", total, satisfacoesRecebidas));
+        }
+        return distribuicao;
+    }
+
+    private long contarIdades(List<Resultado> resultados, int minima, int maxima) {
+        return resultados.stream()
+                .mapToInt(resultado -> resultado.getUsuario().getIdade())
+                .filter(idade -> idade >= minima && idade <= maxima)
+                .count();
+    }
+
+    private DashboardDistribuicaoResumo distribuicao(String label, long total, long universo) {
+        return new DashboardDistribuicaoResumo(label, total, percentual(total, universo));
+    }
+
+    private String abreviarDia(LocalDate data) {
+        return switch (data.getDayOfWeek()) {
+            case MONDAY -> "Seg";
+            case TUESDAY -> "Ter";
+            case WEDNESDAY -> "Qua";
+            case THURSDAY -> "Qui";
+            case FRIDAY -> "Sex";
+            case SATURDAY -> "Sab";
+            case SUNDAY -> "Dom";
+        };
     }
 
     private List<DashboardResultadoRecente> resultadosRecentes() {

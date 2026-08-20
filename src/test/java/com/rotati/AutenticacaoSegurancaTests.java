@@ -2,6 +2,7 @@ package com.rotati;
 
 import com.rotati.dto.CadastroForm;
 import com.rotati.dto.QuizSubmission;
+import com.rotati.model.AreaTi;
 import com.rotati.model.Conta;
 import com.rotati.model.PapelConta;
 import com.rotati.model.Resultado;
@@ -37,12 +38,14 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -125,6 +128,17 @@ class AutenticacaoSegurancaTests {
     }
 
     @Test
+    void navegacaoPrincipalPermaneceCompletaEDestacaPaginaAtual() throws Exception {
+        mockMvc.perform(get("/areas"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString(">Sobre</a>")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString(">&Aacute;reas</a>")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString(">Quiz</a>")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString(">Entrar</a>")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("aria-current=\"page\"")));
+    }
+
+    @Test
     void areaDaContaExigeLoginEPostSemCsrfERecusado() throws Exception {
         mockMvc.perform(get("/minha-conta/resultados"))
                 .andExpect(status().is3xxRedirection())
@@ -189,7 +203,9 @@ class AutenticacaoSegurancaTests {
 
         mockMvc.perform(get("/dashboard").with(user(new ContaPrincipal(conta))))
                 .andExpect(status().isOk())
-                .andExpect(view().name("dashboard"));
+                .andExpect(view().name("dashboard"))
+                .andExpect(content().string(containsString("id=\"activity-title\"")))
+                .andExpect(content().string(containsString("id=\"satisfaction-title\"")));
     }
 
     @Test
@@ -233,6 +249,60 @@ class AutenticacaoSegurancaTests {
         assertThatThrownBy(() -> resultadoContaService.exigirAcesso(
                 resultado.getId(), new ContaPrincipal(intruso), sessaoCriadora
         )).isInstanceOf(ResultadoNaoEncontradoException.class);
+    }
+
+    @Test
+    void contaResumeEComparaResultadosSalvosSemCriarNovosDados() throws Exception {
+        Conta conta = contaService.criarConta(novoCadastro(emailUnico()));
+        long resultadosAntesDaLeitura = resultadoRepository.count();
+        Resultado desenvolvimentoAntigo = resultadoSalvo(
+                conta, "desenvolvimento-software", 68.0, LocalDateTime.now().minusDays(30)
+        );
+        resultadoSalvo(conta, "desenvolvimento-software", 74.0, LocalDateTime.now().minusDays(10));
+        Resultado uxRecente = resultadoSalvo(
+                conta, "ux-ui-design", 81.0, LocalDateTime.now().minusDays(1)
+        );
+
+        var evolucao = resultadoContaService.buscarEvolucao(new ContaPrincipal(conta));
+
+        assertThat(evolucao.getTotalTestes()).isEqualTo(3);
+        assertThat(evolucao.getAreasExploradas()).isEqualTo(2);
+        assertThat(evolucao.getAreaRecorrente()).isEqualTo(AreaTi.DESENVOLVIMENTO);
+        assertThat(evolucao.getRecorrenciasDaArea()).isEqualTo(2);
+        assertThat(evolucao.getMaisRecente().getId()).isEqualTo(uxRecente.getId());
+        assertThat(evolucao.getResultados().getLast().getId()).isEqualTo(desenvolvimentoAntigo.getId());
+        assertThat(evolucao.isPossuiComparacao()).isTrue();
+        assertThat(evolucao.isManteveAreaRecente()).isFalse();
+        assertThat(resultadoRepository.count()).isEqualTo(resultadosAntesDaLeitura + 3);
+
+        mockMvc.perform(get("/minha-conta/resultados").with(user(new ContaPrincipal(conta))))
+                .andExpect(status().isOk())
+                .andExpect(view().name("conta/resultados"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.model()
+                        .attribute("evolucao", org.hamcrest.Matchers.notNullValue()));
+    }
+
+    @Test
+    void evolucaoDiferenciaContaVaziaPrimeiroResultadoEAumentoNaMesmaRota() {
+        Conta conta = contaService.criarConta(novoCadastro(emailUnico()));
+        ContaPrincipal principal = new ContaPrincipal(conta);
+
+        var evolucaoVazia = resultadoContaService.buscarEvolucao(principal);
+        assertThat(evolucaoVazia.isVazia()).isTrue();
+        assertThat(evolucaoVazia.isPossuiComparacao()).isFalse();
+
+        resultadoSalvo(conta, "seguranca-cibernetica", 65.0, LocalDateTime.now().minusDays(8));
+        var primeiroRegistro = resultadoContaService.buscarEvolucao(principal);
+        assertThat(primeiroRegistro.isVazia()).isFalse();
+        assertThat(primeiroRegistro.getTotalTestes()).isEqualTo(1);
+        assertThat(primeiroRegistro.isPossuiComparacao()).isFalse();
+
+        resultadoSalvo(conta, "seguranca-cibernetica", 78.0, LocalDateTime.now().minusDays(1));
+        var comparacao = resultadoContaService.buscarEvolucao(principal);
+        assertThat(comparacao.isManteveAreaRecente()).isTrue();
+        assertThat(comparacao.isScoreRecenteSubiu()).isTrue();
+        assertThat(comparacao.isScoreRecenteCaiu()).isFalse();
+        assertThat(comparacao.getVariacaoScoreRecenteAbsoluta()).isEqualTo(13.0);
     }
 
     @Test
@@ -350,6 +420,14 @@ class AutenticacaoSegurancaTests {
         form.setSenha(SENHA_FORTE);
         form.setConfirmarSenha(SENHA_FORTE);
         return form;
+    }
+
+    private Resultado resultadoSalvo(Conta conta, String areaSlug, double score, LocalDateTime data) {
+        Usuario usuario = usuarioRepository.save(new Usuario("Pessoa Teste", 18, "Escola Teste"));
+        Resultado resultado = new Resultado(usuario, areaSlug, score);
+        resultado.setConta(conta);
+        ReflectionTestUtils.setField(resultado, "createdAt", data);
+        return resultadoRepository.save(resultado);
     }
 
     private String emailUnico() {

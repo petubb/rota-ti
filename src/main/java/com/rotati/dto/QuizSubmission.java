@@ -17,7 +17,7 @@ public class QuizSubmission {
 
     @NotNull(message = "Informe sua idade.")
     @Min(value = 12, message = "A idade minima esperada e 12 anos.")
-    @Max(value = 25, message = "A idade maxima esperada e 25 anos.")
+    @Max(value = 120, message = "A idade maxima esperada e 120 anos.")
     private Integer idade;
 
     @NotBlank(message = "Informe sua escola.")

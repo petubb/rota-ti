@@ -8,18 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body class="admin-page">
-<header class="site-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Administra&ccedil;&atilde;o</small></span>
-    </a>
-    <nav>
-        <a th:href="@{/quiz}">Quiz</a>
-        <a th:href="@{/areas}">&Aacute;reas</a>
-        <a th:href="@{/sobre}">Sobre</a>
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('dashboard')}"></th:block>
 
 <main class="admin-main">
     <section class="admin-hero" aria-labelledby="admin-title">
@@ -61,6 +50,108 @@
             <span>Perguntas no quiz</span>
             <strong th:text="${metricas.perguntas.total}">0</strong>
             <p th:text="|${metricas.perguntas.base} base, ${metricas.perguntas.desempate} desempate|">0 base</p>
+        </article>
+    </section>
+
+    <section class="admin-insights" aria-label="Leitura rápida dos dados">
+        <article class="admin-panel admin-activity-panel" aria-labelledby="activity-title">
+            <div class="admin-panel-heading">
+                <div>
+                    <p class="eyebrow">Ritmo de uso</p>
+                    <h2 id="activity-title">Resultados nos últimos 7 dias</h2>
+                </div>
+                <span>Volume por dia</span>
+            </div>
+
+            <div class="admin-column-chart" aria-label="Resultados gerados em cada um dos últimos sete dias">
+                <div class="admin-column" th:each="dia : ${metricas.atividadeSemanal}">
+                    <strong th:text="${dia.total}">0</strong>
+                    <div class="admin-column-track" aria-hidden="true">
+                        <i th:style="|--column-height: ${#numbers.formatDecimal(dia.altura, 1, 0)}%|"></i>
+                    </div>
+                    <span th:text="${dia.dia}">Seg</span>
+                    <small th:text="${dia.data}">01/01</small>
+                </div>
+            </div>
+        </article>
+
+        <article class="admin-panel admin-origin-panel" aria-labelledby="origin-title">
+            <div class="admin-panel-heading">
+                <div>
+                    <p class="eyebrow">Continuidade</p>
+                    <h2 id="origin-title">Conta ou acesso livre</h2>
+                </div>
+            </div>
+
+            <div class="admin-origin-content">
+                <div class="admin-donut"
+                     th:style="|--saved-percent: ${#numbers.formatDecimal(metricas.taxaSalvamento, 1, 1)}%|"
+                     aria-hidden="true">
+                    <div>
+                        <strong th:text="|${#numbers.formatDecimal(metricas.taxaSalvamento, 1, 0)}%|">0%</strong>
+                        <span>salvos</span>
+                    </div>
+                </div>
+                <dl class="admin-chart-legend">
+                    <div>
+                        <dt><i class="legend-saved" aria-hidden="true"></i>Vinculados a contas</dt>
+                        <dd th:text="${metricas.resultadosSalvos}">0</dd>
+                    </div>
+                    <div>
+                        <dt><i class="legend-visitor" aria-hidden="true"></i>Feitos como visitante</dt>
+                        <dd th:text="${metricas.resultadosVisitantes}">0</dd>
+                    </div>
+                </dl>
+            </div>
+        </article>
+
+        <article class="admin-panel admin-audience-panel" aria-labelledby="audience-title">
+            <div class="admin-panel-heading">
+                <div>
+                    <p class="eyebrow">Público</p>
+                    <h2 id="audience-title">Faixas etárias</h2>
+                </div>
+                <span th:text="|Média de ${#numbers.formatDecimal(metricas.idadeMedia, 1, 1)} anos|">Média de 0 anos</span>
+            </div>
+
+            <div class="admin-stacked-bar" aria-label="Distribuição dos perfis por faixa etária">
+                <i th:each="faixa, stat : ${metricas.faixasEtarias}"
+                   th:classappend="| age-tone-${stat.index + 1}|"
+                   th:style="|--segment-width: ${#numbers.formatDecimal(faixa.percentual, 1, 1)}%|"
+                   th:title="|${faixa.label}: ${faixa.total} (${#numbers.formatDecimal(faixa.percentual, 1, 1)}%)|"></i>
+            </div>
+
+            <dl class="admin-age-legend">
+                <div th:each="faixa, stat : ${metricas.faixasEtarias}">
+                    <dt>
+                        <i th:classappend="| age-tone-${stat.index + 1}|" aria-hidden="true"></i>
+                        <span th:text="${faixa.label}">12 a 15</span>
+                    </dt>
+                    <dd>
+                        <strong th:text="${faixa.total}">0</strong>
+                        <small th:text="|${#numbers.formatDecimal(faixa.percentual, 1, 1)}%|">0%</small>
+                    </dd>
+                </div>
+            </dl>
+        </article>
+
+        <article class="admin-panel admin-satisfaction-panel" aria-labelledby="satisfaction-title">
+            <div class="admin-panel-heading">
+                <div>
+                    <p class="eyebrow">Percepção</p>
+                    <h2 id="satisfaction-title">Como o projeto foi avaliado</h2>
+                </div>
+                <span th:text="|${metricas.satisfacoesRecebidas} respostas|">0 respostas</span>
+            </div>
+
+            <div class="admin-rating-list">
+                <div class="admin-rating-row" th:each="avaliacao : ${metricas.satisfacaoDistribuicao}"
+                     th:style="|--rating-percent: ${#numbers.formatDecimal(avaliacao.percentual, 1, 1)}%|">
+                    <span th:text="${avaliacao.label}">5 estrelas</span>
+                    <div aria-hidden="true"><i></i></div>
+                    <strong th:text="${avaliacao.total}">0</strong>
+                </div>
+            </div>
         </article>
     </section>
 
@@ -110,7 +201,7 @@
                 </div>
             </div>
 
-            <p class="admin-panel-note">As perguntas de desempate ajudam quando duas rotas ficam muito pr&oacute;ximas na pontua&ccedil;&atilde;o.</p>
+            <p class="admin-panel-note">As perguntas de desempate ajudam quando algumas rotas ficam muito pr&oacute;ximas na pontua&ccedil;&atilde;o.</p>
         </article>
     </section>
 

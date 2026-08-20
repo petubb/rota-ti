@@ -11,7 +11,6 @@ public enum AreaTi {
             "Criatividade + raciocinio logico",
             "Cria sistemas, sites, aplicativos e solucoes digitais para resolver problemas reais.",
             List.of("Logica de programacao", "Java, JavaScript ou Python", "Git e GitHub", "Resolucao de problemas"),
-            "R$ 2.500 a R$ 6.000 para niveis iniciais e intermediarios",
             "Transforma uma necessidade em codigo, testa, corrige bugs e melhora funcionalidades com o time.",
             List.of("Grace Hopper", "Linus Torvalds", "James Gosling"),
             List.of("Logica de Programacao", "HTML, CSS e JavaScript", "Java com Spring Boot", "Projetos para portfolio"),
@@ -23,7 +22,6 @@ public enum AreaTi {
             "Analise + organizacao",
             "Organiza dados e cria relatorios para ajudar pessoas e empresas a tomar decisoes melhores.",
             List.of("Excel ou Google Sheets", "SQL", "Power BI", "Pensamento analitico"),
-            "R$ 2.800 a R$ 7.000 para analistas em inicio e meio de carreira",
             "Coleta dados, limpa informacoes, monta dashboards e explica os resultados para outras areas.",
             List.of("Edward Tufte", "Florence Nightingale", "Hans Rosling"),
             List.of("Excel para analise", "SQL basico", "Power BI", "Estatistica introdutoria"),
@@ -35,7 +33,6 @@ public enum AreaTi {
             "Investigacao + atencao aos detalhes",
             "Protege sistemas, redes e dados contra falhas, golpes e ataques digitais.",
             List.of("Redes", "Linux", "Analise de vulnerabilidades", "Etica e responsabilidade"),
-            "R$ 3.000 a R$ 8.000 em funcoes iniciais e intermediarias",
             "Analisa alertas, investiga riscos, corrige configuracoes e orienta boas praticas de protecao.",
             List.of("Whitfield Diffie", "Radia Perlman", "Katie Moussouris"),
             List.of("Fundamentos de redes", "Linux basico", "Introducao a seguranca", "Laboratorios CTF para iniciantes"),
@@ -47,7 +44,6 @@ public enum AreaTi {
             "Organizacao + operacao",
             "Mantem computadores, servidores, redes e servicos funcionando com estabilidade.",
             List.of("Redes de computadores", "Sistemas operacionais", "Suporte tecnico", "Documentacao"),
-            "R$ 2.200 a R$ 6.000 conforme certificacoes e experiencia",
             "Configura equipamentos, monitora sistemas, atende chamados e resolve indisponibilidades.",
             List.of("Radia Perlman", "Vint Cerf", "Bob Kahn"),
             List.of("Redes basicas", "Windows e Linux", "Cloud introdutoria", "ITIL fundamentos"),
@@ -59,7 +55,6 @@ public enum AreaTi {
             "Criatividade + empatia",
             "Desenha experiencias digitais simples, bonitas e acessiveis para usuarios reais.",
             List.of("Pesquisa com usuarios", "Figma", "Prototipacao", "Comunicacao visual"),
-            "R$ 2.500 a R$ 6.500 em cargos junior e pleno",
             "Entende dores dos usuarios, cria telas, testa fluxos e melhora a experiencia do produto.",
             List.of("Don Norman", "Jakob Nielsen", "Susan Kare"),
             List.of("Figma basico", "UX Research", "Design System", "Acessibilidade web"),
@@ -71,7 +66,6 @@ public enum AreaTi {
             "Criatividade + narrativa",
             "Planeja mecanicas, fases, regras e experiencias para jogos digitais ou analogicos.",
             List.of("Narrativa", "Prototipacao", "Unity ou Godot", "Balanceamento de regras"),
-            "R$ 2.000 a R$ 6.000, variando bastante por estudio e tipo de projeto",
             "Cria conceitos de jogo, testa mecanicas, ajusta dificuldade e trabalha com arte e programacao.",
             List.of("Shigeru Miyamoto", "Hideo Kojima", "Jane McGonigal"),
             List.of("Game design basico", "Godot ou Unity", "Roteiro para jogos", "Prototipos pequenos"),
@@ -83,7 +77,6 @@ public enum AreaTi {
             "Curiosidade + matematica",
             "Usa dados, modelos e algoritmos para criar sistemas que reconhecem padroes e apoiam decisoes.",
             List.of("Matematica basica", "Python", "Dados", "Pensamento experimental"),
-            "R$ 4.000 a R$ 10.000, normalmente exigindo base forte em dados e programacao",
             "Treina modelos, testa resultados, ajusta dados e transforma experimentos em solucoes uteis.",
             List.of("Alan Turing", "Fei-Fei Li", "Geoffrey Hinton"),
             List.of("Python basico", "Estatistica", "Machine Learning introdutorio", "Projetos com dados publicos"),
@@ -95,7 +88,6 @@ public enum AreaTi {
             "Lideranca + organizacao",
             "Coordena pessoas, processos e prioridades para entregar tecnologia com valor.",
             List.of("Comunicacao", "Organizacao", "Metodologias ageis", "Visao de negocio"),
-            "R$ 3.500 a R$ 9.000, dependendo do nivel de responsabilidade",
             "Organiza demandas, conversa com equipes, acompanha prazos e ajuda a remover bloqueios.",
             List.of("Peter Drucker", "Mary Parker Follett", "Marty Cagan"),
             List.of("Scrum basico", "Gestao de projetos", "Comunicacao profissional", "Produto digital"),
@@ -107,7 +99,6 @@ public enum AreaTi {
     private final String perfil;
     private final String descricao;
     private final List<String> habilidades;
-    private final String salario;
     private final String rotina;
     private final List<String> referencias;
     private final List<String> cursos;
@@ -119,7 +110,6 @@ public enum AreaTi {
             String perfil,
             String descricao,
             List<String> habilidades,
-            String salario,
             String rotina,
             List<String> referencias,
             List<String> cursos,
@@ -130,7 +120,6 @@ public enum AreaTi {
         this.perfil = perfil;
         this.descricao = descricao;
         this.habilidades = habilidades;
-        this.salario = salario;
         this.rotina = rotina;
         this.referencias = referencias;
         this.cursos = cursos;
@@ -161,10 +150,6 @@ public enum AreaTi {
 
     public List<String> getHabilidades() {
         return habilidades;
-    }
-
-    public String getSalario() {
-        return salario;
     }
 
     public String getRotina() {

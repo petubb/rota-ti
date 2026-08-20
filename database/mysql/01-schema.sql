@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     escola VARCHAR(100) NOT NULL,
     created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     PRIMARY KEY (id),
-    CONSTRAINT chk_usuarios_idade CHECK (idade BETWEEN 12 AND 25),
+    CONSTRAINT chk_usuarios_idade CHECK (idade BETWEEN 12 AND 120),
     INDEX idx_usuarios_created_at (created_at)
 ) ENGINE = InnoDB;
 
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS respostas (
     valor INT NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT uk_respostas_usuario_pergunta UNIQUE (usuario_id, pergunta_id),
-    CONSTRAINT chk_respostas_valor CHECK (valor BETWEEN -1 AND 1),
+    CONSTRAINT chk_respostas_valor CHECK (valor BETWEEN -2 AND 2),
     CONSTRAINT fk_respostas_usuario
         FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
         ON UPDATE RESTRICT ON DELETE CASCADE,

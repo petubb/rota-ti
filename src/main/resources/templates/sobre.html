@@ -3,124 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conheca o Rota TI, uma plataforma de orientacao profissional para estudantes explorarem caminhos em tecnologia.">
-    <title>Sobre | Rota TI</title>
+    <meta name="description" content="Conhe&ccedil;a o Rota TI, sua origem no Conex&atilde;o Sicoob, a equipe e as apresenta&ccedil;&otilde;es realizadas com estudantes.">
+    <title>Sobre o projeto | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script defer th:src="@{/js/about-carousel.js}" src="/js/about-carousel.js"></script>
 </head>
 <body class="about-page">
-<header class="site-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orientacao profissional</small></span>
-    </a>
-    <nav aria-label="Navegacao da pagina sobre">
-        <a th:href="@{/areas}">&Aacute;reas</a>
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-        <a class="button primary header-cta" th:href="@{/quiz}">Fazer o teste</a>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('sobre')}"></th:block>
 
 <main>
     <section class="about-hero" aria-labelledby="about-title">
-        <div class="about-container about-hero-grid">
+        <img class="about-hero-image"
+             th:src="@{/images/sobre/apresentacao-turma.webp}"
+             src="/images/sobre/apresentacao-turma.webp"
+             alt="Estudantes reunidos durante uma apresenta&ccedil;&atilde;o do Rota TI"
+             width="1600" height="1200" fetchpriority="high">
+        <div class="about-hero-overlay" aria-hidden="true"></div>
+        <div class="about-container about-hero-content">
+            <p class="eyebrow">Um projeto do Conex&atilde;o Sicoob</p>
+            <h1 id="about-title">Rota TI</h1>
+            <p class="about-hero-lead">Tecnologia tem muitos caminhos. Nosso trabalho &eacute; ajudar estudantes a enxergar por onde podem come&ccedil;ar.</p>
+            <div class="actions">
+                <a class="button primary" th:href="@{/quiz}">Descobrir minha rota</a>
+                <a class="button about-hero-secondary" th:href="@{/areas}">Explorar as &aacute;reas</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-story" aria-labelledby="story-title">
+        <div class="about-container about-story-grid">
             <div>
-                <p class="eyebrow">Sobre o projeto</p>
-                <h1 id="about-title">Orientacao simples para descobrir caminhos em tecnologia.</h1>
+                <p class="eyebrow">Por que o Rota TI existe</p>
+                <h2 id="story-title">Uma orienta&ccedil;&atilde;o mais pr&oacute;xima de quem ainda est&aacute; escolhendo.</h2>
+            </div>
+            <div class="about-story-copy">
                 <p>
-                    O Rota TI ajuda estudantes a entenderem que tecnologia nao e uma carreira unica.
-                    Existem rotas diferentes para quem gosta de criar sistemas, analisar dados,
-                    proteger ambientes, desenhar experiencias, cuidar de redes, trabalhar com jogos,
-                    explorar inteligencia artificial ou coordenar projetos.
+                    Muita gente conhece a tecnologia apenas pela programa&ccedil;&atilde;o. Quando esse &eacute; o &uacute;nico caminho
+                    apresentado, estudantes que gostam de organiza&ccedil;&atilde;o, criatividade, investiga&ccedil;&atilde;o, dados,
+                    pessoas ou infraestrutura podem acreditar que n&atilde;o combinam com a &aacute;rea.
                 </p>
-                <div class="actions">
-                    <a class="button primary" th:href="@{/quiz}">Comecar pelo quiz</a>
-                    <a class="button secondary" th:href="@{/areas}">Conhecer as areas</a>
+                <p>
+                    O Rota TI nasceu para ampliar essa vis&atilde;o. O quiz identifica sinais de afinidade e conecta o
+                    resultado a explica&ccedil;&otilde;es, possibilidades profissionais, roadmaps, cursos e forma&ccedil;&otilde;es. A
+                    recomenda&ccedil;&atilde;o n&atilde;o decide o futuro de ningu&eacute;m: ela oferece um ponto de partida para pesquisar,
+                    experimentar e fazer escolhas mais conscientes.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-program" aria-labelledby="program-title">
+        <div class="about-container about-program-grid">
+            <figure class="about-program-photo">
+                <img th:src="@{/images/sobre/resultado-no-celular.webp}"
+                     src="/images/sobre/resultado-no-celular.webp"
+                     alt="Resultado do quiz Rota TI sendo visualizado em um celular"
+                     width="1000" height="1333" loading="lazy" decoding="async">
+                <figcaption>O projeto sendo testado por estudantes durante uma apresenta&ccedil;&atilde;o.</figcaption>
+            </figure>
+            <div>
+                <p class="eyebrow">De uma forma&ccedil;&atilde;o para a comunidade</p>
+                <h2 id="program-title">Constru&iacute;do durante o Conex&atilde;o Sicoob</h2>
+                <p>
+                    O Conex&atilde;o Sicoob prepara jovens para o mercado de trabalho em tecnologia. Dentro dessa forma&ccedil;&atilde;o,
+                    o Rota TI foi desenvolvido como projeto pr&aacute;tico: uma solu&ccedil;&atilde;o funcional para aproximar estudantes
+                    das diferentes possibilidades profissionais da &aacute;rea.
+                </p>
+                <p>
+                    O trabalho saiu da tela e foi levado para apresenta&ccedil;&otilde;es com jovens da regi&atilde;o. Essas conversas
+                    ajudaram a observar d&uacute;vidas reais, testar o quiz no celular e transformar sugest&otilde;es em melhorias
+                    no sistema.
+                </p>
+                <ul class="about-program-points">
+                    <li>Orienta&ccedil;&atilde;o acess&iacute;vel para quem est&aacute; come&ccedil;ando.</li>
+                    <li>Conte&uacute;do conectado &agrave; realidade de Rond&ocirc;nia.</li>
+                    <li>Projeto constru&iacute;do, apresentado e melhorado em contato com estudantes.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-team" aria-labelledby="team-title">
+        <div class="about-container">
+            <div class="about-section-heading">
+                <p class="eyebrow">Quem est&aacute; por tr&aacute;s</p>
+                <h2 id="team-title">Pessoas construindo a rota</h2>
+                <p>O projeto combina experi&ecirc;ncias profissionais, forma&ccedil;&atilde;o em tecnologia e vontade de tornar esse universo mais compreens&iacute;vel para outros jovens.</p>
+            </div>
+
+            <div class="about-team-grid">
+                <article class="about-person-card">
+                    <img class="about-person-photo about-person-photo-pethrus"
+                         th:src="@{/images/sobre/pethrus-ernandes.webp}"
+                         src="/images/sobre/pethrus-ernandes.webp"
+                         alt="Pethrus Ernandes, integrante do projeto Rota TI"
+                         width="800" height="1500" loading="lazy" decoding="async">
+                    <div class="about-person-content">
+                        <p class="about-person-role">Desenvolvimento e comunica&ccedil;&atilde;o digital</p>
+                        <h3>Pethrus Ernandes</h3>
+                        <p>
+                            Atua na Andrade &amp; Bastos com gest&atilde;o de tr&aacute;fego pago. Est&aacute; no &uacute;ltimo semestre de
+                            Engenharia de Software e pretende seguir carreira em tecnologia, aproximando desenvolvimento,
+                            comunica&ccedil;&atilde;o e vis&atilde;o de produto.
+                        </p>
+                        <ul class="about-person-topics" aria-label="Experi&ecirc;ncias de Pethrus Ernandes">
+                            <li>Engenharia de Software</li>
+                            <li>Tr&aacute;fego pago</li>
+                            <li>Produto digital</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="about-person-card">
+                    <img class="about-person-photo about-person-photo-matheus"
+                         th:src="@{/images/sobre/matheus.webp}"
+                         src="/images/sobre/matheus.webp"
+                         alt="Matheus, integrante do projeto Rota TI"
+                         width="640" height="640" loading="lazy" decoding="async">
+                    <div class="about-person-content">
+                        <p class="about-person-role">Infraestrutura e redes FTTH</p>
+                        <h3>Matheus</h3>
+                        <p>
+                            Aos 20 anos, atua como projetista de redes com foco em infraestrutura FTTH. Desenvolve estudos
+                            de viabilidade e projetos de expans&atilde;o que ajudam a levar fibra &oacute;ptica de pequenos bairros a
+                            cidades inteiras, enquanto continua ampliando seus conhecimentos em tecnologia.
+                        </p>
+                        <ul class="about-person-topics" aria-label="Experi&ecirc;ncias de Matheus">
+                            <li>Redes FTTH</li>
+                            <li>Fibra &oacute;ptica</li>
+                            <li>Projetos de expans&atilde;o</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="about-person-card">
+                    <img class="about-person-photo about-person-photo-emanuel"
+                         th:src="@{/images/sobre/emanuel-ramos.webp}"
+                         src="/images/sobre/emanuel-ramos.webp"
+                         alt="Emanuel Ramos, integrante do projeto Rota TI"
+                         width="664" height="1200" loading="lazy" decoding="async">
+                    <div class="about-person-content">
+                        <p class="about-person-role">Forma&ccedil;&atilde;o em tecnologia</p>
+                        <h3>Emanuel Ramos</h3>
+                        <p>
+                            Estudante do IFRO na &aacute;rea de Tecnologia da Informa&ccedil;&atilde;o, est&aacute; construindo sua forma&ccedil;&atilde;o
+                            e conhecendo diferentes caminhos da tecnologia. No Rota TI, contribui com a perspectiva de quem
+                            transforma curiosidade em aprendizado e novas possibilidades para o futuro.
+                        </p>
+                        <ul class="about-person-topics" aria-label="Interesses e forma&ccedil;&atilde;o de Emanuel Ramos">
+                            <li>Tecnologia da Informa&ccedil;&atilde;o</li>
+                            <li>IFRO</li>
+                            <li>Aprendizado</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-gallery" aria-labelledby="gallery-title">
+        <div class="about-container">
+            <div class="about-section-heading about-gallery-heading">
+                <p class="eyebrow">Rota TI em campo</p>
+                <h2 id="gallery-title">Conversas que ajudaram o projeto a evoluir</h2>
+                <p>Registros das apresenta&ccedil;&otilde;es, dos testes e das trocas com estudantes.</p>
+            </div>
+
+            <div class="about-carousel" data-about-carousel
+                 role="region" aria-roledescription="carrossel"
+                 aria-label="Registros das apresenta&ccedil;&otilde;es do Rota TI">
+                <div class="about-carousel-viewport" data-carousel-viewport tabindex="0">
+                    <div class="about-carousel-track">
+                        <figure class="about-carousel-slide about-carousel-slide-phone"
+                                role="group" aria-roledescription="slide" aria-label="1 de 7">
+                            <img th:src="@{/images/sobre/carrossel-resultado-gestao.webp}"
+                                 src="/images/sobre/carrossel-resultado-gestao.webp"
+                                 alt="Estudante consultando no celular seu resultado de Gest&atilde;o de TI"
+                                 width="900" height="1200" loading="lazy" decoding="async">
+                        </figure>
+                        <figure class="about-carousel-slide"
+                                role="group" aria-roledescription="slide" aria-label="2 de 7">
+                            <img th:src="@{/images/sobre/carrossel-turma-senac.webp}"
+                                 src="/images/sobre/carrossel-turma-senac.webp"
+                                 alt="Turma reunida depois de uma apresenta&ccedil;&atilde;o do Rota TI"
+                                 width="1600" height="1200" loading="lazy" decoding="async">
+                        </figure>
+                        <figure class="about-carousel-slide"
+                                role="group" aria-roledescription="slide" aria-label="3 de 7">
+                            <img th:src="@{/images/sobre/carrossel-apresentacao-mitos.webp}"
+                                 src="/images/sobre/carrossel-apresentacao-mitos.webp"
+                                 alt="Apresenta&ccedil;&atilde;o sobre mitos e realidade das carreiras em tecnologia"
+                                 width="1600" height="1200" loading="lazy" decoding="async">
+                        </figure>
+                        <figure class="about-carousel-slide about-carousel-slide-phone"
+                                role="group" aria-roledescription="slide" aria-label="4 de 7">
+                            <img th:src="@{/images/sobre/carrossel-resultado-infra.webp}"
+                                 src="/images/sobre/carrossel-resultado-infra.webp"
+                                 alt="Resultado de Infraestrutura e Redes aberto em um celular"
+                                 width="900" height="1200" loading="lazy" decoding="async">
+                        </figure>
+                        <figure class="about-carousel-slide about-carousel-slide-portrait"
+                                role="group" aria-roledescription="slide" aria-label="5 de 7">
+                            <img th:src="@{/images/sobre/carrossel-apresentacao-escola.webp}"
+                                 src="/images/sobre/carrossel-apresentacao-escola.webp"
+                                 alt="Apresenta&ccedil;&atilde;o do quiz Rota TI em uma escola"
+                                 width="900" height="1200" loading="lazy" decoding="async">
+                        </figure>
+                        <figure class="about-carousel-slide"
+                                role="group" aria-roledescription="slide" aria-label="6 de 7">
+                            <img th:src="@{/images/sobre/carrossel-encontro-comunidade.webp}"
+                                 src="/images/sobre/carrossel-encontro-comunidade.webp"
+                                 alt="Jovens e familiares reunidos durante um encontro do projeto"
+                                 width="1600" height="1200" loading="lazy" decoding="async">
+                        </figure>
+                        <figure class="about-carousel-slide about-carousel-slide-portrait"
+                                role="group" aria-roledescription="slide" aria-label="7 de 7">
+                            <img th:src="@{/images/sobre/carrossel-apresentacao-tecnologia.webp}"
+                                 src="/images/sobre/carrossel-apresentacao-tecnologia.webp"
+                                 alt="Conversa com estudantes sobre as diferentes &aacute;reas da tecnologia"
+                                 width="900" height="1200" loading="lazy" decoding="async">
+                        </figure>
+                    </div>
+                </div>
+
+                <div class="about-carousel-controls" aria-label="Controles do carrossel">
+                    <button class="about-carousel-arrow" type="button" data-carousel-previous
+                            aria-label="Mostrar foto anterior" title="Foto anterior">
+                        <span aria-hidden="true">&larr;</span>
+                    </button>
+                    <p class="about-carousel-count" aria-hidden="true">
+                        <span data-carousel-current>01</span>
+                        <span>/ 07</span>
+                    </p>
+                    <button class="about-carousel-arrow" type="button" data-carousel-next
+                            aria-label="Mostrar pr&oacute;xima foto" title="Pr&oacute;xima foto">
+                        <span aria-hidden="true">&rarr;</span>
+                    </button>
                 </div>
             </div>
-
-            <aside class="about-summary" aria-label="Resumo do Rota TI">
-                <span>Proposito</span>
-                <strong>Transformar curiosidade em primeiro passo.</strong>
-                <p>
-                    A plataforma combina questionario, resultado explicado, trilhas de estudo,
-                    referencias e formacoes proximas para apoiar escolhas mais conscientes.
-                </p>
-            </aside>
         </div>
     </section>
 
-    <section class="about-section" aria-labelledby="why-title">
-        <div class="about-container about-two-column">
-            <article>
-                <p class="eyebrow">Problema</p>
-                <h2 id="why-title">Muita gente conhece TI por uma porta so.</h2>
-                <p>
-                    Quando tecnologia aparece apenas como programacao, parte dos estudantes nao se
-                    identifica e acaba deixando de explorar areas que poderiam combinar com seu jeito
-                    de pensar, estudar e resolver problemas.
-                </p>
-            </article>
-            <article>
-                <p class="eyebrow">Solucao</p>
-                <h2>Uma rota explicada, nao uma resposta fechada.</h2>
-                <p>
-                    O resultado mostra a area mais compativel, caminhos relacionados, habilidades,
-                    possibilidades profissionais e proximos passos. Ele serve como ponto de partida,
-                    nao como limite para a escolha do estudante.
-                </p>
-            </article>
-        </div>
-    </section>
-
-    <section class="about-section about-process-section" aria-labelledby="about-process-title">
-        <div class="about-container">
-            <div class="about-heading">
-                <p class="eyebrow">Como funciona</p>
-                <h2 id="about-process-title">Do interesse ao plano inicial</h2>
-            </div>
-
-            <ol class="about-process-list">
-                <li>
-                    <span>01</span>
-                    <h3>Perfil</h3>
-                    <p>O estudante informa nome, idade, escola e responde perguntas objetivas sobre interesses.</p>
-                </li>
-                <li>
-                    <span>02</span>
-                    <h3>Resultado</h3>
-                    <p>O sistema calcula afinidade com as areas e explica o que conectou o perfil a rota indicada.</p>
-                </li>
-                <li>
-                    <span>03</span>
-                    <h3>Exploracao</h3>
-                    <p>A tela apresenta profissi&otilde;es, estudos, videos, referencias e forma&ccedil;&otilde;es proximas.</p>
-                </li>
-                <li>
-                    <span>04</span>
-                    <h3>Continuidade</h3>
-                    <p>Quem cria conta pode salvar resultados, comparar caminhos e acompanhar novas tentativas.</p>
-                </li>
-            </ol>
-        </div>
-    </section>
-
-    <section class="about-section" aria-labelledby="care-title">
-        <div class="about-container about-care-grid">
+    <section class="about-closing" aria-labelledby="closing-title">
+        <div class="about-container about-closing-grid">
             <div>
-                <p class="eyebrow">Cuidado com dados</p>
-                <h2 id="care-title">O projeto pede apenas o necessario para orientar melhor.</h2>
-                <p>
-                    Nome, idade e escola ajudam a contextualizar os resultados e as estatisticas do projeto.
-                    Login e salvamento sao opcionais. Senhas sao protegidas com hash BCrypt e o objetivo
-                    dos dados e melhorar a orientacao, nao expor informacoes pessoais.
-                </p>
+                <p class="eyebrow">Uma ferramenta para explorar</p>
+                <h2 id="closing-title">Nenhum resultado &eacute; uma senten&ccedil;a. &Eacute; o come&ccedil;o de uma conversa.</h2>
             </div>
-            <ul class="about-care-list">
-                <li>Questionario livre para uso sem cadastro obrigatorio.</li>
-                <li>Conta opcional para guardar historico de resultados.</li>
-                <li>Resultados apresentados como afinidade, nao diagnostico definitivo.</li>
-                <li>Conteudos e formacoes tratados como ponto de partida para pesquisa.</li>
-            </ul>
+            <div>
+                <p>O Rota TI continuar&aacute; evoluindo com novos testes, conte&uacute;dos e aprendizados vindos das pessoas que utilizam a plataforma.</p>
+                <div class="actions">
+                    <a class="button primary" th:href="@{/quiz}">Fazer o quiz</a>
+                    <a class="about-text-link" th:href="@{/privacidade}">Conhecer nossa pol&iacute;tica de privacidade</a>
+                </div>
+            </div>
         </div>
     </section>
 </main>

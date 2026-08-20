@@ -8,24 +8,88 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body class="home-page">
-<header class="site-header home-header">
-    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
-        <span class="brand-mark" aria-hidden="true">RT</span>
-        <span>Rota TI<small>Orientacao profissional</small></span>
-    </a>
-    <nav aria-label="Navegacao principal">
-        <a th:href="@{/sobre}">Sobre</a>
-        <a th:href="@{/areas}">&Aacute;reas</a>
-        <th:block th:replace="~{fragments/conta-nav :: links}"></th:block>
-        <a class="button primary header-cta" th:href="@{/quiz}">
-            <span class="cta-full">Fazer o teste</span>
-            <span class="cta-short">Teste</span>
-        </a>
-    </nav>
-</header>
+<th:block th:replace="~{fragments/site-header :: header('home')}"></th:block>
 
 <main>
     <section class="home-hero" aria-labelledby="home-title">
+        <div class="home-hero-carousel" aria-hidden="true">
+            <div class="home-hero-carousel-track">
+                <div class="home-hero-carousel-set">
+                    <figure class="home-hero-frame home-hero-frame-phone">
+                        <img th:src="@{/images/sobre/carrossel-resultado-gestao.webp}"
+                             src="/images/sobre/carrossel-resultado-gestao.webp" alt=""
+                             width="900" height="1200" fetchpriority="high" decoding="async">
+                    </figure>
+                    <figure class="home-hero-frame">
+                        <img th:src="@{/images/sobre/carrossel-turma-senac.webp}"
+                             src="/images/sobre/carrossel-turma-senac.webp" alt=""
+                             width="1600" height="1200" decoding="async">
+                    </figure>
+                    <figure class="home-hero-frame">
+                        <img th:src="@{/images/sobre/carrossel-apresentacao-mitos.webp}"
+                             src="/images/sobre/carrossel-apresentacao-mitos.webp" alt=""
+                             width="1600" height="1200" decoding="async">
+                    </figure>
+                    <figure class="home-hero-frame home-hero-frame-phone">
+                        <img th:src="@{/images/sobre/carrossel-resultado-infra.webp}"
+                             src="/images/sobre/carrossel-resultado-infra.webp" alt=""
+                             width="900" height="1200" decoding="async">
+                    </figure>
+                    <figure class="home-hero-frame home-hero-frame-portrait">
+                        <img th:src="@{/images/sobre/carrossel-apresentacao-escola.webp}"
+                             src="/images/sobre/carrossel-apresentacao-escola.webp" alt=""
+                             width="900" height="1200" decoding="async">
+                    </figure>
+                    <figure class="home-hero-frame">
+                        <img th:src="@{/images/sobre/carrossel-encontro-comunidade.webp}"
+                             src="/images/sobre/carrossel-encontro-comunidade.webp" alt=""
+                             width="1600" height="1200" decoding="async">
+                    </figure>
+                    <figure class="home-hero-frame home-hero-frame-portrait">
+                        <img th:src="@{/images/sobre/carrossel-apresentacao-tecnologia.webp}"
+                             src="/images/sobre/carrossel-apresentacao-tecnologia.webp" alt=""
+                             width="900" height="1200" decoding="async">
+                    </figure>
+                </div>
+                <div class="home-hero-carousel-set">
+                    <figure class="home-hero-frame home-hero-frame-phone">
+                        <img th:src="@{/images/sobre/carrossel-resultado-gestao.webp}"
+                             src="/images/sobre/carrossel-resultado-gestao.webp" alt=""
+                             width="900" height="1200" decoding="async">
+                    </figure>
+                    <figure class="home-hero-frame">
+                        <img th:src="@{/images/sobre/carrossel-turma-senac.webp}"
+                             src="/images/sobre/carrossel-turma-senac.webp" alt=""
+                             width="1600" height="1200" decoding="async">
+                    </figure>
+                    <figure class="home-hero-frame">
+                        <img th:src="@{/images/sobre/carrossel-apresentacao-mitos.webp}"
+                             src="/images/sobre/carrossel-apresentacao-mitos.webp" alt=""
+                             width="1600" height="1200" decoding="async">
+                    </figure>
+                    <figure class="home-hero-frame home-hero-frame-phone">
+                        <img th:src="@{/images/sobre/carrossel-resultado-infra.webp}"
+                             src="/images/sobre/carrossel-resultado-infra.webp" alt=""
+                             width="900" height="1200" decoding="async">
+                    </figure>
+                    <figure class="home-hero-frame home-hero-frame-portrait">
+                        <img th:src="@{/images/sobre/carrossel-apresentacao-escola.webp}"
+                             src="/images/sobre/carrossel-apresentacao-escola.webp" alt=""
+                             width="900" height="1200" decoding="async">
+                    </figure>
+                    <figure class="home-hero-frame">
+                        <img th:src="@{/images/sobre/carrossel-encontro-comunidade.webp}"
+                             src="/images/sobre/carrossel-encontro-comunidade.webp" alt=""
+                             width="1600" height="1200" decoding="async">
+                    </figure>
+                    <figure class="home-hero-frame home-hero-frame-portrait">
+                        <img th:src="@{/images/sobre/carrossel-apresentacao-tecnologia.webp}"
+                             src="/images/sobre/carrossel-apresentacao-tecnologia.webp" alt=""
+                             width="900" height="1200" decoding="async">
+                    </figure>
+                </div>
+            </div>
+        </div>
         <div class="home-hero-inner">
             <p class="home-kicker"><span aria-hidden="true"></span> Seu futuro em tecnologia come&ccedil;a aqui</p>
             <h1 id="home-title">Rota TI <span>Encontre o caminho que combina com voc&ecirc;.</span></h1>
@@ -39,7 +103,7 @@
             </div>
             <ul class="hero-facts" aria-label="Informacoes do questionario">
                 <li><strong>8</strong><span>&aacute;reas mapeadas</span></li>
-                <li><strong th:text="${totalPerguntas}">12</strong><span>perguntas objetivas</span></li>
+                <li><strong th:text="${totalPerguntas}">16</strong><span>perguntas objetivas</span></li>
                 <li><strong>1</strong><span>rota personalizada</span></li>
             </ul>
         </div>

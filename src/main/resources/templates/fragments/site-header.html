@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+<header class="site-header" th:fragment="header(activePage)">
+    <a class="brand brand-lockup" th:href="@{/}" aria-label="Rota TI - pagina inicial">
+        <span class="brand-mark brand-logo-mark" aria-hidden="true">
+            <img th:src="@{/images/brand/rota-ti-logo.png}" alt="">
+        </span>
+        <span>Rota TI<small>Orienta&ccedil;&atilde;o profissional</small></span>
+    </a>
+
+    <button class="site-nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation"
+            title="Abrir menu" data-nav-toggle>
+        <span class="sr-only">Abrir menu</span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+    </button>
+
+    <nav id="site-navigation" class="site-navigation" aria-label="Navegacao principal" data-site-navigation>
+        <a th:href="@{/sobre}" th:classappend="${activePage == 'sobre'} ? ' is-active'"
+           th:attr="aria-current=${activePage == 'sobre'} ? 'page' : null">Sobre</a>
+        <a th:href="@{/areas}" th:classappend="${activePage == 'areas'} ? ' is-active'"
+           th:attr="aria-current=${activePage == 'areas'} ? 'page' : null">&Aacute;reas</a>
+        <a class="button primary header-cta" th:href="@{/quiz}"
+           th:classappend="${activePage == 'quiz'} ? ' is-active'"
+           th:attr="aria-current=${activePage == 'quiz'} ? 'page' : null">Quiz</a>
+
+        <a th:if="${contaLogada == null}" th:href="@{/entrar}"
+           th:classappend="${activePage == 'entrar'} ? ' is-active'"
+           th:attr="aria-current=${activePage == 'entrar'} ? 'page' : null">Entrar</a>
+        <a th:if="${contaLogada != null}" th:href="@{/minha-conta/resultados}"
+           th:classappend="${activePage == 'evolucao'} ? ' is-active'"
+           th:attr="aria-current=${activePage == 'evolucao'} ? 'page' : null">Minha evolu&ccedil;&atilde;o</a>
+        <a th:if="${contaAdmin}" th:href="@{/dashboard}"
+           th:classappend="${activePage == 'dashboard'} ? ' is-active'"
+           th:attr="aria-current=${activePage == 'dashboard'} ? 'page' : null">Dashboard</a>
+        <form class="account-logout-form" th:if="${contaLogada != null}" th:action="@{/sair}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button class="account-logout" type="submit">Sair</button>
+        </form>
+    </nav>
+    <script defer th:src="@{/js/site-navigation.js}"></script>
+</header>
+</body>
+</html>
