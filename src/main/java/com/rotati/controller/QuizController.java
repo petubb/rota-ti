@@ -10,6 +10,7 @@ import com.rotati.service.DetalheAreaService;
 import com.rotati.service.EscolaEstadualService;
 import com.rotati.service.EscolaEstadualService.EscolaEstadual;
 import com.rotati.service.QuizService;
+import com.rotati.service.QuizTentativaService;
 import com.rotati.service.ResultadoContaService;
 import com.rotati.service.ResultadoContaService.PerfilResultado;
 import jakarta.servlet.http.HttpSession;
@@ -43,19 +44,22 @@ public class QuizController {
     private final DetalheAreaService detalheAreaService;
     private final ResultadoContaService resultadoContaService;
     private final EscolaEstadualService escolaEstadualService;
+    private final QuizTentativaService quizTentativaService;
 
     public QuizController(
             QuizService quizService,
             ConteudoAreaService conteudoAreaService,
             DetalheAreaService detalheAreaService,
             ResultadoContaService resultadoContaService,
-            EscolaEstadualService escolaEstadualService
+            EscolaEstadualService escolaEstadualService,
+            QuizTentativaService quizTentativaService
     ) {
         this.quizService = quizService;
         this.conteudoAreaService = conteudoAreaService;
         this.detalheAreaService = detalheAreaService;
         this.resultadoContaService = resultadoContaService;
         this.escolaEstadualService = escolaEstadualService;
+        this.quizTentativaService = quizTentativaService;
     }
 
     @ModelAttribute("escolasEstaduais")
@@ -75,6 +79,7 @@ public class QuizController {
             @AuthenticationPrincipal ContaPrincipal principal
     ) {
         limparQuizPendente(session);
+        quizTentativaService.iniciar(session);
         if (!model.containsAttribute("submission")) {
             model.addAttribute("submission", submissionInicial(session, principal));
         }
@@ -113,6 +118,7 @@ public class QuizController {
 
         Resultado resultado = quizService.processar(submission);
         resultadoContaService.registrarResultadoGerado(resultado, principal, session);
+        quizTentativaService.concluir(session, resultado);
         lembrarPerfil(submission, session);
         redirectAttributes.addFlashAttribute("mensagem", "Resultado gerado com sucesso.");
         return "redirect:/resultado/" + resultado.getId();
@@ -148,6 +154,7 @@ public class QuizController {
 
         Resultado resultado = quizService.processar(quizPendente);
         resultadoContaService.registrarResultadoGerado(resultado, principal, session);
+        quizTentativaService.concluir(session, resultado);
         lembrarPerfil(quizPendente, session);
         limparQuizPendente(session);
         redirectAttributes.addFlashAttribute("mensagem", "Resultado gerado com sucesso.");

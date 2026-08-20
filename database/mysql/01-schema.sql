@@ -123,3 +123,17 @@ CREATE TABLE IF NOT EXISTS resultados (
     INDEX idx_resultados_area (area),
     INDEX idx_resultados_created_at (created_at)
 ) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS tentativas_quiz (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    resultado_id BIGINT NULL,
+    iniciada_em DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    concluida_em DATETIME(6) NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT uk_tentativas_quiz_resultado UNIQUE (resultado_id),
+    CONSTRAINT fk_tentativas_quiz_resultado
+        FOREIGN KEY (resultado_id) REFERENCES resultados (id)
+        ON UPDATE RESTRICT ON DELETE SET NULL,
+    INDEX idx_tentativas_quiz_iniciada_em (iniciada_em),
+    INDEX idx_tentativas_quiz_concluida_em (concluida_em)
+) ENGINE = InnoDB;

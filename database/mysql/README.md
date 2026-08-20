@@ -104,6 +104,14 @@ database/mysql/10-amplia-faixa-etaria.sql
 
 O script `10` substitui somente a restricao de idade da tabela `usuarios`. Ele nao apaga nem modifica usuarios, contas, perguntas, respostas ou resultados existentes e pode ser executado novamente com seguranca.
 
+Para acompanhar quantas pessoas iniciam e concluem o quiz, execute:
+
+```text
+database/mysql/11-tentativas-quiz.sql
+```
+
+O script `11` cria a tabela `tentativas_quiz` sem apagar dados. Os resultados que ja existiam sao registrados como tentativas concluidas, preservando o historico do dashboard. Ele pode ser executado novamente com seguranca.
+
 ## 3. Conferir no DBeaver
 
 Atualize a arvore da conexao. O banco `rotati` deve conter:
@@ -115,6 +123,7 @@ Atualize a arvore da conexao. O banco `rotati` deve conter:
 - `resultados`
 - `contas`
 - `tokens_recuperacao_senha`
+- `tentativas_quiz`
 
 Consultas de verificacao:
 

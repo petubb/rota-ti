@@ -6,6 +6,7 @@
     <meta name="description" content="Painel administrativo do Rota TI.">
     <title>Admin | Rota TI</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script defer th:src="@{/js/dashboard.js}"></script>
 </head>
 <body class="admin-page">
 <th:block th:replace="~{fragments/site-header :: header('dashboard')}"></th:block>
@@ -19,6 +20,43 @@
         </div>
         <a class="button secondary" th:href="@{/quiz}">Abrir quiz</a>
     </section>
+
+    <form class="admin-filters" method="get" th:action="@{/dashboard}" aria-label="Filtrar per&iacute;odos do dashboard">
+        <div class="admin-filter-heading">
+            <span>Per&iacute;odos do painel</span>
+            <p>Escolha quanto tempo deseja considerar em cada bloco.</p>
+        </div>
+        <label>
+            <span>Gr&aacute;fico de atividade</span>
+            <select name="diasAtividade">
+                <option value="7" th:selected="${filtros.diasAtividade == 7}">&Uacute;ltimos 7 dias</option>
+                <option value="14" th:selected="${filtros.diasAtividade == 14}">&Uacute;ltimos 14 dias</option>
+                <option value="30" th:selected="${filtros.diasAtividade == 30}">&Uacute;ltimos 30 dias</option>
+            </select>
+        </label>
+        <label>
+            <span>Resultados</span>
+            <select name="diasResultados">
+                <option value="7" th:selected="${filtros.diasResultados == 7}">&Uacute;ltimos 7 dias</option>
+                <option value="30" th:selected="${filtros.diasResultados == 30}">&Uacute;ltimos 30 dias</option>
+                <option value="90" th:selected="${filtros.diasResultados == 90}">&Uacute;ltimos 90 dias</option>
+                <option value="0" th:selected="${filtros.diasResultados == 0}">Todo o per&iacute;odo</option>
+            </select>
+        </label>
+        <label>
+            <span>Contas criadas</span>
+            <select name="diasContas">
+                <option value="7" th:selected="${filtros.diasContas == 7}">&Uacute;ltimos 7 dias</option>
+                <option value="30" th:selected="${filtros.diasContas == 30}">&Uacute;ltimos 30 dias</option>
+                <option value="90" th:selected="${filtros.diasContas == 90}">&Uacute;ltimos 90 dias</option>
+                <option value="0" th:selected="${filtros.diasContas == 0}">Todo o per&iacute;odo</option>
+            </select>
+        </label>
+        <div class="admin-filter-actions">
+            <button class="button" type="submit">Aplicar filtros</button>
+            <a th:href="@{/dashboard}">Restaurar</a>
+        </div>
+    </form>
 
     <section class="admin-kpis" aria-label="Indicadores principais">
         <article class="admin-kpi">
@@ -46,10 +84,12 @@
             <strong th:text="${#numbers.formatDecimal(metricas.mediaSatisfacao, 1, 1)}">0.0</strong>
             <p th:text="|${metricas.satisfacoesRecebidas} avaliacoes recebidas|">0 avaliacoes</p>
         </article>
-        <article class="admin-kpi">
-            <span>Perguntas no quiz</span>
-            <strong th:text="${metricas.perguntas.total}">0</strong>
-            <p th:text="|${metricas.perguntas.base} base, ${metricas.perguntas.desempate} desempate|">0 base</p>
+        <article class="admin-kpi admin-kpi-conversion">
+            <span>Taxa de conclus&atilde;o</span>
+            <strong th:text="|${#numbers.formatDecimal(metricas.conversaoQuiz.taxaConclusao, 1, 1)}%|">0%</strong>
+            <p th:text="|${metricas.conversaoQuiz.concluidas} conclu&iacute;das, ${metricas.conversaoQuiz.naoConcluidas} n&atilde;o conclu&iacute;das|">0 conclu&iacute;das</p>
+            <small th:if="${metricas.conversaoQuiz.emAndamento > 0}"
+                   th:text="|${metricas.conversaoQuiz.emAndamento} em andamento agora|">0 em andamento</small>
         </article>
     </section>
 
@@ -58,19 +98,23 @@
             <div class="admin-panel-heading">
                 <div>
                     <p class="eyebrow">Ritmo de uso</p>
-                    <h2 id="activity-title">Resultados nos últimos 7 dias</h2>
+                    <h2 id="activity-title" th:text="|Resultados nos &uacute;ltimos ${filtros.diasAtividade} dias|">Resultados no per&iacute;odo</h2>
                 </div>
                 <span>Volume por dia</span>
             </div>
 
-            <div class="admin-column-chart" aria-label="Resultados gerados em cada um dos últimos sete dias">
-                <div class="admin-column" th:each="dia : ${metricas.atividadeSemanal}">
-                    <strong th:text="${dia.total}">0</strong>
-                    <div class="admin-column-track" aria-hidden="true">
-                        <i th:style="|--column-height: ${#numbers.formatDecimal(dia.altura, 1, 0)}%|"></i>
+            <div class="admin-chart-scroll">
+                <div class="admin-column-chart"
+                     th:style="|--activity-days: ${filtros.diasAtividade}|"
+                     aria-label="Resultados gerados em cada dia do per&iacute;odo escolhido">
+                    <div class="admin-column" th:each="dia : ${metricas.atividadePeriodo}">
+                        <strong th:text="${dia.total}">0</strong>
+                        <div class="admin-column-track" aria-hidden="true">
+                            <i th:style="|--column-height: ${#numbers.formatDecimal(dia.altura, 1, 0)}%|"></i>
+                        </div>
+                        <span th:text="${dia.dia}">Seg</span>
+                        <small th:text="${dia.data}">01/01</small>
                     </div>
-                    <span th:text="${dia.dia}">Seg</span>
-                    <small th:text="${dia.data}">01/01</small>
                 </div>
             </div>
         </article>
@@ -133,6 +177,18 @@
                     </dd>
                 </div>
             </dl>
+
+            <details class="admin-age-details">
+                <summary>Detalhar todas as idades registradas</summary>
+                <div class="admin-age-exact-grid" th:unless="${#lists.isEmpty(metricas.idadesDetalhadas)}">
+                    <div th:each="idade : ${metricas.idadesDetalhadas}">
+                        <span th:text="${idade.label}">18 anos</span>
+                        <strong th:text="${idade.total}">0</strong>
+                        <small th:text="|${#numbers.formatDecimal(idade.percentual, 1, 1)}%|">0%</small>
+                    </div>
+                </div>
+                <p class="admin-panel-note" th:if="${#lists.isEmpty(metricas.idadesDetalhadas)}">Ainda n&atilde;o h&aacute; idades registradas.</p>
+            </details>
         </article>
 
         <article class="admin-panel admin-satisfaction-panel" aria-labelledby="satisfaction-title">
@@ -209,41 +265,43 @@
         <div class="admin-panel-heading">
             <div>
                 <p class="eyebrow">Atividade</p>
-                <h2 id="recent-results-title">&Uacute;ltimos resultados</h2>
+                <h2 id="recent-results-title"
+                    th:text="${filtros.diasResultados == 0 ? 'Todos os resultados' : 'Resultados dos &uacute;ltimos ' + filtros.diasResultados + ' dias'}">Resultados</h2>
             </div>
+            <span th:text="|${#lists.size(metricas.resultadosRecentes)} registros|">0 registros</span>
         </div>
 
         <div class="admin-empty" th:if="${#lists.isEmpty(metricas.resultadosRecentes)}">
-            Nenhum resultado gerado ainda.
+            Nenhum resultado encontrado nesse per&iacute;odo.
         </div>
 
         <div class="admin-table-wrap" th:unless="${#lists.isEmpty(metricas.resultadosRecentes)}">
-            <table class="admin-table">
+            <table class="admin-table" data-sortable-table>
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>&Aacute;rea</th>
-                    <th>Score</th>
-                    <th>Satisfa&ccedil;&atilde;o</th>
-                    <th>Perfil</th>
-                    <th>Conta</th>
-                    <th>Data</th>
+                    <th aria-sort="none"><button type="button" data-sort-index="0" data-sort-type="number">ID <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="1">&Aacute;rea <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="2" data-sort-type="number">Score <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="3" data-sort-type="number">Satisfa&ccedil;&atilde;o <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="4" data-sort-type="number">Idade <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="5">Escola <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="6">Conta <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="7" data-sort-type="number">Data <i aria-hidden="true"></i></button></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="resultado : ${metricas.resultadosRecentes}">
-                    <td th:text="${resultado.id}">1</td>
-                    <td>
+                    <td th:text="${resultado.id}" th:attr="data-sort-value=${resultado.id}">1</td>
+                    <td th:attr="data-sort-value=${resultado.areaTitulo}">
                         <a th:href="@{/area/{slug}(slug=${resultado.areaSlug})}" th:text="${resultado.areaTitulo}">&Aacute;rea</a>
                     </td>
-                    <td th:text="|${#numbers.formatDecimal(resultado.score, 1, 1)}%|">0%</td>
-                    <td th:text="${resultado.satisfacao == null ? '-' : resultado.satisfacao}">-</td>
-                    <td>
-                        <span th:text="|${resultado.idade} anos|">0 anos</span>
-                        <small th:text="${resultado.escola}">Escola</small>
-                    </td>
-                    <td th:text="${resultado.contaNome}">Visitante</td>
-                    <td th:text="${resultado.criadoEm}">-</td>
+                    <td th:text="|${#numbers.formatDecimal(resultado.score, 1, 1)}%|" th:attr="data-sort-value=${resultado.score}">0%</td>
+                    <td th:text="${resultado.satisfacao == null ? '-' : resultado.satisfacao}"
+                        th:attr="data-sort-value=${resultado.satisfacao == null ? -1 : resultado.satisfacao}">-</td>
+                    <td th:text="|${resultado.idade} anos|" th:attr="data-sort-value=${resultado.idade}">0 anos</td>
+                    <td th:text="${resultado.escola}" th:attr="data-sort-value=${resultado.escola}">Escola</td>
+                    <td th:text="${resultado.contaNome}" th:attr="data-sort-value=${resultado.contaNome}">Visitante</td>
+                    <td th:text="${resultado.criadoEm}" th:attr="data-sort-value=${resultado.criadoEmOrdem}">-</td>
                 </tr>
                 </tbody>
             </table>
@@ -254,40 +312,47 @@
         <div class="admin-panel-heading">
             <div>
                 <p class="eyebrow">Acesso</p>
-                <h2 id="recent-accounts-title">Contas recentes</h2>
+                <h2 id="recent-accounts-title"
+                    th:text="${filtros.diasContas == 0 ? 'Todas as contas criadas' : 'Contas criadas nos &uacute;ltimos ' + filtros.diasContas + ' dias'}">Contas criadas</h2>
             </div>
+            <span th:text="|${#lists.size(metricas.contasRecentes)} registros|">0 registros</span>
         </div>
 
         <div class="admin-empty" th:if="${#lists.isEmpty(metricas.contasRecentes)}">
-            Nenhuma conta cadastrada ainda.
+            Nenhuma conta criada nesse per&iacute;odo.
         </div>
 
-        <div class="admin-account-grid" th:unless="${#lists.isEmpty(metricas.contasRecentes)}">
-            <article class="admin-account-card" th:each="conta : ${metricas.contasRecentes}">
-                <div>
-                    <h3 th:text="${conta.nome}">Nome</h3>
-                    <p th:text="${conta.email}">email</p>
-                </div>
-                <div class="admin-account-meta">
-                    <span th:classappend="${conta.papel == 'ADMIN'} ? ' is-admin' : ''" th:text="${conta.papel}">USER</span>
-                    <span th:classappend="${conta.bloqueada} ? ' is-danger' : ' is-ok'"
-                          th:text="${conta.bloqueada ? 'Bloqueada' : 'Liberada'}">Liberada</span>
-                </div>
-                <dl>
-                    <div>
-                        <dt>Resultados</dt>
-                        <dd th:text="${conta.resultadosSalvos}">0</dd>
-                    </div>
-                    <div>
-                        <dt>Status</dt>
-                        <dd th:text="${conta.ativo ? 'Ativa' : 'Inativa'}">Ativa</dd>
-                    </div>
-                    <div>
-                        <dt>Criada em</dt>
-                        <dd th:text="${conta.criadaEm}">-</dd>
-                    </div>
-                </dl>
-            </article>
+        <div class="admin-table-wrap" th:unless="${#lists.isEmpty(metricas.contasRecentes)}">
+            <table class="admin-table" data-sortable-table>
+                <thead>
+                <tr>
+                    <th aria-sort="none"><button type="button" data-sort-index="0" data-sort-type="number">ID <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="1">Nome <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="2">E-mail <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="3">Papel <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="4">Status <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="5" data-sort-type="number">Resultados <i aria-hidden="true"></i></button></th>
+                    <th aria-sort="none"><button type="button" data-sort-index="6" data-sort-type="number">Criada em <i aria-hidden="true"></i></button></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="conta : ${metricas.contasRecentes}">
+                    <td th:text="${conta.id}" th:attr="data-sort-value=${conta.id}">1</td>
+                    <td th:text="${conta.nome}" th:attr="data-sort-value=${conta.nome}">Nome</td>
+                    <td th:text="${conta.email}" th:attr="data-sort-value=${conta.email}">email</td>
+                    <td th:attr="data-sort-value=${conta.papel}">
+                        <span class="admin-status-pill" th:classappend="${conta.papel == 'ADMIN'} ? ' is-admin' : ''" th:text="${conta.papel}">USER</span>
+                    </td>
+                    <td th:attr="data-sort-value=${conta.bloqueada ? 'bloqueada' : (conta.ativo ? 'ativa' : 'inativa')}">
+                        <span class="admin-status-pill"
+                              th:classappend="${conta.bloqueada ? ' is-danger' : (conta.ativo ? ' is-ok' : '')}"
+                              th:text="${conta.bloqueada ? 'Bloqueada' : (conta.ativo ? 'Ativa' : 'Inativa')}">Ativa</span>
+                    </td>
+                    <td th:text="${conta.resultadosSalvos}" th:attr="data-sort-value=${conta.resultadosSalvos}">0</td>
+                    <td th:text="${conta.criadaEm}" th:attr="data-sort-value=${conta.criadaEmOrdem}">-</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </section>
 </main>

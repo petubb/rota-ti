@@ -19,12 +19,14 @@ public class DashboardMetricas {
     private final double idadeMedia;
     private final Map<String, Long> distribuicaoAreas;
     private final List<DashboardAreaResumo> areas;
-    private final List<DashboardAtividadeResumo> atividadeSemanal;
+    private final List<DashboardAtividadeResumo> atividadePeriodo;
     private final List<DashboardDistribuicaoResumo> faixasEtarias;
+    private final List<DashboardDistribuicaoResumo> idadesDetalhadas;
     private final List<DashboardDistribuicaoResumo> satisfacaoDistribuicao;
     private final List<DashboardResultadoRecente> resultadosRecentes;
     private final List<DashboardContaRecente> contasRecentes;
     private final DashboardPerguntasResumo perguntas;
+    private final DashboardConversaoQuiz conversaoQuiz;
 
     public DashboardMetricas(
             long totalUsuarios,
@@ -41,12 +43,14 @@ public class DashboardMetricas {
             double idadeMedia,
             Map<String, Long> distribuicaoAreas,
             List<DashboardAreaResumo> areas,
-            List<DashboardAtividadeResumo> atividadeSemanal,
+            List<DashboardAtividadeResumo> atividadePeriodo,
             List<DashboardDistribuicaoResumo> faixasEtarias,
+            List<DashboardDistribuicaoResumo> idadesDetalhadas,
             List<DashboardDistribuicaoResumo> satisfacaoDistribuicao,
             List<DashboardResultadoRecente> resultadosRecentes,
             List<DashboardContaRecente> contasRecentes,
-            DashboardPerguntasResumo perguntas
+            DashboardPerguntasResumo perguntas,
+            DashboardConversaoQuiz conversaoQuiz
     ) {
         this.totalUsuarios = totalUsuarios;
         this.totalResultados = totalResultados;
@@ -62,12 +66,14 @@ public class DashboardMetricas {
         this.idadeMedia = idadeMedia;
         this.distribuicaoAreas = Map.copyOf(distribuicaoAreas);
         this.areas = List.copyOf(areas);
-        this.atividadeSemanal = List.copyOf(atividadeSemanal);
+        this.atividadePeriodo = List.copyOf(atividadePeriodo);
         this.faixasEtarias = List.copyOf(faixasEtarias);
+        this.idadesDetalhadas = List.copyOf(idadesDetalhadas);
         this.satisfacaoDistribuicao = List.copyOf(satisfacaoDistribuicao);
         this.resultadosRecentes = List.copyOf(resultadosRecentes);
         this.contasRecentes = List.copyOf(contasRecentes);
         this.perguntas = perguntas;
+        this.conversaoQuiz = conversaoQuiz;
     }
 
     public long getTotalUsuarios() {
@@ -126,12 +132,16 @@ public class DashboardMetricas {
         return areas;
     }
 
-    public List<DashboardAtividadeResumo> getAtividadeSemanal() {
-        return atividadeSemanal;
+    public List<DashboardAtividadeResumo> getAtividadePeriodo() {
+        return atividadePeriodo;
     }
 
     public List<DashboardDistribuicaoResumo> getFaixasEtarias() {
         return faixasEtarias;
+    }
+
+    public List<DashboardDistribuicaoResumo> getIdadesDetalhadas() {
+        return idadesDetalhadas;
     }
 
     public List<DashboardDistribuicaoResumo> getSatisfacaoDistribuicao() {
@@ -148,5 +158,9 @@ public class DashboardMetricas {
 
     public DashboardPerguntasResumo getPerguntas() {
         return perguntas;
+    }
+
+    public DashboardConversaoQuiz getConversaoQuiz() {
+        return conversaoQuiz;
     }
 }

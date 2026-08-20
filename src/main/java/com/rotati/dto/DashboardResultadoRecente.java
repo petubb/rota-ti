@@ -11,6 +11,7 @@ public class DashboardResultadoRecente {
     private final String escola;
     private final String contaNome;
     private final String criadoEm;
+    private final long criadoEmOrdem;
 
     public DashboardResultadoRecente(
             Long id,
@@ -21,7 +22,8 @@ public class DashboardResultadoRecente {
             Integer idade,
             String escola,
             String contaNome,
-            String criadoEm
+            String criadoEm,
+            long criadoEmOrdem
     ) {
         this.id = id;
         this.areaTitulo = areaTitulo;
@@ -32,6 +34,7 @@ public class DashboardResultadoRecente {
         this.escola = escola;
         this.contaNome = contaNome;
         this.criadoEm = criadoEm;
+        this.criadoEmOrdem = criadoEmOrdem;
     }
 
     public Long getId() {
@@ -68,5 +71,9 @@ public class DashboardResultadoRecente {
 
     public String getCriadoEm() {
         return criadoEm;
+    }
+
+    public long getCriadoEmOrdem() {
+        return criadoEmOrdem;
     }
 }

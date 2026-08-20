@@ -10,6 +10,7 @@ public class DashboardContaRecente {
     private final boolean bloqueada;
     private final long resultadosSalvos;
     private final String criadaEm;
+    private final long criadaEmOrdem;
 
     public DashboardContaRecente(
             Long id,
@@ -19,7 +20,8 @@ public class DashboardContaRecente {
             boolean ativo,
             boolean bloqueada,
             long resultadosSalvos,
-            String criadaEm
+            String criadaEm,
+            long criadaEmOrdem
     ) {
         this.id = id;
         this.nome = nome;
@@ -29,6 +31,7 @@ public class DashboardContaRecente {
         this.bloqueada = bloqueada;
         this.resultadosSalvos = resultadosSalvos;
         this.criadaEm = criadaEm;
+        this.criadaEmOrdem = criadaEmOrdem;
     }
 
     public Long getId() {
@@ -61,5 +64,9 @@ public class DashboardContaRecente {
 
     public String getCriadaEm() {
         return criadaEm;
+    }
+
+    public long getCriadaEmOrdem() {
+        return criadaEmOrdem;
     }
 }
