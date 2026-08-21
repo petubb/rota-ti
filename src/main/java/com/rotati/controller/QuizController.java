@@ -72,6 +72,11 @@ public class QuizController {
         return EscolaEstadualService.OUTRA_ESCOLA;
     }
 
+    @ModelAttribute("valorNaoEstouNaEscola")
+    public String valorNaoEstouNaEscola() {
+        return EscolaEstadualService.NAO_ESTOU_NA_ESCOLA;
+    }
+
     @GetMapping("/quiz")
     public String quiz(
             Model model,
@@ -264,7 +269,7 @@ public class QuizController {
                 bindingResult.rejectValue(
                         "escola",
                         "escola.lista",
-                        "Selecione uma escola estadual da lista ou use a opcao Outra escola."
+                        "Selecione uma escola da lista, escolha Nao estou na escola ou use a opcao Outra escola."
                 );
             }
         }

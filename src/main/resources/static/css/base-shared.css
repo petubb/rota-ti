@@ -144,9 +144,14 @@ a {
     color: #fff;
 }
 
+.site-navigation .header-cta:hover,
+.site-navigation .header-cta:focus-visible,
 .site-navigation .header-cta.is-active {
     background: var(--primary-dark);
     color: #fff;
+}
+
+.site-navigation .header-cta.is-active {
     box-shadow: 0 0 0 3px rgba(31, 122, 140, 0.16);
 }
 

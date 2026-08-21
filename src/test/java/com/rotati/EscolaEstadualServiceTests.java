@@ -11,9 +11,12 @@ class EscolaEstadualServiceTests {
     private final EscolaEstadualService service = new EscolaEstadualService();
 
     @Test
-    void aceitaApenasEscolaDaListaOuOpcaoOutra() {
+    void aceitaEscolaDaListaOpcaoSemEscolaOuOpcaoOutra() {
         QuizSubmission estadual = new QuizSubmission();
         estadual.setEscola("EEEFM ORLANDO BUENO DA SILVA");
+
+        QuizSubmission semEscola = new QuizSubmission();
+        semEscola.setEscola(EscolaEstadualService.NAO_ESTOU_NA_ESCOLA);
 
         QuizSubmission textoLivre = new QuizSubmission();
         textoLivre.setEscola("Escola digitada qualquer");
@@ -23,6 +26,7 @@ class EscolaEstadualServiceTests {
         outra.setEscolaOutra("Escola visitante");
 
         assertThat(service.escolaValida(estadual)).isTrue();
+        assertThat(service.escolaValida(semEscola)).isTrue();
         assertThat(service.escolaValida(textoLivre)).isFalse();
         assertThat(service.escolaValida(outra)).isTrue();
     }

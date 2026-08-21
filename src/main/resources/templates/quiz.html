@@ -79,6 +79,11 @@
                                     <strong th:text="${escolaItem.nome}">Escola estadual</strong>
                                     <span th:text="${escolaItem.rede}">Rede estadual / Urbana</span>
                                 </button>
+                                <button class="quiz-school-option" type="button" role="option"
+                                        data-school-option th:attr="data-value=${valorNaoEstouNaEscola}">
+                                    <strong th:text="${valorNaoEstouNaEscola}">N&atilde;o estou na escola</strong>
+                                    <span>Para quem j&aacute; concluiu ou n&atilde;o est&aacute; estudando atualmente</span>
+                                </button>
                                 <button class="quiz-school-option is-other" type="button" role="option"
                                         data-school-option th:attr="data-value=${valorOutraEscola}">
                                     <strong th:text="${valorOutraEscola}">Outra escola</strong>
@@ -86,7 +91,7 @@
                                 </button>
                             </div>
                         </div>
-                        <span class="field-hint">Digite para filtrar. Se nao encontrar, escolha Outra escola.</span>
+                        <span class="field-hint">Digite para filtrar ou escolha a op&ccedil;&atilde;o que melhor descreve voc&ecirc;.</span>
                         <span class="error" th:if="${#fields.hasErrors('escola')}" th:errors="*{escola}"></span>
                     </div>
 

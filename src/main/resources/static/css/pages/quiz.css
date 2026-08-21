@@ -159,6 +159,11 @@
     align-content: start;
 }
 
+.quiz-school-field {
+    display: grid;
+    gap: 8px;
+}
+
 .quiz-profile-fields label > span:first-child,
 .quiz-profile-label {
     color: var(--navy);

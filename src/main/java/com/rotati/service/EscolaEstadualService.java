@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class EscolaEstadualService {
 
     public static final String OUTRA_ESCOLA = "Outra escola";
+    public static final String NAO_ESTOU_NA_ESCOLA = "N\u00e3o estou na escola";
 
     private static final List<EscolaEstadual> ESCOLAS = List.of(
             new EscolaEstadual("CEEJA - GLICERIA MARIA DE OLIVEIRA CRIVELLI", "Rede estadual / Urbana"),
@@ -40,7 +41,9 @@ public class EscolaEstadualService {
     }
 
     public boolean escolaCadastrada(String escola) {
-        return NOMES_NORMALIZADOS.contains(normalizar(escola));
+        String nomeNormalizado = normalizar(escola);
+        return normalizar(NAO_ESTOU_NA_ESCOLA).equals(nomeNormalizado)
+                || NOMES_NORMALIZADOS.contains(nomeNormalizado);
     }
 
     public boolean escolaValida(QuizSubmission submission) {
